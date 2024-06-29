@@ -1,0 +1,25 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+}
+
+@mixin center-flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin flex-vertical-center {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+@mixin flex-horizontal-center {
+  display: flex;
+  align-items: center;
+}
+$dark-background: rgb(24, 12, 12);
+$dark-border: rgb(36, 31, 31);

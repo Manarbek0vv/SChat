@@ -1,0 +1,87 @@
+@import '../../App.global.scss';
+
+.wrapper {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background-color: $dark-background;
+    @include center-flex;
+
+    .container {
+        @include flex-vertical-center;
+        width: 300px;
+        padding: 20px;
+        gap: 30px;
+        border: 2px solid $dark-border;
+
+        .title {
+            color: white;
+            font-weight: 500;
+            font-size: 28px;
+        }
+
+        .text {
+            color: gray;
+            margin-top: -25px;
+            font-weight: 500;
+            font-size: 12px;
+            user-select: none;
+
+            &:hover {
+                cursor: pointer;
+                text-decoration: underline
+            }
+        }
+
+        .labels {
+            @include flex-vertical-center;
+            width: 100%;
+            gap: 15px;
+
+            .label {
+                @include flex-horizontal-center;
+                gap: 4px;
+
+                .icon {
+                    color: rgb(79, 79, 79);
+                    font-size: 20px;
+                }
+
+                .input {
+                    background-color: transparent;
+                    border: none;
+                    color: white;
+                    width: 210px;
+                    font-size: 13px;
+                    padding: 5px 5px;
+
+                    &::placeholder {
+                        color: rgb(79, 79, 79);
+                        font-size: 13px;
+                    }
+
+                    &:focus {
+                        outline: none;
+                        border-bottom: 1px solid rgb(162, 162, 162);
+                        padding-bottom: 4px;
+                    }
+                }
+            }
+        }
+
+        .button {
+            padding: 10px 30px;
+            background-color: rgb(108, 0, 249);
+            color: white;
+            font-size: 14px;
+            border: none;
+            border-radius: 15px;
+            transition: transform 200ms;
+            user-select: none;
+
+            &:hover {
+                transform: scale(1.05);
+            }
+        }
+    }
+}

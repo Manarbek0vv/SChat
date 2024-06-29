@@ -1,0 +1,47 @@
+.wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    align-items: flex-start;
+    background-color: rgba(0, 0, 0, 0.5);
+
+    .container {
+        max-width: 400px;
+        width: 100%;
+        border: 2px solid rgb(61, 61, 61);
+        background-color: rgb(32, 32, 32);
+        padding: 20px;
+        display: inline-flex;
+        flex-direction: column;
+        gap: 15px;
+        border-radius: 15px;
+
+        .title {
+            color: white;
+            font-size: 18px;
+        }
+
+        .children {
+            color: white;
+            font-size: 12px;
+        }
+
+        .ok {
+            padding: 12px 25px;
+            align-self: flex-end;
+            border-radius: 30px;
+            border: none;
+            background-color: rgb(168, 207, 255);
+            outline: 2px solid rgb(168, 207, 255);
+            font-weight: 600;
+            outline-offset: 2px;
+            user-select: none;
+        }
+    }
+}
