@@ -1,11 +1,13 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { createUser } from "../thunk/createUser";
 import { loginUser } from "../thunk/loginUser";
+import { loginWithStorage } from "../thunk/loginWithStorage";
 
-type UserState = {
+export type UserState = {
     uid: string;
     username: string;
     email: string;
+    friends?: string[];
 }
 
 type UserSliceState = {
@@ -25,6 +27,9 @@ export const userSlice = createSlice({
             if (action.payload) state.user = action.payload
         })
         builder.addCase(loginUser.fulfilled, (state, action: PayloadAction<UserState | undefined>) => {
+            if (action.payload) state.user = action.payload
+        })
+        builder.addCase(loginWithStorage.fulfilled, (state, action: PayloadAction<UserState | undefined>) => {
             if (action.payload) state.user = action.payload
         })
     }

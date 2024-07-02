@@ -2,6 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth, firestore } from "../../../main";
 import { doc, getDoc } from "firebase/firestore";
+import { UserState } from "../reducers/userSlice";
 
 type LoginUserProps = {
     email: string;
@@ -18,8 +19,9 @@ export const loginUser = createAsyncThunk(
             const newUser = {
                 email: props.email,
                 uid: userCredential.user.uid,
-                username: response.data.username
+                username: (response.data() as UserState).username
             }
+            localStorage.setItem('current-user', userCredential.user.uid)
             return newUser
         } catch (error: any) {
             props.setError(error.message)

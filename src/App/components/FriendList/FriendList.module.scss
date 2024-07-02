@@ -1,0 +1,67 @@
+@import '../../App.global.scss';
+
+.container {
+    width: 100%;
+    display: flex;
+    padding: 20px;
+    flex-direction: column;
+    gap: 15px;
+    background-color: $content-background;
+    border: 1px solid $dark-border;
+    border-radius: 10px;
+    height: 100%;
+}
+
+.links {
+    display: flex;
+    gap: 15px;
+    
+    .link {
+        color: $gray-color-for-font;
+        padding: 5px 15px;
+    }
+
+    .active__link {
+        color: white;
+        padding: 5px 15px;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+    }
+}
+
+.label {
+    width: 100%;
+    background-color: transparent;
+    max-height: 35px;
+    height: 100%;
+    border-radius: 15px;
+    border: 1px solid $dark-border;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+
+    .input {
+        background-color: transparent;
+        outline: none;
+        border: none;
+        color: white;
+        font-size: 16px;
+        width: 90%;
+        padding: 5px 15px;
+    }
+
+    .glass__wrapper {
+        width: 10%;
+        background-color: rgba(255, 255, 255, 0.1);
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .glass {
+            font-size: 20px;
+            color: $gray-color-for-font;
+            border: 1px solid $dark-border;
+        }
+    }
+}

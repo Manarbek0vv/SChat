@@ -2,7 +2,7 @@ import { FC, useState } from 'react'
 import classes from './Login.module.scss'
 import { MdOutlineAlternateEmail } from "react-icons/md";
 import { GoKey } from "react-icons/go";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useEmail } from '../../hooks/useEmail';
 import { usePassword } from '../../hooks/usePassword';
 import ModalAlert from '../../UI/ModalAlert/ModalAlert';

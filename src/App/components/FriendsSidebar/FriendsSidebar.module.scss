@@ -1,0 +1,35 @@
+@import '../../App.global.scss';
+
+.container {
+    max-width: 200px;
+    width: 100%;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    border: 1px solid $dark-border;
+    border-radius: 10px;
+    background-color: $content-background;
+    height: 150px;
+}
+
+.link {
+    color: $gray-color-for-font;
+    padding: 5px 10px;
+    border-radius: 8px;
+}
+
+.active__link {
+    color: white;
+    padding: 5px 10px;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: space-between;
+}
+
+.check {
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+}

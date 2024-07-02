@@ -21,6 +21,7 @@ export const createUser = createAsyncThunk(
                 uid: userCredential.user.uid,
             }
             await setDoc(doc(collection(firestore, 'users'), newUser.uid), newUser)
+            localStorage.setItem('current-user', newUser.uid)
             return newUser
         } catch (error: any) {
             props.setError(error.message as string)
