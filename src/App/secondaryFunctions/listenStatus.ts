@@ -1,5 +1,4 @@
-import { doc, updateDoc } from "firebase/firestore"
-import { auth, database, firestore } from "../../main"
+import { auth, database } from "../../main"
 import { onDisconnect, onValue, ref, set } from "firebase/database"
 
 export const listenStatus = () => {
@@ -17,7 +16,7 @@ export const listenStatus = () => {
                 last_changed: Date.now(),
             };
 
-            onValue(ref(database, '.info/connected'), (snapshot) => {
+            onValue(ref(database, '.info/connected'), () => {
                 onDisconnect(userStatusDatabaseRef).set(isOfflineForDatabase).then(() => {
                     set(userStatusDatabaseRef, isOnlineForDatabase)
                 })
