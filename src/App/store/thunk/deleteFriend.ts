@@ -1,12 +1,12 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
+// import { createAsyncThunk } from "@reduxjs/toolkit";
 
-export const deleteFriend = createAsyncThunk(
-    'users/deleteFriend',
-    async (uid: string, thunkApi) => {
-        try {
+// export const deleteFriend = createAsyncThunk(
+//     'users/deleteFriend',
+//     async (uid: string, thunkApi) => {
+//         try {
             
-        } catch (error) {
+//         } catch (error) {
             
-        }
-    }
-)
+//         }
+//     }
+// )

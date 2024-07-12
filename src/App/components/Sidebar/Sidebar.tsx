@@ -5,8 +5,10 @@ import { BsPersonAdd } from "react-icons/bs";
 import { HiOutlineChatBubbleLeftRight } from "react-icons/hi2";
 import { IoMdSettings } from "react-icons/io";
 import { GiExitDoor } from "react-icons/gi";
-import { useAppSelector } from "../../hooks/redux";
-import { Link } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { Link, useNavigate } from "react-router-dom";
+import { exitFromAccount } from "../../store/thunk/exitFromAccount";
+import { FaHome } from "react-icons/fa";
 
 type LinkType = {
     icon: React.ReactNode | React.ReactChild;
@@ -15,6 +17,11 @@ type LinkType = {
 }
 
 const Links: LinkType[] = [
+    {
+        icon: <FaHome />,
+        title: 'Home',
+        url: ''
+    },
     {
         icon: <FaRegCircleUser />,
         title: 'My page',
@@ -37,18 +44,27 @@ const Links: LinkType[] = [
     }
 ]
 
-
 const Sidebar: FC = () => {
     const { user } = useAppSelector(value => value.user)
+    const dispatch = useAppDispatch()
+    const navigate = useNavigate()
 
     const newUsername = user?.username.slice(0, 10) + ((user?.username as string).length > 9 ? '...' : '')
     const newEmail = user?.email.slice(0, 10) + ((user?.email as string).length > 9 ? '...' : '')
+
+    const exitFromAccountHandler = () => {
+        if (!user) return
+        dispatch(exitFromAccount({ user }))
+        navigate('')
+    }
 
     return (
         <div className={classes.container}>
             <div className={classes.first}>
                 <div className={classes.profile}>
-                    <div className={classes.icon}></div>
+                    <div className={classes.icon}>
+                        {user?.avatar && <img src={user.avatar} alt="" className={classes.avatar} />}
+                    </div>
                     <div className={classes.info}>
                         <h1 className={classes.username}>{newUsername}</h1>
                         <h2 className={classes.email}>{newEmail}</h2>
@@ -67,7 +83,7 @@ const Sidebar: FC = () => {
                 </nav>
             </div>
 
-            <div className={classes.exit}>
+            <div className={classes.exit} onClick={exitFromAccountHandler}>
                 <span className={classes.icon}><GiExitDoor /></span>
                 Exit
             </div>

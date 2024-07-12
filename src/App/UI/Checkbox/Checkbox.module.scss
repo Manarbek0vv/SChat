@@ -1,0 +1,35 @@
+@import '../../App.global.scss';
+
+@mixin checkbox-wrapper {
+    width: 20px;
+    aspect-ratio: 1;
+    background-color: transparent;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    font-size: 16px
+}
+
+.false {
+    @include checkbox-wrapper;
+    border: 2px solid $dark-border;
+    background-color: transparent
+}
+
+.true {
+    @include checkbox-wrapper;
+    border: none;
+    background-color: rgb(0, 114, 214)
+}
+
+.input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
+    font-size: 20px;
+}

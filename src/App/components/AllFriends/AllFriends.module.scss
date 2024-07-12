@@ -5,83 +5,22 @@
     display: flex;
     flex-direction: column;
     height: 100%;
-    overflow-y: hidden;
-}
-
-.friend {
-    display: flex;
-    justify-content: space-between;
-
-    .first {
-        display: flex;
-        gap: 10px;
-
-        .icon {
-            width: 75px;
-            height: 75px;
-            background-color: gray;
-            border-radius: 50%;
-
-            &:hover {
-                cursor: pointer;
-            }
-        }
-
-        .info {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            padding: 10px 0px;
-
-            .username {
-                font-size: 16px;
-                color: white;
-
-                &:hover {
-                    cursor: pointer;
-                }
-            }
-
-            .email {
-                font-size: 14px;
-                color: $gray-color-for-font;
-            }
-        }
-    }
-
-    .buttons {
-        display: flex;
-        gap: 20px;
-        align-items: center;
-
-        .message {
-            font-size: 24px;
-            color: $gray-color-for-font;
-
-            &:hover {
-                cursor: pointer;
-                user-select: none;
-            }
-        }
-
-        .bats {
-            position: relative;
-            top: -6px;
-            font-size: 24px;
-            display: flex;
-            align-items: center;
-            color: $gray-color-for-font;
-
-            &:hover {
-                cursor: pointer;
-                user-select: none;
-            }
-        }
-    }
+    overflow-x: hidden;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 
 .notfound {
     font-size: 20px;
     margin: auto;
     color: $gray-color-for-font;
+}
+
+.loader {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

@@ -1,0 +1,141 @@
+@import '../../App.global.scss';
+
+@keyframes enable-wrapper {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes disable-wrapper {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
+.wrapper {
+    animation: enable-wrapper 300ms ease 0s 1 forwards;
+    z-index: 400;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    padding: 10px;
+}
+
+.disable-wrapper {
+    animation: disable-wrapper 300ms ease 0ms 1 forwards;
+}
+
+.container {
+    background-color: rgb(36, 36, 36, 0.95);
+    max-width: 850px;
+    min-height: 70vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 10px 10px;
+    gap: 10px;
+    border-radius: 10px;
+}
+
+.header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .count-of-images {
+        font-size: 18px;
+        color: white;
+        padding-left: 10px;
+    }
+
+    .close {
+        font-size: 24px;
+        color: white;
+    }
+}
+
+.images {
+    width: 100%;
+    gap: 5px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 182px;
+}
+
+.image-wrapper {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+
+    &:hover {
+        cursor: pointer;
+    }
+
+    .image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .delete-image {
+        position: absolute;
+        right: 0px;
+        top: 0px;
+        background-color: rgba(0, 0, 0, 0.6);
+        font-size: 20px;
+        padding: 3px;
+        color: $gray-color-for-font;
+        box-sizing: content-box;
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
+
+    .image-info {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        background-color: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(3px);
+        padding: 3px 8px;
+        gap: 2px;
+
+        .image-name {
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .image-size {
+            color: $gray-color-for-font;
+            font-size: 12px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+}

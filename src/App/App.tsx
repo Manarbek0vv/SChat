@@ -4,14 +4,9 @@ import AuthRoutes from './components/AuthRoutes'
 import { BrowserRouter } from 'react-router-dom'
 import { useAppSelector } from './hooks/redux'
 import Main from './components/Main/Main'
-import { listenStatus } from './secondaryFunctions/listenStatus'
 
 const App: FC = () => {
   const { user } = useAppSelector(value => value.user)
-
-  if (user) {
-    listenStatus()
-  }
 
   return (
     <BrowserRouter>

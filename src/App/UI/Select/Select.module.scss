@@ -1,0 +1,65 @@
+@import '../../App.global.scss';
+
+.container {
+    user-select: none;
+    font-size: 16px;
+    padding: 5px;
+    color: $gray-color-for-font;
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+
+    .pin {
+        font-size: 24px;
+    }
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.options {
+    visibility: hidden;
+    opacity: 0;
+    transition: all 200ms;
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: rgb(42, 42, 42);
+    padding: 10px;
+    border: 1px solid $dark-border;
+    border-radius: 10px;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 400;
+
+    @mixin option {
+        width: 100%;
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        &.mark {
+            font-size: 20px
+        }
+    }
+
+    .option {
+        @include option;
+
+        .mark {
+            display: none
+        }
+    }
+
+    .active__option {
+        @include option;
+
+        .mark {
+            display: inline-block;
+        }
+    }
+}

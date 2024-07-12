@@ -1,0 +1,92 @@
+@import '../../App.global.scss';
+
+.best {
+    display: flex;
+    padding: 30px 15px 15px 15px;
+    background: linear-gradient(rgb(57, 57, 57) 0% 50%, $content-background 50% 100%);
+    border: 1px solid $dark-border;
+    z-index: 0;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-radius: 10px;
+    position: relative;
+}
+
+.background {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 50%;
+    z-index: 0;
+    overflow: hidden;
+
+    .inner {
+        background-size: cover;
+        width: 100%;
+        height: 100%;
+        filter: blur(10px) ;
+    }
+}
+
+.first {
+    display: flex;
+    gap: 15px;
+
+    .icon {
+        width: 140px;
+        border-radius: 50%;
+        height: 140px;
+        background-color: rgb(69, 69, 69);
+        border: 8px solid $content-background;
+        position: relative;
+
+        &:hover {
+            .popup {
+                opacity: 1;
+                visibility: visible;
+            }
+        }
+        
+        .inner {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+        }
+    }
+
+    .info {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        justify-content: flex-end;
+        padding: 10px 0px;
+
+        .username {
+            color: white;
+            font-size: 16px;
+        }
+
+        .email {
+            font-size: 14px;
+            color: $gray-color-for-font;
+        }
+    }
+}
+
+.button {
+    padding: 5px 15px;
+    font-size: 16px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 1px solid $dark-border;
+    border-radius: 8px;
+    transition: background-color 200ms;
+    user-select: none;
+
+    &:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        cursor: pointer;
+    }
+}

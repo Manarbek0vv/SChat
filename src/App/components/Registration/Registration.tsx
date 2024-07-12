@@ -10,9 +10,12 @@ import { useEmail } from '../../hooks/useEmail';
 import { usePassword } from '../../hooks/usePassword';
 import { useAppDispatch } from '../../hooks/redux';
 import { createUser } from '../../store/thunk/createUser';
+import FullScreenLoader from '../../UI/FullScreenLoader/FullScreenLoader';
 
 const Registration: FC = () => {
     const [ error, setError ] = useState<string | null>(null)
+    const [ loading, setLoading ] = useState(false)
+    const navigate = useNavigate()
 
     const dispatch = useAppDispatch()
 
@@ -22,11 +25,15 @@ const Registration: FC = () => {
 
     const registration = (e: React.MouseEvent<HTMLFormElement>) => {
         e.preventDefault()
-        dispatch(createUser({username, email, password, setError}))
+        setLoading(true)
+        dispatch(createUser({username, email, password, setError, setLoading }))
+        navigate('')
     }
 
     return (
         <div className={classes.wrapper}>
+            {loading && <FullScreenLoader />}
+
             <form className={classes.container} onSubmit={registration}>
                 <h1 className={classes.title}>Register</h1>
                 <div className={classes.labels}>

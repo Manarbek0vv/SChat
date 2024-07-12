@@ -1,0 +1,60 @@
+@import '../../App.global.scss';
+
+.container {
+    padding: 20px 0px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+        width: 0;
+        height: 0;
+    }
+}
+
+.nav {
+    background-color: $content-background;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 20%;
+    padding: 10px;
+    border: 1px solid $dark-border;
+    border-radius: 15px;
+}
+
+.link {
+    color: $gray-color-for-font;
+    font-size: 16px;
+    user-select: none;
+    padding: 5px 10px;
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.active-link {
+    background-color: rgb(255, 255, 255, 0.1);
+    border-radius: 10px;
+
+    &:hover {
+        cursor: default;
+    }
+}
+
+.notfound {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    font-size: 18px;
+    color: $gray-color-for-font;
+    padding-top: 20%;
+}

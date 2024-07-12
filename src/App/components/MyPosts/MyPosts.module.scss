@@ -1,0 +1,40 @@
+@import '../../App.global.scss';
+
+.container {
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    background-color: $content-background;
+    border: 1px solid $dark-border;
+    padding: 15px;
+    border-radius: 15px;
+
+    .text {
+        padding: 5px 20px;
+        color: $gray-color-for-font;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+    }
+
+    .button {
+        padding: 5px 20px;
+        background-color: rgbA(255, 255, 255, 0.2);
+        border: 1px solid $dark-border;
+        color: $gray-color-for-font;
+        font-size: 18px;
+        border-radius: 10px;
+        user-select: none;
+        transition: all 200ms;
+
+        &:hover {
+            cursor: pointer;
+            color: white;
+            background-color: rgbA(255, 255, 255, 0.3);
+        }
+    }
+}

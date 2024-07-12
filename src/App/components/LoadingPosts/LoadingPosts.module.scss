@@ -1,0 +1,123 @@
+@import '../../App.global.scss';
+
+@keyframes loading {
+    0% {
+    }
+    20% {
+        filter: contrast(100%);
+    }
+    50% {
+        filter: contrast(90%);
+    }
+    80% {
+        filter: contrast(100%);
+    }
+    100% {
+    }
+}
+
+.post {
+    animation: loading 2s normal 0s infinite forwards;
+    background-color: $content-background;
+    border: 1px solid $dark-border;
+    border-radius: 15px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+}
+
+.post-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .first {
+        display: flex;
+        gap: 10px;
+        height: 46px;
+        align-items: center;
+    }
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgb(69, 69, 69);
+    border: 1px solid $dark-border;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    gap: 5px;
+    justify-content: center;
+
+    .username {
+        background-color: rgb(69, 69, 69);
+        width: 200px;
+        height: 12px;
+        border-radius: 10px;
+    }
+
+    .createdAt {
+        background-color: rgb(69, 69, 69);
+        height: 12px;
+        width: 150px;
+        border-radius: 10px;
+    }
+}
+
+.more-wrapper {
+    position: relative;
+    width: 30px;
+    height: 30px;
+}
+
+.description {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    p {
+        background-color: rgb(69, 69, 69);
+        border-radius: 10px;
+        height: 12px;
+    }
+
+    .firstp {
+        width: 40%;
+    }
+
+    .secondp {
+        width: 70%;
+        ;
+    }
+
+    .thirdp {
+        width: 95%;
+        ;
+    }
+}
+
+.footer {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding-bottom: 20px;
+
+    div {
+        width: 40px;
+        height: 30px;
+        background-color: rgb(69, 69, 69);
+        border-radius: 15px;
+    }
+}

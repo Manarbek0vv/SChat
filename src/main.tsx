@@ -13,7 +13,7 @@ const firebaseConfig = {
   authDomain: "manarbek0v-social-network.firebaseapp.com",
   databaseURL: "https://manarbek0v-social-network-default-rtdb.europe-west1.firebasedatabase.app",
   projectId: "manarbek0v-social-network",
-  storageBucket: "manarbek0v-social-network.appspot.com",
+  storageBucket: "gs://manarbek0v-social-network.appspot.com",
   messagingSenderId: "1091653592235",
   appId: "1:1091653592235:web:6fac74d1f571d897a003ee",
   measurementId: "G-GVPWBHHYL3"

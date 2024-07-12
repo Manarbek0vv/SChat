@@ -1,10 +1,11 @@
-import { FC, useMemo, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import classes from './FriendList.module.scss'
 import { Link, Route, Routes } from "react-router-dom";
 import { RxMagnifyingGlass } from "react-icons/rx";
 import AllFriends from "../AllFriends/AllFriends";
 import { UserState } from "../../store/reducers/userSlice";
 import { useFriends } from "../../secondaryFunctions/useFriends";
+import FriendsOnline from "../FriendsOnline/FriendsOnline";
 
 type LinkType = {
     path: string;
@@ -20,8 +21,12 @@ const FriendList: FC = () => {
     const [activeTab, setActiveTab] = useState(Links[0].path)
     const [ searchValue, setSearchValue ] = useState('')
     const [ friends, setFriends ] = useState<UserState[]>([])
+    const [ loading, setLoading ] = useState(false)
 
     const searchedFriends = useFriends(friends, searchValue)
+
+    useEffect(() => {
+    }, [])
 
     return (
         <div className={classes.container}>
@@ -29,7 +34,9 @@ const FriendList: FC = () => {
                 {Links.map((link: LinkType) => {
                     return (
                         <Link key={link.path} to={link.path} className={activeTab === link.path ? classes['active__link'] : classes.link}
-                            onClick={() => setActiveTab(link.path)}>
+                            onClick={() => {
+                                setActiveTab(link.path)
+                            }}>
                             {link.title}
                         </Link>
                     )
@@ -43,8 +50,8 @@ const FriendList: FC = () => {
                 </div>
             </label>
             <Routes>
-                <Route path="" element={<AllFriends setFriends={setFriends} friends={searchedFriends} />} />
-                <Route path="online" element={<h1>Hello online!</h1>} />
+                <Route path="" element={<AllFriends setFriends={setFriends} friends={searchedFriends} loading={loading} setLoading={setLoading} />} />
+                <Route path="online" element={<FriendsOnline setFriends={setFriends} friends={searchedFriends} loading={loading} setLoading={setLoading} />} />
             </Routes>
         </div>
     )

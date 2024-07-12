@@ -3,8 +3,9 @@ import classes from './ModalAlert.module.scss'
 import { createPortal } from "react-dom";
 
 type ModalAlertProps = {
-    children: React.ReactChild | React.ReactNode,
-    setError: Dispatch<SetStateAction<string | null>>
+    children: React.ReactChild | React.ReactNode;
+    setError: Dispatch<SetStateAction<string | null>>;
+    isConfirm?: boolean;
 }
 
 const ModalAlert: FC<ModalAlertProps> = ({ children, setError }) => {
