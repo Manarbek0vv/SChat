@@ -3,7 +3,6 @@ import classes from './AllOutgoingRequests.module.scss'
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { UserState } from "../../store/reducers/userSlice";
 import Loader from "../../UI/Loader/Loader";
-import { getIncomingRequests } from "../../secondaryFunctions/getIncomingRequests";
 import ModalAlert from "../../UI/ModalAlert/ModalAlert";
 import { cancelRequest } from "../../store/thunk/cancelRequest";
 import { getOutgoingRequests } from "../../secondaryFunctions/getOutgoingRequests";

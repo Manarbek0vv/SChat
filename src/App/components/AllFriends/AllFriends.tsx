@@ -1,11 +1,9 @@
 import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
 import classes from './AllFriends.module.scss'
-import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { useAppSelector } from "../../hooks/redux";
 import { UserState } from "../../store/reducers/userSlice";
 import { getFriends } from "../../secondaryFunctions/getFriends";
-import { LuMessageCircle } from "react-icons/lu";
 import Loader from "../../UI/Loader/Loader";
-import { removeFromFriends } from "../../store/thunk/removeFromFriends";
 import ModalAlert from "../../UI/ModalAlert/ModalAlert";
 import Friend from "../Friend/Friend";
 

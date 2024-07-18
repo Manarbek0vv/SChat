@@ -9,6 +9,7 @@ import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { Link, useNavigate } from "react-router-dom";
 import { exitFromAccount } from "../../store/thunk/exitFromAccount";
 import { FaHome } from "react-icons/fa";
+import { Unsubscribe } from "firebase/firestore";
 
 type LinkType = {
     icon: React.ReactNode | React.ReactChild;
@@ -20,7 +21,7 @@ const Links: LinkType[] = [
     {
         icon: <FaHome />,
         title: 'Home',
-        url: ''
+        url: 'posts'
     },
     {
         icon: <FaRegCircleUser />,
@@ -56,6 +57,7 @@ const Sidebar: FC = () => {
         if (!user) return
         dispatch(exitFromAccount({ user }))
         navigate('')
+        location.reload()
     }
 
     return (

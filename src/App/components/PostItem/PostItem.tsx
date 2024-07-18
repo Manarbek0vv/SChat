@@ -1,4 +1,4 @@
-import { FC, useRef, useState } from "react";
+import { FC, useContext, useRef, useState } from "react";
 import classes from './PostItem.module.scss'
 import { convertTimestampToString } from "../../secondaryFunctions/convertTimestampToString";
 import PostImages from "../../UI/PostImages/PostImages";
@@ -16,7 +16,8 @@ import { UserState } from "../../store/reducers/userSlice";
 import PostComments from "../PostComments/PostComments";
 import { dislikePost } from "../../store/thunk/dislikePost";
 import { UsePostType } from "../types/post";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { PostsContext } from "../AllPosts/AllPosts";
 
 
 type PostItemProps = {
@@ -24,7 +25,8 @@ type PostItemProps = {
 }
 
 const PostItem: FC<PostItemProps> = ({ post }) => {
-    const { user, posts: myPosts } = useAppSelector(value => value.user)
+    const { user } = useAppSelector(value => value.user)
+    const Context = useContext(PostsContext)
 
     const navigate = useNavigate()
 
@@ -35,8 +37,8 @@ const PostItem: FC<PostItemProps> = ({ post }) => {
     const [error, setError] = useState<string | null>(null)
 
     const deletePostHandler = () => {
-        if (!user) return
-        dispatch(deletePost({ post, user, setError }))
+        if (!user || !Context) return
+        dispatch(deletePost({ post, user, setError, setPosts: Context.setPosts }))
     }
 
     const likeLikedRef = useRef<HTMLParagraphElement | null>(null)
@@ -48,12 +50,12 @@ const PostItem: FC<PostItemProps> = ({ post }) => {
     const [isCommentsVisible, setIsCommentsVisible] = useState(false)
 
     const onLike = async () => {
-        if (!user) return
+        if (!user || !Context) return
 
-        dispatch(likePost({ setError, isLiked: isLikedWithMe, user: user as UserState, post, myPosts }))
+        likePost({ setError, isLiked: isLikedWithMe, user: user as UserState, post, setPosts: Context.setPosts, posts: Context.posts })
             .then((posts) => {
-                if (isDislikedWithMe) {
-                    dispatch(dislikePost({ setError, isDisliked: isDislikedWithMe, user: user as UserState, post, myPosts: posts.payload as UsePostType[] }))
+                if (isDislikedWithMe && posts) {
+                    dislikePost({ setError, isDisliked: isDislikedWithMe, user: user as UserState, post, posts, setPosts: Context.setPosts})
                     dislikeRef.current?.classList.add(classes['dislike-disable'])
                 }
             })
@@ -61,12 +63,12 @@ const PostItem: FC<PostItemProps> = ({ post }) => {
     }
 
     const onDislike = async () => {
-        if (!user) return
+        if (!user || !Context) return
 
-        dispatch(dislikePost({ setError, isDisliked: isDislikedWithMe, user: user as UserState, post, myPosts }))
+        dislikePost({ setError, isDisliked: isDislikedWithMe, user: user as UserState, post, posts: Context.posts, setPosts: Context.setPosts })
             .then((posts) => {
-                if (isLikedWithMe) {
-                    dispatch(likePost({ setError, isLiked: isLikedWithMe, user: user as UserState, post, myPosts: posts.payload as UsePostType[] }))
+                if (isLikedWithMe && posts) {
+                    likePost({ setError, isLiked: isLikedWithMe, user: user as UserState, post, posts, setPosts: Context.setPosts})
                     likeLikedRef.current?.classList.add(classes['like-liked-disable'])
 
                 }

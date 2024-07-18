@@ -1,20 +1,20 @@
-import React, { FC, useRef, useState } from "react";
+import React, { FC, useContext, useRef, useState } from "react";
 import classes from './AddCommentToPost.module.scss';
-import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { useAppSelector } from "../../hooks/redux";
 import { RiSendPlaneFill } from "react-icons/ri";
 import { addComment } from "../../store/thunk/addComment";
 import { UserState } from "../../store/reducers/userSlice";
 import { SendPostCommentType, UsePostAuthorType, UsePostCommentType, UsePostType } from "../types/post";
 import ModalAlert from "../../UI/ModalAlert/ModalAlert";
+import { PostsContext } from "../AllPosts/AllPosts";
 
 type AddCommentToPostProps = {
     post: UsePostType;
 }
 
 const AddCommentToPost: FC<AddCommentToPostProps> = ({ post }) => {
-    const { user, posts: myPosts } = useAppSelector(value => value.user)
-
-    const dispatch = useAppDispatch()
+    const { user } = useAppSelector(value => value.user)
+    const Context = useContext(PostsContext)
 
     const [error, setError] = useState<string | null>(null)
 
@@ -36,7 +36,7 @@ const AddCommentToPost: FC<AddCommentToPostProps> = ({ post }) => {
     }
 
     const addCommentHandler = () => {
-        if (!user) return
+        if (!user || !Context) return
         if (!commentValue.length) { setError('Write something'); return }
 
         const sendComment: SendPostCommentType = {
@@ -61,7 +61,7 @@ const AddCommentToPost: FC<AddCommentToPostProps> = ({ post }) => {
             author: saveCommentAuthor
         }
 
-        dispatch(addComment({ post, setError, user: user as UserState, sendComment, saveComment, myPosts }))
+        addComment({ post, setError, user: user as UserState, sendComment, saveComment, posts: Context.posts, setPosts: Context.setPosts })
 
         setCommentValue('')
     }

@@ -1,17 +1,10 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 import classes from './MyPage.module.scss'
 import MyPageInfo from "../MyPageInfo/MyPageInfo";
-import MyPosts from "../MyPosts/MyPosts";
-import CreateNewPost from "../CreateNewPost/CreateNewPost";
 import MyPageHeader from "../MyPageHeader/MyPageHeader";
-import AllPosts from "../AllPosts/AllPosts";
-import { fetchMyPosts } from "../../store/thunk/fetchMyPosts";
-import { useAppSelector } from "../../hooks/redux";
-import { UserState } from "../../store/reducers/userSlice";
+import MyPosts from "../MyPosts";
 
 const MyPage: FC = () => {
-    const { user } = useAppSelector(value => value.user)
-    const [ isCreaterOpen, setIsCreateOpen ] = useState(false)
 
     return (
         <div className={classes.container}>
@@ -19,11 +12,7 @@ const MyPage: FC = () => {
 
             <MyPageInfo />
 
-            <MyPosts setIsCreatorOpen={setIsCreateOpen} />
-
-            {isCreaterOpen && <CreateNewPost setIsCreatorOpen={setIsCreateOpen} />}
-
-            <AllPosts callback={fetchMyPosts(user as UserState)} />
+            <MyPosts />
         </div>
     )
 }

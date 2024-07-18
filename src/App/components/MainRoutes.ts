@@ -14,6 +14,6 @@ export const MainRoutes: MainRouteType[] = [
     { path: 'mypage/*', Component: MyPage },
     { path: 'friends/*', Component: Friends},
     { path: 'settings/*', Component: Settings },
-    { path: '/*', Component: Home },
-    { path: '/:uid', Component: UserPage }
+    { path: 'posts/*', Component: Home },
+    { path: '/:uid', Component: UserPage },
 ]

@@ -1,9 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth, firestore } from "../../../main";
+import { auth, firestore, storage } from "../../../main";
 import { doc, getDoc } from "firebase/firestore";
 import { UserState } from "../reducers/userSlice";
 import { Dispatch, SetStateAction } from "react";
+import { getDownloadURL, ref } from "firebase/storage";
 
 type LoginUserProps = {
     email: string;
@@ -18,17 +19,26 @@ export const loginUser = createAsyncThunk(
         try {
             const userCredential = await signInWithEmailAndPassword(auth, props.email, props.password)
             const response = await getDoc(doc(firestore, 'users/' + userCredential.user.uid))
+            const responseUser = response.data() as UserState
+
+            // Получение аватарки пользователя из storage
+
+            const avatarUrl = responseUser.avatar && await getDownloadURL(ref(storage, responseUser.avatar))
+
+            // -------------------------------------------
+
             const newUser: UserState = {
                 email: props.email,
                 uid: userCredential.user.uid,
-                username: (response.data() as UserState).username,
-                registered: (response.data() as UserState).registered,
-                photos: (response.data() as UserState).photos,
-                avatar: (response.data() as UserState).avatar,
-                posts: (response.data() as UserState).posts,
-                friendRequests: (response.data() as UserState).friendRequests,
-                friendRequestsSend: (response.data() as UserState).friendRequestsSend,
-                friends: (response.data() as UserState).friends,
+                username: responseUser.username,
+                registered: responseUser.registered,
+                photos: responseUser.photos,
+                avatar: avatarUrl,
+                posts: responseUser.posts,
+                friendRequests: responseUser.friendRequests,
+                friendRequestsSend: responseUser.friendRequestsSend,
+                friends: responseUser.friends,
+                chats: responseUser.chats
             }
             localStorage.setItem('current-user', userCredential.user.uid)
             return newUser

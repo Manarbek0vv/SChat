@@ -1,7 +1,7 @@
 import { FC, useState } from "react";
 import classes from './MyPageInfo.module.scss'
 import { AiOutlinePicture } from "react-icons/ai";
-import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { useAppSelector } from "../../hooks/redux";
 import { MdOutlineEmail } from "react-icons/md";
 import { FaBirthdayCake } from "react-icons/fa";
 import { FaDna } from "react-icons/fa6";
@@ -9,7 +9,7 @@ import { MdOutlineAppRegistration } from "react-icons/md";
 import { FaUserFriends } from "react-icons/fa";
 import { UserState } from "../../store/reducers/userSlice";
 import ModalAlert from "../../UI/ModalAlert/ModalAlert";
-import { PhotoType, addPhoto } from "../../store/thunk/addPhoto";
+// import { addPhoto } from "../../store/thunk/addPhoto";
 
 type TextType = {
     pin: React.ReactNode | React.ReactChild;
@@ -20,7 +20,7 @@ type TextType = {
 const Months = ['Jan.', 'Feb.', 'Mar.', 'Apr.', 'May.', 'Jun.', 'Jul.', 'Aug.', 'Sep.', 'Oct.', 'Nov.', 'Dec.'];
 
 const MyPageInfo: FC = () => {
-    const dispatch = useAppDispatch()
+    // const dispatch = useAppDispatch()
     const { user } = useAppSelector(value => value.user)
     const [ error, setError ] = useState<string | null>(null)
 
@@ -37,22 +37,22 @@ const MyPageInfo: FC = () => {
         { pin: <FaUserFriends />, title: 'Friends', description: user?.friends ? `${user.friends.length}` : '0' }
     ]
 
-    const onPhotoHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (!FileReader) {
-            setError('FileReader is not supported')
-            return
-        } if (!e.target.files?.length) {
-            setError('Nothing loaded')
-            return
-        }
+    // const onPhotoHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //     if (!FileReader) {
+    //         setError('FileReader is not supported')
+    //         return
+    //     } if (!e.target.files?.length) {
+    //         setError('Nothing loaded')
+    //         return
+    //     }
 
-        const fileReader = new FileReader()
-        fileReader.onload = () => {
-            dispatch(addPhoto({ url: fileReader.result as string, setError, uid: user?.uid as string }))
-        }
+    //     const fileReader = new FileReader()
+    //     fileReader.onload = () => {
+    //         dispatch(addPhoto({ url: fileReader.result as string, setError, uid: user?.uid as string }))
+    //     }
 
-        fileReader.readAsDataURL(e.target.files[0])
-    }
+    //     fileReader.readAsDataURL(e.target.files[0])
+    // }
 
     return (
         <div className={classes.container}>
@@ -77,20 +77,21 @@ const MyPageInfo: FC = () => {
                 </h1>
 
                 <div className={classes.photos}>
-                    {user?.photos.map((photo: PhotoType) => {
+                    {/* {user?.photos.map((photo: PhotoType) => {
                         return (
                             <div key={photo.url} className={classes.photo}>
                                 <img src={photo.url} alt="" className={classes.inner} />
                             </div>
                         )
-                    })}
+                    })} */}
 
-                    {!user?.photos.length && <h1 className={classes.notfound}>No photos found</h1>}
+                    {/* {!user?.photos.length && <h1 className={classes.notfound}>No photos found</h1>} */}
+                    <h1 className={classes.notfound}>Temporarily unavailable</h1>
                 </div>
 
                 <button className={classes.button}>
                     Upload a photo
-                    <input type="file" className={classes.input} onChange={onPhotoHandler} />
+                    {/* <input type="file" className={classes.input} onChange={onPhotoHandler} /> */}
                 </button>
             </div>
         </div>

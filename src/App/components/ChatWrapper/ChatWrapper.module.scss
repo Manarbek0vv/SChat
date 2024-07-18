@@ -1,0 +1,30 @@
+@import '../../App.global.scss';
+
+.notfound {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    color: $gray-color-for-font;
+    background-color: $content-background;
+    border-radius: 15px;
+    border: 1px solid $dark-border;
+    overflow: hidden;
+    text-align: center;
+    padding: 10px;
+    position: relative;
+}
+
+.pin {
+    color: $gray-color-for-font;
+    font-size: 24px;
+    position: absolute;
+    left: 15px;
+    top: 20px;
+
+    &:hover {
+        cursor: pointer;
+    }
+}

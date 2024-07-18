@@ -1,0 +1,39 @@
+import { NavigateFunction } from "react-router-dom";
+import { UserState } from "../store/reducers/userSlice"
+import { SendChatType } from "../components/types/chat";
+import { Dispatch, SetStateAction } from "react";
+import { arrayUnion, doc, setDoc, updateDoc } from "firebase/firestore";
+import { firestore } from "../../main";
+
+type StartNewChatProps = {
+    myUser: UserState;
+    user: UserState;
+    navigate: NavigateFunction;
+    setError: Dispatch<SetStateAction<string | null>>
+}
+
+export const startNewChat = async (props: StartNewChatProps) => {
+    try {
+        const newChatID = [props.myUser.uid, props.user.uid].sort().join('')
+
+        const newChat: SendChatType = {
+            users: [props.myUser.uid, props.user.uid],
+            messages: [],
+            chatID: newChatID
+        }
+
+        await setDoc(doc(firestore, 'chats', newChatID), newChat)
+
+        await updateDoc(doc(firestore, 'users', props.myUser.uid), {
+            chats: arrayUnion(newChatID)
+        })
+        await updateDoc(doc(firestore, 'users', props.user.uid), {
+            chats: arrayUnion(newChatID)
+        })
+
+        props.navigate(`/chats/${newChatID}`)
+
+    } catch (error: any) {
+        props.setError(error.message)
+    }
+}

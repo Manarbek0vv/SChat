@@ -1,6 +1,7 @@
 import { doc, getDoc } from "firebase/firestore"
 import { UserState } from "../store/reducers/userSlice"
-import { firestore } from "../../main"
+import { firestore, storage } from "../../main"
+import { getDownloadURL, ref } from "firebase/storage"
 
 export const getFriends = async (user: UserState): Promise<UserState[]> => {
     return new Promise(async (resolve) => {
@@ -12,7 +13,9 @@ export const getFriends = async (user: UserState): Promise<UserState[]> => {
                 const docSnap = await getDoc(docRef)
 
                 if (docSnap.exists()) {
-                    response.push(docSnap.data() as UserState)
+                    const user = docSnap.data() as UserState
+                    user.avatar = user.avatar && await getDownloadURL(ref(storage, user.avatar))
+                    response.push(user)
                 }
             }
             resolve(response)

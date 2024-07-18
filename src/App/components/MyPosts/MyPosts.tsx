@@ -5,7 +5,7 @@ type MyPostsProps = {
     setIsCreatorOpen: Dispatch<SetStateAction<boolean>>
 }
 
-const MyPosts: FC<MyPostsProps> = ({ setIsCreatorOpen }) => {
+const ControlCreate: FC<MyPostsProps> = ({ setIsCreatorOpen }) => {
 
     return (
         <div className={classes.container}>
@@ -19,4 +19,4 @@ const MyPosts: FC<MyPostsProps> = ({ setIsCreatorOpen }) => {
     )
 }
 
-export default MyPosts
+export default ControlCreate

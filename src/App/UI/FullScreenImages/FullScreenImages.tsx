@@ -4,7 +4,7 @@ import { createPortal } from "react-dom";
 import { IoClose } from "react-icons/io5";
 import { convertBytes } from "../../secondaryFunctions/convertBytes";
 import FullScreen from "../FullScreen/FullScreen";
-import { ImageType } from "../PostImages/PostImages";
+import { ImageType } from "../../components/types/post";
 
 type FullScreenImagesProps = {
     images: ImageType[];

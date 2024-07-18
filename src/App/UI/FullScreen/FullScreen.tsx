@@ -1,8 +1,8 @@
-import { Dispatch, FC, SetStateAction, useRef, useState } from "react";
+import { Dispatch, FC, SetStateAction, useRef } from "react";
 import classes from './FullScreen.module.scss'
 import { createPortal } from "react-dom";
-import { ImageType } from "../../components/CreateNewPost/CreateNewPost";
 import { convertBytes } from "../../secondaryFunctions/convertBytes";
+import { ImageType } from "../../components/types/post";
 
 type FullScreenProps = {
     image: ImageType;

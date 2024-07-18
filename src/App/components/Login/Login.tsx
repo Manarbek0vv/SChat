@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useState } from 'react'
 import classes from './Login.module.scss'
 import { MdOutlineAlternateEmail } from "react-icons/md";
 import { GoKey } from "react-icons/go";

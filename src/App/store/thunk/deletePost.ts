@@ -1,14 +1,15 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { PostType } from "../../components/CreateNewPost/CreateNewPost";
 import { UserState } from "../reducers/userSlice";
 import { deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { firestore } from "../../../main";
 import { Dispatch, SetStateAction } from "react";
+import { UsePostType } from "../../components/types/post";
 
 type deletePostProps = {
-    post: PostType;
+    post: UsePostType;
     user: UserState;
     setError: Dispatch<SetStateAction<string | null>>
+    setPosts: React.Dispatch<React.SetStateAction<UsePostType[]>>;
 }
 
 export const deletePost = createAsyncThunk(
@@ -19,6 +20,11 @@ export const deletePost = createAsyncThunk(
             const newMyUserPosts = props.user.posts.filter((currentPost) => currentPost !== props.post.id)
             await updateDoc(doc(firestore, 'users', props.user.uid), {
                 posts: newMyUserPosts
+            })
+            props.setPosts(prev => {
+                return prev.filter(currentPost => {
+                    return currentPost.id !== props.post.id
+                })
             })
             return newMyUserPosts
         } catch (error: any) {

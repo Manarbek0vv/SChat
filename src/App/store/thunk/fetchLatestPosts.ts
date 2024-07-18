@@ -1,13 +1,11 @@
 import { collection, doc, getDoc, getDocs } from "firebase/firestore"
 import { UserState } from "../reducers/userSlice"
-import { firestore } from "../../../main"
-import { UsePostAuthorType, UsePostCommentAuthorType, UsePostCommentType, UsePostType } from "../../components/types/post"
+import { firestore, storage } from "../../../main"
+import { ImageType, UsePostAuthorType, UsePostCommentAuthorType, UsePostCommentType, UsePostType } from "../../components/types/post"
 import { getUserByUid } from "../../secondaryFunctions/getUserByUid"
-import { createAsyncThunk } from "@reduxjs/toolkit"
+import { getDownloadURL, ref } from "firebase/storage"
 
-export const fetchLatestPosts = createAsyncThunk(
-    'user/fetchLatestPosts',
-    async (user: UserState, thunkApi) => {
+export const fetchLatestPosts = async () => {
         try {
             const querySnapshot = await getDocs(collection(firestore, 'posts'))
             const postsArray: UsePostType[] = []
@@ -17,7 +15,9 @@ export const fetchLatestPosts = createAsyncThunk(
                     const newPost = docSnapshot.data()
 
                     const myUser = (await getDoc(doc(firestore, 'users', newPost.authorUid))).data() as UserState
-                    const author: UsePostAuthorType = { uid: myUser.uid, username: myUser.username, avatar: myUser.avatar }
+                    const myUserAvatarUrl = myUser.avatar && 
+                    await getDownloadURL(ref(storage, myUser.avatar))
+                    const author: UsePostAuthorType = { uid: myUser.uid, username: myUser.username, avatar: myUserAvatarUrl }
                     newPost.author = author
 
                     if (newPost.comments) {
@@ -25,14 +25,27 @@ export const fetchLatestPosts = createAsyncThunk(
 
                         for (let comment of newPost.comments) {
                             const getUserCommentAuthor = await getUserByUid({ uid: comment.author })
+
+                            const userCommentAvatarUrl = getUserCommentAuthor.avatar && 
+                            await getDownloadURL(ref(storage, getUserCommentAuthor.avatar))
+
                             const commentAuthor: UsePostCommentAuthorType = {
                                 username: getUserCommentAuthor.username,
-                                avatar: getUserCommentAuthor.avatar,
+                                avatar: userCommentAvatarUrl,
                                 uid: getUserCommentAuthor.uid
                             }
                             newComments.push({ ...comment, author: commentAuthor })
                         }
                         newPost.comments = newComments
+                    }
+                    if (!!newPost.images.length) {
+                        const newImages: ImageType[] = []
+
+                        for (let image of newPost.images) {
+                            const imageUrl = await getDownloadURL(ref(storage, image.url))
+                            newImages.push({ ...image, url: imageUrl })
+                        }
+                        newPost.images = newImages
                     }
 
                     postsArray.push(newPost as UsePostType)
@@ -44,7 +57,7 @@ export const fetchLatestPosts = createAsyncThunk(
 
             return postsArray
         } catch (error: any) {
-            return thunkApi.rejectWithValue(error.message)
+            console.log(error.message)
         }
     }
-)
+

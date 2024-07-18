@@ -9,21 +9,12 @@ import { addNewPost } from "../thunk/addNewPost";
 import { exitFromAccount } from "../thunk/exitFromAccount";
 import { deletePost } from "../thunk/deletePost";
 import { UsePostType } from "../../components/types/post";
-import { fetchMyPosts } from "../thunk/fetchMyPosts";
-import { likePost } from "../thunk/likePost";
-import { dislikePost } from "../thunk/dislikePost";
-import { addComment } from "../thunk/addComment";
-import { deleteComment } from "../thunk/deleteComment";
-import { likeComment } from "../thunk/likeComment";
-import { dislikeComment } from "../thunk/dislikeComment";
-import { fetchLatestPosts } from "../thunk/fetchLatestPosts";
-import { fetchRecomendedPosts } from "../thunk/fetchRecomendedPosts";
 import { addToFriend } from "../thunk/addToFriend";
 import { removeFromFriends } from "../thunk/removeFromFriends";
 import { cancelRequest } from "../thunk/cancelRequest";
 import { acceptRequest } from "../thunk/acceptRequest";
 import { declineRequests } from "../thunk/declineRequest";
-import { fetchFriendPosts } from "../thunk/fetchFriendPosts";
+import { listenMyUser } from "../thunk/listenMyUser";
 
 export type UserState = {
     uid: string;
@@ -40,22 +31,42 @@ export type UserState = {
     posts: string[];
     friendRequests: string[];
     friendRequestsSend: string[];
+    chats: string[];
+}
+
+export enum PostsTypeEnum {
+    MY = 'MY',
+    USER = 'USER',
+    FRIEND = 'FRIEND',
+    LATEST = 'LATEST',
+    RECOMMENDED = 'RECOMMENDED'
 }
 
 type UserSliceState = {
     user: UserState | null;
     posts: UsePostType[];
+    currentPostsType: PostsTypeEnum
 }
 
 const initialState: UserSliceState = {
     user: null,
-    posts: []
+    posts: [],
+    currentPostsType: PostsTypeEnum.RECOMMENDED
+}
+
+export type PostsReturnType = {
+    postsArray: UsePostType[];
+    type: PostsTypeEnum;
 }
 
 export const userSlice = createSlice({
     name: 'user',
     initialState,
-    reducers: {},
+    reducers: {
+        setCurrentPostType(state, action: PayloadAction<PostsTypeEnum>) {
+            state.currentPostsType = action.payload
+        }
+    },
     extraReducers: (builder) => {
         builder.addCase(createUser.fulfilled, (state, action: PayloadAction<UserState | undefined>) => {
             if (action.payload) state.user = action.payload
@@ -84,37 +95,48 @@ export const userSlice = createSlice({
         builder.addCase(deletePost.fulfilled, (state, action: PayloadAction<string[] | undefined>) => {
             if (action.payload) (state.user as UserState).posts = action.payload
         })
-        builder.addCase(fetchMyPosts.fulfilled, (state, action: PayloadAction<UsePostType[] | undefined>) => {
-            if (action.payload) state.posts = action.payload
-        })
-        builder.addCase(fetchRecomendedPosts.fulfilled, (state, action: PayloadAction<UsePostType[] | undefined>) => {
-            if (action.payload) state.posts = action.payload
-        })
-        builder.addCase(fetchLatestPosts.fulfilled, (state, action: PayloadAction<UsePostType[] | undefined>) => {
-            if (action.payload) state.posts = action.payload
-        })
-        builder.addCase(fetchFriendPosts.fulfilled, (state, action: PayloadAction<UsePostType[] | undefined>) => {
-            if (action.payload) state.posts = action.payload
-        })
-        builder.addCase(likePost.fulfilled, (state, action: PayloadAction<UsePostType[] | undefined>) => {
-            if (action.payload) state.posts = action.payload
-        })
-        builder.addCase(dislikePost.fulfilled, (state, action: PayloadAction<UsePostType[] | undefined>) => {
-            if (action.payload) state.posts = action.payload
-        })
-
-        builder.addCase(addComment.fulfilled, (state, action: PayloadAction<UsePostType[] | undefined>) => {
-            if (action.payload) state.posts = action.payload
-        })
-        builder.addCase(deleteComment.fulfilled, (state, action: PayloadAction<UsePostType[] | undefined>) => {
-            if (action.payload) state.posts = action.payload
-        })
-        builder.addCase(likeComment.fulfilled, (state, action: PayloadAction<UsePostType[] | undefined>) => {
-            if (action.payload) state.posts = action.payload
-        })
-        builder.addCase(dislikeComment.fulfilled, (state, action: PayloadAction<UsePostType[] | undefined>) => {
-            if (action.payload) state.posts = action.payload
-        })
+        // builder.addCase(fetchMyPosts.fulfilled, (state, action: PayloadAction<PostsReturnType | undefined>) => {
+        //     if (action.payload && state.currentPostsType === PostsTypeEnum.MY) {
+        //         state.posts = action.payload.postsArray
+        //         console.log('my')
+        //     }
+        // })
+        // builder.addCase(fetchRecommendedPosts.fulfilled, (state, action: PayloadAction<PostsReturnType | undefined>) => {
+        //     if (action.payload && state.currentPostsType === PostsTypeEnum.RECOMMENDED) {
+        //         state.posts = action.payload.postsArray
+        //         console.log('recommended')
+        //     }
+        // })
+        // builder.addCase(fetchLatestPosts.fulfilled, (state, action: PayloadAction<PostsReturnType | undefined>) => {
+        //     if (action.payload && state.currentPostsType === PostsTypeEnum.LATEST) {
+        //         state.posts = action.payload.postsArray
+        //         console.log('latest')
+        //     }
+        // })
+        // builder.addCase(fetchFriendPosts.fulfilled, (state, action: PayloadAction<PostsReturnType | undefined>) => {
+        //     if (action.payload && state.currentPostsType === PostsTypeEnum.FRIEND) {
+        //         state.posts = action.payload.postsArray
+        //         console.log('friend')
+        //     }
+        // })
+        // builder.addCase(fetchUserPosts.fulfilled, (state, action: PayloadAction<PostsReturnType | undefined>) => {
+        //     if (action.payload && state.currentPostsType === PostsTypeEnum.USER) {
+        //         state.posts = action.payload.postsArray
+        //         console.log('user')
+        //     }
+        // })
+        // builder.addCase(addComment.fulfilled, (state, action: PayloadAction<UsePostType[] | undefined>) => {
+        //     if (action.payload) state.posts = action.payload
+        // })
+        // builder.addCase(deleteComment.fulfilled, (state, action: PayloadAction<UsePostType[] | undefined>) => {
+        //     if (action.payload) state.posts = action.payload
+        // })
+        // builder.addCase(likeComment.fulfilled, (state, action: PayloadAction<UsePostType[] | undefined>) => {
+        //     if (action.payload) state.posts = action.payload
+        // })
+        // builder.addCase(dislikeComment.fulfilled, (state, action: PayloadAction<UsePostType[] | undefined>) => {
+        //     if (action.payload) state.posts = action.payload
+        // })
         builder.addCase(addToFriend.fulfilled, (state, action: PayloadAction<UserState | undefined>) => {
             if (action.payload) state.user = action.payload
         })
@@ -128,6 +150,9 @@ export const userSlice = createSlice({
             if (action.payload) state.user = action.payload
         })
         builder.addCase(declineRequests.fulfilled, (state, action: PayloadAction<UserState | undefined>) => {
+            if (action.payload) state.user = action.payload
+        })
+        builder.addCase(listenMyUser.fulfilled, (state, action: PayloadAction<UserState | undefined>) => {
             if (action.payload) state.user = action.payload
         })
     }

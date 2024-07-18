@@ -1,4 +1,4 @@
-import { FC, useRef, useState } from "react";
+import { FC, useContext, useRef, useState } from "react";
 import classes from './PostComment.module.scss'
 import { BiSolidDislike } from "react-icons/bi";
 import { BiDislike } from "react-icons/bi";
@@ -8,13 +8,14 @@ import { convertTimestampToString } from "../../secondaryFunctions/convertTimest
 import { BiLike } from "react-icons/bi";
 import { BiSolidLike } from "react-icons/bi";
 import { SendPostCommentType, UsePostCommentType, UsePostType } from "../types/post";
-import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { useAppSelector } from "../../hooks/redux";
 import { deleteComment } from "../../store/thunk/deleteComment";
 import { UserState } from "../../store/reducers/userSlice";
 import ModalAlert from "../../UI/ModalAlert/ModalAlert";
 import { likeComment } from "../../store/thunk/likeComment";
 import { dislikeComment } from "../../store/thunk/dislikeComment";
 import { useNavigate } from "react-router-dom";
+import { PostsContext } from "../AllPosts/AllPosts";
 
 type PostCommentType = {
     comment: UsePostCommentType;
@@ -22,10 +23,9 @@ type PostCommentType = {
 }
 
 const PostComment: FC<PostCommentType> = ({ comment, post }) => {
-    const { user, posts: myPosts } = useAppSelector(value => value.user)
+    const { user } = useAppSelector(value => value.user)
+    const Context = useContext(PostsContext)
     const navigate = useNavigate()
-
-    const dispatch = useAppDispatch()
 
     const [error, setError] = useState<string | null>(null)
 
@@ -34,28 +34,31 @@ const PostComment: FC<PostCommentType> = ({ comment, post }) => {
 
     const deleteCommentHandler = () => {
         setIsMoreOptionsView(false)
+
+        if (!Context) return
         const deletedComment: SendPostCommentType = { ...comment, author: comment.author.uid }
-        dispatch(deleteComment({ post, setError, user: user as UserState, deletedComment, myPosts }))
+        deleteComment({ post, setError, user: user as UserState, deletedComment, posts: Context.posts, setPosts: Context.setPosts })
     }
 
     const isLiked = comment.likes.includes(user?.uid as string)
     const isDisliked = comment.dislikes.includes(user?.uid as string)
 
     const likeCommentHandler = () => {
-        dispatch(likeComment({ myPosts, post, comment, user: user as UserState, isLiked, setError }))
+        if (!Context) return
+        likeComment({ posts: Context.posts, setPosts: Context.setPosts, post, comment, user: user as UserState, isLiked, setError })
             .then((posts) => {
-                if (isDisliked) {
-                    dispatch(dislikeComment({ myPosts: posts.payload as UsePostType[], post, comment, user: user as UserState, isDisliked, setError }))
+                if (isDisliked && posts) {
+                    dislikeComment({ posts, setPosts: Context.setPosts, post, comment, user: user as UserState, isDisliked, setError })
                 }
             })
     }
 
     const dislikeCommentHandler = () => {
-        dispatch(dislikeComment({ myPosts, post, comment, user: user as UserState, isDisliked, setError }))
+        if (!Context) return
+        dislikeComment({ posts: Context.posts, setPosts: Context.setPosts, post, comment, user: user as UserState, isDisliked, setError })
             .then((posts) => {
-                if (isLiked) {
-                    console.log(posts.payload)
-                    dispatch(likeComment({ myPosts: posts.payload as UsePostType[], post, comment, user: user as UserState, isLiked, setError }))
+                if (isLiked && posts) {
+                    likeComment({ posts, setPosts: Context.setPosts, post, comment, user: user as UserState, isLiked, setError })
                 }
             })
     }

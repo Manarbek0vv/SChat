@@ -8,7 +8,6 @@ import { MdOutlineAppRegistration } from "react-icons/md";
 import { FaUserFriends } from "react-icons/fa";
 import { UserState } from "../../store/reducers/userSlice";
 import ModalAlert from "../../UI/ModalAlert/ModalAlert";
-import { PhotoType } from "../../store/thunk/addPhoto";
 
 type TextType = {
     pin: React.ReactNode | React.ReactChild;
@@ -61,15 +60,16 @@ const UserPageInfo: FC<UserPageInfoProps> = ({ user }) => {
                 </h1>
 
                 <div className={classes.photos}>
-                    {user?.photos.map((photo: PhotoType) => {
+                    {/* {user?.photos.map((photo: PhotoType) => {
                         return (
                             <div key={photo.url} className={classes.photo}>
                                 <img src={photo.url} alt="" className={classes.inner} />
                             </div>
                         )
-                    })}
+                    })} */}
 
-                    {!user?.photos.length && <h1 className={classes.notfound}>No photos found</h1>}
+                    {/* {!user?.photos.length && <h1 className={classes.notfound}>No photos found</h1>} */}
+                    <h1 className={classes.notfound}>Temporarily unavailable</h1>
                 </div>
 
                 <button className={classes.button}>

@@ -52,6 +52,13 @@ const CreateNewPost: FC<CreateNewPostProps> = ({ setIsCreatorOpen }) => {
         const fileReader = new FileReader()
 
         fileReader.onload = () => {
+            const validImageTypes = ["image/gif", "image/jpeg", "image/png", "image/webp"];
+
+            if (!validImageTypes.includes((e.target.files as FileList)[0].type)) {
+                setError('Selected file is not an image.')
+                return
+            }
+
             setImages(prev => [...prev, {
                 url: fileReader.result as string,
                 name: (e.target.files as FileList)[0].name,

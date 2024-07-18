@@ -1,54 +1,67 @@
-import { collection, doc, getDoc, getDocs, query, where } from "firebase/firestore"
+import { collection, doc, getDoc, getDocs } from "firebase/firestore"
 import { UserState } from "../reducers/userSlice"
-import { firestore } from "../../../main"
-import { UsePostAuthorType, UsePostCommentAuthorType, UsePostCommentType, UsePostType } from "../../components/types/post"
+import { firestore, storage } from "../../../main"
+import { ImageType, UsePostAuthorType, UsePostCommentAuthorType, UsePostCommentType, UsePostType } from "../../components/types/post"
 import { getUserByUid } from "../../secondaryFunctions/getUserByUid"
-import { createAsyncThunk } from "@reduxjs/toolkit"
+import { getDownloadURL, ref } from "firebase/storage"
 
-export const fetchFriendPosts = createAsyncThunk(
-    'user/fetchFriendPosts',
-    async (user: UserState, thunkApi) => {
-        try {
-            const querySnapshot = await getDocs(collection(firestore, 'posts'))
-            const postsArray: UsePostType[] = []
+export const fetchFriendPosts = async (user: UserState) => {
+    try {
+        const querySnapshot = await getDocs(collection(firestore, 'posts'))
+        const postsArray: UsePostType[] = []
 
-            const mapArrayWithData = async () => {
-                for (const docSnapshot of querySnapshot.docs) {
-                    const newPost = docSnapshot.data()
+        const mapArrayWithData = async () => {
+            for (const docSnapshot of querySnapshot.docs) {
+                const newPost = docSnapshot.data()
 
-                    const myUser = (await getDoc(doc(firestore, 'users', newPost.authorUid))).data() as UserState
-                    const author: UsePostAuthorType = { uid: myUser.uid, username: myUser.username, avatar: myUser.avatar }
-                    newPost.author = author
+                const myUser = (await getDoc(doc(firestore, 'users', newPost.authorUid))).data() as UserState
+                const myUserAvatarUrl = myUser.avatar && 
+                await getDownloadURL(ref(storage, myUser.avatar))
+                const author: UsePostAuthorType = { uid: myUser.uid, username: myUser.username, avatar: myUserAvatarUrl }
+                newPost.author = author
 
-                    if (newPost.comments) {
-                        const newComments: UsePostCommentType[] = []
+                if (newPost.comments) {
+                    const newComments: UsePostCommentType[] = []
 
-                        for (let comment of newPost.comments) {
-                            const getUserCommentAuthor = await getUserByUid({ uid: comment.author })
-                            const commentAuthor: UsePostCommentAuthorType = {
-                                username: getUserCommentAuthor.username,
-                                avatar: getUserCommentAuthor.avatar,
-                                uid: getUserCommentAuthor.uid
-                            }
-                            newComments.push({ ...comment, author: commentAuthor })
+                    for (let comment of newPost.comments) {
+                        const getUserCommentAuthor = await getUserByUid({ uid: comment.author })
+
+                        const userCommentAvatarUrl = getUserCommentAuthor.avatar && 
+                        await getDownloadURL(ref(storage, getUserCommentAuthor.avatar))
+
+                        const commentAuthor: UsePostCommentAuthorType = {
+                            username: getUserCommentAuthor.username,
+                            avatar: userCommentAvatarUrl,
+                            uid: getUserCommentAuthor.uid
                         }
-                        newPost.comments = newComments
+                        newComments.push({ ...comment, author: commentAuthor })
                     }
-
-                    if (newPost.author.uid !== user.uid) postsArray.push(newPost as UsePostType)
+                    newPost.comments = newComments
                 }
+                if (!!newPost.images.length) {
+                    const newImages: ImageType[] = []
+
+                    for (let image of newPost.images) {
+                        const imageUrl = await getDownloadURL(ref(storage, image.url))
+                        newImages.push({ ...image, url: imageUrl })
+                    }
+                    newPost.images = newImages
+                }
+
+                if (newPost.author.uid !== user.uid) postsArray.push(newPost as UsePostType)
             }
-
-            await mapArrayWithData()
-
-            postsArray
-            postsArray.sort((a, b) => b.createdAt - a.createdAt)
-
-            return postsArray.filter(post => {
-                return user.friends.includes(post.author.uid)
-            })
-        } catch (error: any) {
-            return thunkApi.rejectWithValue(error.message)
         }
+
+        await mapArrayWithData()
+
+        postsArray
+        postsArray.sort((a, b) => b.createdAt - a.createdAt)
+
+        return postsArray.filter(post => {
+            return user.friends.includes(post.author.uid)
+        })
+            
+        } catch (error: any) {
+        console.log(error.message)
     }
-)
+}

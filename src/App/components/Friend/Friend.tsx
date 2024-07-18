@@ -4,6 +4,8 @@ import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { UserState } from "../../store/reducers/userSlice";
 import { LuMessageCircle } from "react-icons/lu";
 import { removeFromFriends } from "../../store/thunk/removeFromFriends";
+import { useNavigate } from "react-router-dom";
+import { startNewChat } from "../../secondaryFunctions/startNewChat";
 
 type AllFriendsProps = {
     friend: UserState;
@@ -15,6 +17,12 @@ const Friend: FC<AllFriendsProps> = ({ friend, setError }) => {
     const dispatch = useAppDispatch()
     const [isOptionVisible, setIsOptionVisible] = useState(false)
 
+    const navigate = useNavigate()
+
+    const startNewChatHandler = () => {
+        startNewChat({ myUser: myUser as UserState, user: friend, navigate, setError })
+    }
+
     return (
         <div key={friend.uid} className={classes.friend}>
             <div className={classes.first}>
@@ -25,7 +33,7 @@ const Friend: FC<AllFriendsProps> = ({ friend, setError }) => {
                 </div>
             </div>
             <div className={classes.buttons}>
-                <LuMessageCircle className={classes.message} />
+                <LuMessageCircle className={classes.message} onClick={startNewChatHandler} />
                 <div className={classes.bats}
                     onClick={() => setIsOptionVisible(prev => !prev)}>
                     ...

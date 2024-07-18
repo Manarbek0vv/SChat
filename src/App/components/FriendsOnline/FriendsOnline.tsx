@@ -41,7 +41,7 @@ const FriendsOnline: FC<FriendsOnlineType> = ({ friends, setFriends }) => {
                 return (
                     <div key={friend.uid} className={classes.friend}>
                         <div className={classes.first}>
-                            <div className={classes.icon}><img src={friend.avatar as string} /></div>
+                            <div className={classes.icon}><img src={friend.avatar as string} className={classes.avatar} /></div>
                             <div className={classes.info}>
                                 <h1 className={classes.username}>{friend.username}</h1>
                                 <h2 className={classes.email}>{friend.email}</h2>
@@ -49,7 +49,6 @@ const FriendsOnline: FC<FriendsOnlineType> = ({ friends, setFriends }) => {
                         </div>
                         <div className={classes.buttons}>
                             <LuMessageCircle className={classes.message} />
-                            <div className={classes.bats}>...</div>
                         </div>
                     </div>
                 )

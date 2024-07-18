@@ -16,7 +16,6 @@ type UserParams = {
 
 const UserPage: FC = () => {
     const { uid } = useParams<UserParams>()
-
     const [user, setUser] = useState<UserState | null>(null)
     const [ loading, setLoading ] = useState(false)
 
@@ -43,7 +42,7 @@ const UserPage: FC = () => {
                     <UserPageHeader user={user} />
                     <UserPageInfo user={user} />
                     <UserPosts />
-                    <AllPosts callback={fetchUserPosts(user)} />
+                    <AllPosts callback={() => fetchUserPosts(user)} />
                 </>
             )}
         </div>
