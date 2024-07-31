@@ -1,0 +1,494 @@
+@import '../../App.global.scss';
+
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+        width: 0;
+        height: 0;
+    }
+}
+
+.header {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    background-color: $content-background;
+    border-radius: 15px;
+    border: 1px solid $dark-border;
+
+    .profile {
+        font-size: 18px;
+        color: rgb(197, 197, 197);
+        height: 60px;
+        display: flex;
+        align-items: center;
+        padding-left: 25px;
+    }
+
+    .background {
+        position: relative;
+        width: 100%;
+        height: 150px;
+
+
+        .inner {
+            border: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: -15px;
+            width: 100%;
+            background-size: cover;
+            background-position: center;
+            background-color: rgb(41, 41, 41);
+        }
+
+        .change-background {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 5px 15px;
+            font-size: 16px;
+            background-color: rgb(26, 26, 26);
+            color: white;
+            border: 1px solid rgb(45, 45, 45);
+            border-radius: 8px;
+            transition: background-color 200ms;
+            user-select: none;
+
+            &:hover {
+                $color: rgb(90, 90, 90);
+                background-color: $color;
+                border: 1px solid $color;
+            }
+
+            .popup {
+                visibility: hidden;
+                opacity: 0;
+                transition: all 200ms;
+                display: flex;
+                position: absolute;
+                left: 0;
+                bottom: -110px;
+                background-color: $content-background;
+                border: 1px solid $dark-border;
+                padding: 10px;
+                z-index: 1000;
+                flex-direction: column;
+                gap: 15px;
+                border-radius: 10px;
+
+                .input {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    opacity: 0;
+                }
+
+                .text:nth-child(1) {
+                    .pin {
+                        color: #71aaeb;
+                        font-size: 22px;
+                    }
+                }
+
+                .text:nth-child(2) {
+                    .pin {
+                        color: rgb(255, 95, 95);
+                    }
+                }
+
+                .text {
+                    color: $gray-color-for-font;
+                    white-space: nowrap;
+                    padding: 5px;
+                    display: flex;
+                    align-items: flex-end;
+                    gap: 10px;
+                    border-radius: 10px;
+                    transition: background-color 200ms;
+                    user-select: none;
+                    position: relative;
+                    font-size: 14px;
+
+                    .pin {
+                        font-size: 20px;
+                    }
+
+
+                    &:hover {
+                        background-color: rgba(255, 255, 255, 0.1);
+                        cursor: pointer;
+                    }
+                }
+
+                .icon {
+                    display: flex;
+                    align-items: center;
+                    font-size: 20px;
+                }
+            }
+
+            &:hover {
+                .popup {
+                    visibility: visible;
+                    opacity: 1;
+                }
+            }
+        }
+    }
+
+    .info {
+        background-color: $content-background;
+        z-index: 300;
+        border-radius: 15px;
+        border: 1px solid $dark-border;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        .hr {
+            border: none;
+            background-color: rgb(64, 64, 64);
+            height: 2px;
+            margin: auto;
+            width: 95%;
+            color: $gray-color-for-font;
+        }
+
+        .first-line {
+            position: relative;
+            height: 70px;
+            display: flex;
+            justify-content: center;
+
+            .avatar {
+                z-index: 400;
+                position: absolute;
+                bottom: 20%;
+                width: 120px;
+                height: 120px;
+                border-radius: 50%;
+                border: 5px solid $content-background;
+                background-color: rgb(69, 69, 69);
+
+                .inner {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: contain;
+                    border-radius: 50%;
+                }
+
+                .popup {
+                    visibility: hidden;
+                    opacity: 0;
+                    transition: all 200ms;
+                    display: flex;
+                    position: absolute;
+                    left: auto;
+                    bottom: -110px;
+                    background-color: $content-background;
+                    border: 1px solid $dark-border;
+                    padding: 10px;
+                    z-index: 1000;
+                    flex-direction: column;
+                    gap: 15px;
+                    border-radius: 10px;
+
+                    .input {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        right: 0;
+                        bottom: 0;
+                        opacity: 0;
+                    }
+
+                    .text:nth-child(1) {
+                        .pin {
+                            color: rgb(0, 145, 255);
+                            font-size: 22px;
+                        }
+                    }
+
+                    .text:nth-child(2) {
+                        .pin {
+                            color: rgb(255, 95, 95);
+                        }
+                    }
+
+                    .text {
+                        color: $gray-color-for-font;
+                        white-space: nowrap;
+                        padding: 5px;
+                        display: flex;
+                        align-items: flex-end;
+                        gap: 10px;
+                        border-radius: 10px;
+                        transition: background-color 200ms;
+                        user-select: none;
+                        position: relative;
+                        font-size: 14px;
+
+                        .pin {
+                            font-size: 20px;
+                        }
+
+
+                        &:hover {
+                            background-color: rgba(255, 255, 255, 0.1);
+                            cursor: pointer;
+                        }
+                    }
+
+                    .icon {
+                        display: flex;
+                        align-items: center;
+                        font-size: 20px;
+                    }
+                }
+
+                &:hover {
+                    .popup {
+                        visibility: visible;
+                        opacity: 1;
+                    }
+                }
+            }
+        }
+
+        .second-line {
+            height: 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            position: relative;
+
+            .username-title {
+                color: $gray-color-for-font;
+                font-size: 14px;
+            }
+
+            .username-wrapper {
+                position: absolute;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                right: 0;
+                display: flex;
+                justify-content: center;
+
+                .username {
+                    padding-top: 17px;
+                    color: white;
+                    font-size: 20px;
+                    white-space: nowrap;
+                    max-width: 200px;
+                    text-align: center;
+                    text-overflow: ellipsis;
+                }
+            }
+
+            .change {
+                color: rgb(0, 145, 255);
+                font-size: 14px;
+                z-index: 500;
+
+                &:hover {
+                    cursor: pointer;
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+}
+
+.basic {
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 20px 0;
+    background-color: $content-background;
+    border-radius: 15px;
+    border: 1px solid $dark-border;
+
+    .email {
+        justify-content: flex-end;
+        width: 100%;
+        display: flex;
+        gap: 15px;
+        color: $gray-color-for-font;
+        align-items: center;
+        padding-right: 80px;
+    }
+
+    .birthday {
+        display: flex;
+        justify-content: flex-end;
+        width: 100%;
+        gap: 15px;
+        color: $gray-color-for-font;
+        align-items: center;
+        padding-right: 80px;
+
+        .date-label {
+            height: 35.6px;
+            width: 65%;
+            position: relative;
+            border: 1px solid $dark-border;
+            background-color: rgb(35, 35, 35);
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+
+            .date {
+                background-color: transparent;
+                width: 100%;
+                border: none;
+                font-size: 16px;
+                display: flex;
+                align-items: center;
+                padding: 10px;
+                color: $gray-color-for-font;
+                vertical-align: middle;
+                outline: none;
+
+                &::-webkit-datetime-edit {
+                    background-color: rgb(35, 35, 35);
+                }
+
+                &::-webkit-calendar-picker-indicator {
+                    background-color: rgb(35, 35, 35);
+                    color: $gray-color-for-font;
+                }
+
+                &:active {
+                    border: none;
+                    outline: none;
+                }
+            }
+
+            .reset-wrapper {
+                transition: all 200ms;
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                display: flex;
+                justify-content: flex-end;
+                padding: 0px 12px;
+                align-items: center;
+
+                .reset-date {
+                    font-size: 18px;
+                }
+
+                &:hover {
+                    cursor: pointer;
+                    color: white;
+                }
+            }
+        }
+    }
+
+    .gender {
+        display: flex;
+        justify-content: flex-end;
+        width: 100%;
+        gap: 15px;
+        color: $gray-color-for-font;
+        align-items: center;
+        padding-right: 80px;
+    }
+
+    .hr {
+        border: none;
+        color: rgb(64, 64, 64);
+        background-color: rgb(64, 64, 64);
+        height: 1px;
+        width: 95%;
+        color: $gray-color-for-font;
+        margin: 10px auto;
+    }
+
+    .save {
+        margin: auto;
+        padding: 6px 20px;
+        color: black;
+        background-color: rgb(221, 221, 221);
+        font-size: 18px;
+        border-radius: 10px;
+        border: 1px solid $dark-border;
+        font-weight: 500;
+        transition: background-color 200ms;
+
+        &:hover {
+            cursor: pointer;
+            background-color: rgb(209, 209, 209);
+        }
+    }
+}
+
+.not-specified {
+    position: absolute;
+    z-index: 300;
+    color: $gray-color-for-font;
+    font-size: 16px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 0 10px;
+    display: flex;
+    align-items: center;
+}
+
+.label {
+    @include flex-horizontal-center;
+    gap: 4px;
+
+    .icon {
+        color: rgb(79, 79, 79);
+        font-size: 20px;
+    }
+
+    .input {
+        background-color: transparent;
+        border: none;
+        color: white;
+        width: 210px;
+        font-size: 13px;
+        padding: 5px 5px;
+        transition: box-shadow 200ms;
+
+        &::placeholder {
+            color: rgb(79, 79, 79);
+            font-size: 13px;
+        }
+
+        &:focus {
+            outline: none;
+            // border-bottom: 1px solid rgb(162, 162, 162);
+            // padding-bottom: 4px;
+            box-shadow: 0px 1px 0px 0px rgb(162, 162, 162);
+        }
+    }
+}

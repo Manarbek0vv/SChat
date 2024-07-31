@@ -1,0 +1,54 @@
+.user {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.info {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+
+    .avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        overflow: hidden;
+        user-select: none;
+        background-color: rgb(69, 69, 69);
+        border: 1px solid rgb(45, 45, 45);
+
+        &:hover {
+            cursor: pointer;
+        }
+
+        .inner {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 50%;
+            user-select: none;
+        }
+    }
+
+    .username {
+        font-size: 14px;
+        font-weight: 600;
+        color: rgb(113, 170, 235);
+
+        &:hover {
+            cursor: pointer;
+            text-decoration: underline;
+        }
+    }
+}
+
+.delete {
+    user-select: none;
+    font-size: 14px;
+    color: rgb(113, 170, 235);
+
+    &:hover {
+        text-decoration: underline;
+    }
+}

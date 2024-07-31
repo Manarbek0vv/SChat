@@ -17,7 +17,23 @@ type AllFriendsProps = {
 const AllFriends: FC<AllFriendsProps> = ({ setFriends, friends }) => {
     const { user: myUser } = useAppSelector(value => value.user)
 
-    const [ error, setError ] = useState<string | null>(null)
+    const [currentFriendID, setCurrentFriendID] = useState<string | null>(null)
+
+    const changeCurrentFriendID = (id: string) => {
+        setCurrentFriendID(prev => {
+            if (prev === id) {
+                return null
+            } return id
+        })
+    }
+
+    window.onclick = () => {
+        if (currentFriendID) {
+            setCurrentFriendID(null)
+        }
+    }
+
+    const [error, setError] = useState<string | null>(null)
     const [loading, setLoading] = useState(false)
 
     useEffect(() => {
@@ -42,7 +58,12 @@ const AllFriends: FC<AllFriendsProps> = ({ setFriends, friends }) => {
             )}
 
             {!loading && friends.map((friend: UserState) => {
-                return <Friend key={friend.uid} friend={friend} setError={setError} />
+                return <Friend
+                    key={friend.uid}
+                    friend={friend}
+                    setError={setError}
+                    currentFriendID={currentFriendID}
+                    changeCurrentFriendID={changeCurrentFriendID} />
             })}
         </div>
     )

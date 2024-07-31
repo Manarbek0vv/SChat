@@ -1,0 +1,95 @@
+@import '../../App.global.scss';
+
+@keyframes wrapper-enable {
+    0% {
+        opacity: 0;
+        visibility: hidden;
+    }
+    100% {
+        opacity: 1;
+        visibility: visible;
+    }
+}
+
+.wrapper {
+    animation: wrapper-enable 200ms ease 0ms 1 forwards;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+    @include center-flex;
+
+    .container {
+        background-color: $content-background;
+        @include flex-vertical-center;
+        width: 300px;
+        height: 270px;
+        padding: 20px;
+        gap: 30px;
+        border: 2px solid $dark-border;
+        position: relative;
+        border-radius: 15px;
+
+        .close {
+            position: absolute;
+            font-size: 20px;
+            color: $gray-color-for-font;
+            top: 15px;
+            right: 15px;
+            transition: color 200ms;
+
+            &:hover {
+                color: white;
+            }
+        }
+
+        .title {
+            color: white;
+            font-weight: 500;
+            font-size: 28px;
+        }
+
+        
+        .text {
+            color: gray;
+            margin-top: -25px;
+            font-weight: 500;
+            font-size: 12px;
+            user-select: none;
+
+            &:hover {
+                cursor: pointer;
+                text-decoration: underline
+            }
+        }
+
+        .labels {
+            padding: 0 0 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            flex-grow: 5;
+            width: 100%;
+            gap: 15px;
+        }
+
+        .button {
+            padding: 10px 30px;
+            background-color: rgb(108, 0, 249);
+            color: white;
+            font-size: 14px;
+            border: none;
+            border-radius: 15px;
+            transition: transform 200ms;
+            user-select: none;
+
+            &:hover {
+                transform: scale(1.05);
+            }
+        }
+    }
+}

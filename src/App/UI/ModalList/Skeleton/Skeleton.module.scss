@@ -1,0 +1,57 @@
+@import '../../../App.global.scss';
+
+@keyframes loading {
+    0% {
+    }
+    20% {
+        filter: contrast(100%);
+    }
+    50% {
+        filter: contrast(80%);
+    }
+    80% {
+        filter: contrast(100%);
+    }
+    100% {
+    }
+}
+
+.user {
+    animation: loading 2s normal 0s infinite forwards;
+    width: 100%;
+    padding: 7px 10px;
+    background-color: rgb(40, 40, 40);
+    user-select: none;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    border-radius: 12px;
+
+    .avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        overflow: hidden;
+        background-color: rgb(69, 69, 69);
+    }
+
+    .main {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+
+        .username {
+            border-radius: 10px;
+            width: 80px;
+            height: 12px;
+            background-color: rgb(69, 69, 69);
+        }
+
+        .info {
+            border-radius: 10px;
+            width: 95px;
+            height: 10px;
+            background-color: rgb(69, 69, 69);
+        }
+    }
+}

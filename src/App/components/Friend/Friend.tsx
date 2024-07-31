@@ -9,13 +9,14 @@ import { startNewChat } from "../../secondaryFunctions/startNewChat";
 
 type AllFriendsProps = {
     friend: UserState;
-    setError: Dispatch<SetStateAction<string | null>>
+    setError: Dispatch<SetStateAction<string | null>>;
+    currentFriendID: string | null;
+    changeCurrentFriendID: (id: string) => void;
 }
 
-const Friend: FC<AllFriendsProps> = ({ friend, setError }) => {
+const Friend: FC<AllFriendsProps> = ({ friend, setError, currentFriendID, changeCurrentFriendID }) => {
     const { user: myUser } = useAppSelector(value => value.user)
     const dispatch = useAppDispatch()
-    const [isOptionVisible, setIsOptionVisible] = useState(false)
 
     const navigate = useNavigate()
 
@@ -26,19 +27,32 @@ const Friend: FC<AllFriendsProps> = ({ friend, setError }) => {
     return (
         <div key={friend.uid} className={classes.friend}>
             <div className={classes.first}>
-                <div className={classes.icon}><img style={{ maxWidth: '75px', maxHeight: '75px' }} src={friend.avatar as string} className={classes.avatar} /></div>
+                <div className={classes.icon}
+                    onClick={() => navigate(`/${friend.uid}`)}>
+                    {friend.avatar && <img style={{ maxWidth: '75px', maxHeight: '75px' }} src={friend.avatar as string} className={classes.avatar} />}
+                </div>
                 <div className={classes.info}>
-                    <h1 className={classes.username}>{friend.username}</h1>
-                    <h2 className={classes.email}>{friend.email}</h2>
+                    <h1 className={classes.username}
+                        onClick={() => navigate(`/${friend.uid}`)}>
+                        {friend.username}
+                    </h1>
+                    {
+                        friend.isEmailVisible && (
+                            <h2 className={classes.email}>{friend.email}</h2>
+                        )
+                    }
                 </div>
             </div>
             <div className={classes.buttons}>
                 <LuMessageCircle className={classes.message} onClick={startNewChatHandler} />
                 <div className={classes.bats}
-                    onClick={() => setIsOptionVisible(prev => !prev)}>
+                    onClick={(e: React.MouseEvent<HTMLDivElement>) => {
+                        e.stopPropagation()
+                        changeCurrentFriendID(friend.uid)
+                    }}>
                     ...
                     <div className={classes.options}
-                        style={isOptionVisible ? { opacity: 1, visibility: "visible" } : {}}>
+                        style={currentFriendID === friend.uid ? { opacity: 1, visibility: "visible" } : {}}>
                         <div className={classes.button}
                             onClick={() => {
                                 dispatch(removeFromFriends({ myUser: myUser as UserState, user: friend, setError }))

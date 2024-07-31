@@ -4,9 +4,11 @@
     display: flex;
     flex-direction: column;
     gap: 15px;
+    align-items: flex-start;
 }
 
-hr {
+.hr {
+    width: 100%;
     border: none;
     color: rgb(64, 64, 64);;
     background-color: rgb(64, 64, 64);

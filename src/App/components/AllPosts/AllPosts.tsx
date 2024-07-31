@@ -25,6 +25,8 @@ const AllPosts: FC<AllPostsProps> = (props) => {
     const { user } = useAppSelector(value => value.user)
     const [posts, setPosts] = useState<UsePostType[]>([])
 
+    const [currentPostID, setCurrentPostID] = useState<string | null>(null)
+
     const filteredSortedPosts = useMemo(() => {
         const filteredPosts = posts.filter(post => {
             if (post.whoCanSee === 'FRIENDS' &&
@@ -40,6 +42,22 @@ const AllPosts: FC<AllPostsProps> = (props) => {
 
     const [error, setError] = useState<string | null>(null)
 
+    const changeCurrentPostID = (id: string) => {
+        setCurrentPostID(prev => {
+            if (prev === id) {
+                return null
+            }
+            return id
+        })
+    }
+
+    window.onclick = () => {
+        if (currentPostID) {
+            console.log('window')
+            setCurrentPostID(null)
+        }
+    }
+
     useEffect(() => {
         if (!user) return
 
@@ -50,6 +68,8 @@ const AllPosts: FC<AllPostsProps> = (props) => {
                 if (posts) setPosts(posts)
             })
     }, [user])
+
+
 
     return (
         <PostsContext.Provider value={{
@@ -72,7 +92,11 @@ const AllPosts: FC<AllPostsProps> = (props) => {
                 {!loading &&
                     filteredSortedPosts.map(post => {
                         return (
-                            <PostItem key={post.id} post={post} />
+                            <PostItem 
+                            key={post.id} 
+                            post={post} 
+                            currentPostID={currentPostID} 
+                            changeCurrentPostID={changeCurrentPostID} />
                         )
                     })}
             </div>

@@ -10,6 +10,8 @@
     align-items: flex-end;
     border-radius: 10px;
     position: relative;
+    min-height: 300px;
+    overflow: hidden;
 }
 
 .background {
@@ -18,15 +20,16 @@
     top: 0;
     left: 0;
     right: 0;
-    bottom: 50%;
-    z-index: 0;
+    bottom: 30%;
     overflow: hidden;
+    background-color: rgb(41, 41, 41);
 
     .inner {
         background-size: cover;
+        background-position: center;
         width: 100%;
         height: 100%;
-        filter: blur(10px) ;
+        background-color: rgb(41, 41, 41);
     }
 }
 
@@ -41,6 +44,7 @@
         background-color: rgb(69, 69, 69);
         border: 8px solid $content-background;
         position: relative;
+        user-select: none;
 
         &:hover {
             .popup {
@@ -86,7 +90,7 @@
     user-select: none;
 
     &:hover {
-        background-color: rgba(255, 255, 255, 0.2);
+        background-color: rgba(255, 255, 255, 0.4);
         cursor: pointer;
     }
 }
@@ -116,17 +120,36 @@
         opacity: 0;
     }
 
+    .text:nth-child(1) {
+        .pin {
+            color: rgb(0, 145, 255);
+            font-size: 22px;
+        }
+    }
+
+    .text:nth-child(2) {
+        .pin {
+            color: rgb(255, 95, 95);
+        }
+    }
+
     .text {
         color: $gray-color-for-font;
         white-space: nowrap;
         padding: 5px;
         display: flex;
-        align-items: center;
-        gap: 5px;
+        align-items: flex-end;
+        gap: 10px;
         border-radius: 10px;
         transition: background-color 200ms;
         user-select: none;
         position: relative;
+        font-size: 14px;
+
+        .pin {
+            font-size: 20px;
+        }
+
 
         &:hover {
             background-color: rgba(255, 255, 255, 0.1);

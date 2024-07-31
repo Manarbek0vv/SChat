@@ -5,14 +5,23 @@ import { ImageType, UsePostAuthorType, UsePostCommentAuthorType, UsePostCommentT
 import { getUserByUid } from "../../secondaryFunctions/getUserByUid"
 import { getDownloadURL, ref } from "firebase/storage"
 
-export const fetchUserPosts = async (user: UserState) => {
+interface FetchUserPostsProps {
+    user: UserState;
+    myUser: UserState
+}
+
+export const fetchUserPosts = async (props: FetchUserPostsProps) => {
     try {
-        const querySnapshot = await getDocs(query(collection(firestore, 'posts'), where("authorUid", "==", user.uid)))
+        if (props.user.isClosedAccount && !props.user.friends.includes(props.myUser.uid)) {
+            return []
+        }
+
+        const querySnapshot = await getDocs(query(collection(firestore, 'posts'), where("authorUid", "==", props.user.uid)))
         const postsArray: UsePostType[] = []
 
-        const myUser = (await getDoc(doc(firestore, 'users', user.uid))).data() as UserState
-        const myUserAvatarUrl = myUser.avatar && 
-        await getDownloadURL(ref(storage, myUser.avatar))
+        const myUser = (await getDoc(doc(firestore, 'users', props.user.uid))).data() as UserState
+        const myUserAvatarUrl = myUser.avatar &&
+            await getDownloadURL(ref(storage, myUser.avatar))
         const author: UsePostAuthorType = { uid: myUser.uid, username: myUser.username, avatar: myUserAvatarUrl }
 
         const mapArrayWithData = async () => {
@@ -26,8 +35,8 @@ export const fetchUserPosts = async (user: UserState) => {
                     for (let comment of newPost.comments) {
                         const getUserCommentAuthor = await getUserByUid({ uid: comment.author })
 
-                        const userCommentAvatarUrl = getUserCommentAuthor.avatar && 
-                        await getDownloadURL(ref(storage, getUserCommentAuthor.avatar))
+                        const userCommentAvatarUrl = getUserCommentAuthor.avatar &&
+                            await getDownloadURL(ref(storage, getUserCommentAuthor.avatar))
 
                         const commentAuthor: UsePostCommentAuthorType = {
                             username: getUserCommentAuthor.username,

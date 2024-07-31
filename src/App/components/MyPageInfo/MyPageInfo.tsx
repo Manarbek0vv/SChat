@@ -9,6 +9,8 @@ import { MdOutlineAppRegistration } from "react-icons/md";
 import { FaUserFriends } from "react-icons/fa";
 import { UserState } from "../../store/reducers/userSlice";
 import ModalAlert from "../../UI/ModalAlert/ModalAlert";
+import { parseTimestampToDateString } from "../../secondaryFunctions/parseTimestampToDateString";
+import ModalList from "../../UI/ModalList/ModalList";
 // import { addPhoto } from "../../store/thunk/addPhoto";
 
 type TextType = {
@@ -22,7 +24,9 @@ const Months = ['Jan.', 'Feb.', 'Mar.', 'Apr.', 'May.', 'Jun.', 'Jul.', 'Aug.', 
 const MyPageInfo: FC = () => {
     // const dispatch = useAppDispatch()
     const { user } = useAppSelector(value => value.user)
-    const [ error, setError ] = useState<string | null>(null)
+    const [error, setError] = useState<string | null>(null)
+
+    const [isModalListVisible, setIsModalListVisible] = useState(false)
 
     const convertTimeStampToString = (timestamp: number) => {
         const date = new Date(timestamp)
@@ -31,9 +35,9 @@ const MyPageInfo: FC = () => {
 
     const Texts: TextType[] = [
         { pin: <MdOutlineEmail />, title: 'Email', description: user?.email as UserState['email'] },
-        { pin: <FaBirthdayCake />, title: 'Birthday', description: user?.birthday ? 'Not specified' : 'Not specified' },
+        { pin: <FaBirthdayCake />, title: 'Birthday', description: user?.birthday ? parseTimestampToDateString(user.birthday) : 'Not specified' },
         { pin: <FaDna />, title: 'Gender', description: user?.gender ? user.gender : 'Not specified' },
-        { pin: <MdOutlineAppRegistration />, title: 'Registration date', description: convertTimeStampToString(user?.registered as number)},
+        { pin: <MdOutlineAppRegistration />, title: 'Registration date', description: convertTimeStampToString(user?.registered as number) },
         { pin: <FaUserFriends />, title: 'Friends', description: user?.friends ? `${user.friends.length}` : '0' }
     ]
 
@@ -57,6 +61,14 @@ const MyPageInfo: FC = () => {
     return (
         <div className={classes.container}>
             {error && <ModalAlert setError={setError}>{error}</ModalAlert>}
+            {isModalListVisible && (
+                <ModalList
+                    myUser={user as UserState}
+                    setIsModalListVisible={setIsModalListVisible}
+                    usersUid={(user as UserState).friends}>
+                    Friends
+                </ModalList>
+            )}
 
             <div className={classes.info}>
                 <h1 className={classes.title}>Information</h1>
@@ -64,7 +76,17 @@ const MyPageInfo: FC = () => {
                 <div className={classes.texts}>
                     {Texts.map((text: TextType) => {
                         return (
-                            <p key={text.title} className={classes.text}>{text.pin} {text.title}: {text.description}</p>
+                            <p key={text.title} 
+                            className={classes.text}
+                            onClick={() => {
+                                if (text.title !== 'Friends') {
+                                    return
+                                }
+
+                                setIsModalListVisible(true)
+                            }}>
+                                {text.pin} {text.title}: {text.description}
+                            </p>
                         )
                     })}
                 </div>

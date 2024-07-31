@@ -30,6 +30,14 @@
 
         .text {
             color: $gray-color-for-font;
+            transition: all 200ms;
+        }
+
+        .text:last-child {
+            &:hover {
+                color: white;
+                cursor: pointer;
+            }
         }
     }
 }

@@ -9,7 +9,6 @@ import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { Link, useNavigate } from "react-router-dom";
 import { exitFromAccount } from "../../store/thunk/exitFromAccount";
 import { FaHome } from "react-icons/fa";
-import { Unsubscribe } from "firebase/firestore";
 
 type LinkType = {
     icon: React.ReactNode | React.ReactChild;
@@ -65,7 +64,8 @@ const Sidebar: FC = () => {
             <div className={classes.first}>
                 <div className={classes.profile}>
                     <div className={classes.icon}>
-                        {user?.avatar && <img src={user.avatar} alt="" className={classes.avatar} />}
+                        {user?.avatar && user.avatar.startsWith('http') && 
+                        <img src={user.avatar} alt="" className={classes.avatar} />}
                     </div>
                     <div className={classes.info}>
                         <h1 className={classes.username}>{newUsername}</h1>

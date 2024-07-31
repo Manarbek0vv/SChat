@@ -9,7 +9,7 @@ type LinkType = {
 
 const Links: LinkType[] = [
     { path: '', title: 'Account' },
-    { path: 'privacay', title: 'Privacy' },
+    { path: 'confidentiality', title: 'Confidentiality' },
     { path: 'black-list', title: 'Black list' }
 ]
 

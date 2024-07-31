@@ -4,8 +4,8 @@ import { Link, Route, Routes } from "react-router-dom";
 import { RxMagnifyingGlass } from "react-icons/rx";
 import AllFriends from "../AllFriends/AllFriends";
 import { UserState } from "../../store/reducers/userSlice";
-import { useFriends } from "../../secondaryFunctions/useFriends";
 import FriendsOnline from "../FriendsOnline/FriendsOnline";
+import { useSearchedValue } from "../../secondaryFunctions/useSearchedValue";
 
 type LinkType = {
     path: string;
@@ -23,7 +23,7 @@ const FriendList: FC = () => {
     const [ friends, setFriends ] = useState<UserState[]>([])
     const [ loading, setLoading ] = useState(false)
 
-    const searchedFriends = useFriends(friends, searchValue)
+    const searchedFriends = useSearchedValue(friends, searchValue)
 
     useEffect(() => {
     }, [])

@@ -17,7 +17,7 @@ const ChatWrapper: FC<ChatWrapperProps> = (props) => {
             <Route path="" element={(
                 <div className={classes.notfound}>
                     <SlArrowLeft className={classes.pin} onClick={() => {
-                        navigate('/')
+                        navigate('/posts')
                     }} />
 
                     There is no chat selected, select a chat from the list or write to someone.

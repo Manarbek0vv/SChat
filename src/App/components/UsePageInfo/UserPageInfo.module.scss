@@ -27,9 +27,18 @@
         flex-direction: column;
         gap: 8px;
         justify-content: center;
+        align-items: flex-start;
 
         .text {
             color: $gray-color-for-font;
+            transition: all 200ms;
+        }
+
+        .text:last-child {
+            &:hover {
+                cursor: pointer;
+                color: white;
+            }
         }
     }
 }

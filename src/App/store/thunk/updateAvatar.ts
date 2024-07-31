@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { doc, updateDoc } from "firebase/firestore";
 import { Dispatch, SetStateAction } from "react";
-import { firestore, imagesRef, storage } from "../../../main";
+import { firestore, storage } from "../../../main";
 import { ref, uploadString } from "firebase/storage";
 
 type UpdateAvatarProps = {
@@ -20,10 +20,9 @@ export const updateAvatar = createAsyncThunk(
             await uploadString(ref(storage, avatarRef), props.url, 'data_url')
 
             await updateDoc(userRef, {
-                avatar: `images/${props.uid}avatar`
+                avatar: avatarRef
             })
             props.setError('You have successfully updated your photo')
-            return props.url
         } catch (error: any) {
             props.setError(error.message)
             thunkApi.rejectWithValue(error.message)

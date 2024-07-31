@@ -29,7 +29,13 @@ export const createUser = createAsyncThunk(
                 friendRequests: [],
                 friendRequestsSend: [],
                 friends: [],
-                chats: []
+                chats: [],
+                backgroundImage: null,
+                isEmailVisible: true,
+                birthday: null,
+                gender: null,
+                isClosedAccount: false,
+                blackList: []
             }
             await setDoc(doc(collection(firestore, 'users'), newUser.uid), newUser)
             localStorage.setItem('current-user', newUser.uid)

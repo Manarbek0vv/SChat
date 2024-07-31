@@ -1,7 +1,7 @@
 import { collection, doc, getDoc, getDocs } from "firebase/firestore"
 import { UserState } from "../reducers/userSlice"
 import { firestore, storage } from "../../../main"
-import { ImageType, UsePostAuthorType, UsePostCommentAuthorType, UsePostCommentType, UsePostType } from "../../components/types/post"
+import { ImageType, SendPostType, UsePostAuthorType, UsePostCommentAuthorType, UsePostCommentType, UsePostType } from "../../components/types/post"
 import { getUserByUid } from "../../secondaryFunctions/getUserByUid"
 import { getDownloadURL, ref } from "firebase/storage"
 
@@ -12,9 +12,14 @@ export const fetchRecommendedPosts = async (user: UserState) => {
 
         const mapArrayWithData = async () => {
             for (const docSnapshot of querySnapshot.docs) {
-                const newPost = docSnapshot.data()
+                const newPost = docSnapshot.data();
 
                 const myUser = (await getDoc(doc(firestore, 'users', newPost.authorUid))).data() as UserState
+
+                if (myUser.isClosedAccount && !myUser.friends.includes(user.uid)) {
+                    continue
+                }
+
                 const myUserAvatarUrl = myUser.avatar && 
                 await getDownloadURL(ref(storage, myUser.avatar))
                 const author: UsePostAuthorType = { uid: myUser.uid, username: myUser.username, avatar: myUserAvatarUrl }
@@ -48,7 +53,11 @@ export const fetchRecommendedPosts = async (user: UserState) => {
                     newPost.images = newImages
                 }
 
-                if (newPost.author.uid !== user.uid) postsArray.push(newPost as UsePostType)
+                if (
+                    newPost.author.uid !== user.uid
+                ) {
+                    postsArray.push(newPost as UsePostType)
+                }
             }
         }
 

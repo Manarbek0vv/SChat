@@ -22,15 +22,17 @@ import { PostsContext } from "../AllPosts/AllPosts";
 
 type PostItemProps = {
     post: UsePostType;
+    currentPostID: string | null;
+    changeCurrentPostID: (id: string) => void;
 }
 
-const PostItem: FC<PostItemProps> = ({ post }) => {
+const PostItem: FC<PostItemProps> = ({ post, currentPostID, changeCurrentPostID }) => {
     const { user } = useAppSelector(value => value.user)
     const Context = useContext(PostsContext)
 
     const navigate = useNavigate()
 
-    const [isMoreOptionsView, setIsMoreOptionsView] = useState(false)
+    // const [isMoreOptionsView, setIsMoreOptionsView] = useState(false)
     const moreOptionsRef = useRef<HTMLDivElement | null>(null)
 
     const dispatch = useAppDispatch()
@@ -55,7 +57,7 @@ const PostItem: FC<PostItemProps> = ({ post }) => {
         likePost({ setError, isLiked: isLikedWithMe, user: user as UserState, post, setPosts: Context.setPosts, posts: Context.posts })
             .then((posts) => {
                 if (isDislikedWithMe && posts) {
-                    dislikePost({ setError, isDisliked: isDislikedWithMe, user: user as UserState, post, posts, setPosts: Context.setPosts})
+                    dislikePost({ setError, isDisliked: isDislikedWithMe, user: user as UserState, post, posts, setPosts: Context.setPosts })
                     dislikeRef.current?.classList.add(classes['dislike-disable'])
                 }
             })
@@ -68,7 +70,7 @@ const PostItem: FC<PostItemProps> = ({ post }) => {
         dislikePost({ setError, isDisliked: isDislikedWithMe, user: user as UserState, post, posts: Context.posts, setPosts: Context.setPosts })
             .then((posts) => {
                 if (isLikedWithMe && posts) {
-                    likePost({ setError, isLiked: isLikedWithMe, user: user as UserState, post, posts, setPosts: Context.setPosts})
+                    likePost({ setError, isLiked: isLikedWithMe, user: user as UserState, post, posts, setPosts: Context.setPosts })
                     likeLikedRef.current?.classList.add(classes['like-liked-disable'])
 
                 }
@@ -103,18 +105,13 @@ const PostItem: FC<PostItemProps> = ({ post }) => {
 
                     <div className={classes['more-wrapper']}>
                         <MdOutlineMoreHoriz className={classes.more}
-                            onClick={() => {
-                                if (!isMoreOptionsView) {
-                                    setIsMoreOptionsView(true)
-                                } else {
-                                    if (moreOptionsRef.current) {
-                                        moreOptionsRef.current.classList.add(classes['more-options-disable'])
-                                    }
-                                    setTimeout(() => setIsMoreOptionsView(false), 300)
-                                }
-                            }} />
+                            onClick={(e: React.MouseEvent<SVGElement>) => {
+                                e.stopPropagation()
 
-                        {isMoreOptionsView && (
+                                changeCurrentPostID(post.id)}
+                            } />
+
+                        {currentPostID === post.id && (
                             <div ref={moreOptionsRef} className={classes['more-options']}>
                                 {post.author.uid === user?.uid && (
                                     <div className={classes.option} onClick={deletePostHandler}>

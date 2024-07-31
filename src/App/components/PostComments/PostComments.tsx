@@ -14,9 +14,30 @@ type PostCommentsType = {
     post: UsePostType;
 }
 
+export type CurrentCommentType = {
+
+}
+
 const PostComments: FC<PostCommentsType> = ({ post }) => {
     const [currentComments, setCurrentComments] = useState<UsePostCommentType[]>([])
     const [limit, setLimit] = useState(5)
+
+    const [currentCommentID, setCurrentCommentID] = useState<string | null>(null)
+
+    const changeCurrentCommentID = (id: string) => {
+        setCurrentCommentID(prev => {
+            if (prev === id) {
+                return null
+            }
+            return id
+        })
+    }
+
+    window.onclick = () => {
+        if (currentCommentID) {
+            setCurrentCommentID(null)
+        }
+    }
 
     const [order, setOrder] = useState<OptionType>(ORDER_OPTIONS[0])
 
@@ -33,14 +54,24 @@ const PostComments: FC<PostCommentsType> = ({ post }) => {
 
     return (
         <div className={classes.container}>
-            <hr />
+            <hr className={classes.hr} />
 
-            {!!currentComments.length && <Select defaultValue={0} options={ORDER_OPTIONS} setValue={setOrder} />}
+            {!!currentComments.length &&
+                <Select
+                    defaultValue={0}
+                    options={ORDER_OPTIONS}
+                    setValue={setOrder}
+                />}
 
             <div className={classes.comments}>
                 {!!currentComments.length &&
                     currentComments.map((comment, index) => {
-                        return <PostComment comment={comment} post={post} key={index} />
+                        return <PostComment
+                            currentCommentID={currentCommentID}
+                            changeCurrentCommentID={changeCurrentCommentID}
+                            comment={comment}
+                            post={post}
+                            key={index} />
                     })}
             </div>
 

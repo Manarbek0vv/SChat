@@ -23,7 +23,7 @@
     }
 }
 
-.textarea-wrapper {
+.input-wrapper {
     border: 1px solid $gray-color-for-font;
     background-color: transparent;
     width: 100%;
@@ -34,7 +34,7 @@
     align-items: center;
 }
 
-.textarea {
+.input {
     outline: none;
     background-color: transparent;
     width: 100%;
@@ -43,6 +43,7 @@
     resize: none;
     height: auto;
     border: none;
+    padding: 3px 0;
 }
 
 .send {

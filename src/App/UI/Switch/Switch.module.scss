@@ -1,0 +1,84 @@
+@import '../../App.global.scss';
+
+.container {
+    box-sizing: content-box;
+    width: 40px;
+    height: 20px;
+    border: 2px solid;
+    border-radius: 15px;
+    overflow: hidden;
+
+    &:hover {
+        cursor: pointer;
+    }
+
+    .circle {
+        width: 50%;
+        height: 100%;
+        border-radius: 50%;
+    }
+}
+
+@keyframes on {
+    0% {
+        border-color: $dark-border;
+        background-color: $dark-border;
+    }
+
+    100% {
+        border-color: rgb(240, 240, 240);
+        background-color: rgb(240, 240, 240);
+    }
+}
+
+@keyframes on-circle {
+    0% {
+        transform: translateX(0);
+        background-color: rgb(20, 20, 20)
+    }
+
+    100% {
+        transform: translateX(100%);
+        background-color: black;
+    }
+}
+
+@keyframes off {
+    0% {
+        border-color: rgb(240, 240, 240);
+        background-color: rgb(240, 240, 240);
+    }
+
+    100% {
+        border-color: $dark-border;
+        background-color: $dark-border;
+    }
+}
+
+@keyframes off-circle {
+    0% {
+        transform: translateX(100%);
+        background-color: black;
+    }
+
+    100% {
+        transform: translateX(0);
+        background-color: rgb(20, 20, 20);
+    }
+}
+
+.container-on {
+    animation: on 200ms ease 0ms 1 forwards;
+
+    .circle {
+        animation: on-circle 200ms ease 0ms 1 forwards;
+    }
+}
+
+.container-off {
+    animation: off 200ms ease 0ms 1 forwards;
+
+    .circle {
+        animation: off-circle 200ms ease 0ms 1 forwards;
+    }
+}

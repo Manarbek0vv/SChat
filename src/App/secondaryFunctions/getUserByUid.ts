@@ -11,9 +11,13 @@ export const getUserByUid = async (props: getUserByUidProps): Promise<UserState>
     return new Promise(async (resolve, reject) => {
         try {
             const user = (await getDoc(doc(firestore, 'users', props.uid))).data() as UserState
-            if (user.avatar) {
-                user.avatar = await getDownloadURL(ref(storage, user.avatar))
-            }
+
+            const avatarUrl = user.avatar && await getDownloadURL(ref(storage, user.avatar))
+            const backgroundImageUrl = user.backgroundImage && await getDownloadURL(ref(storage, user.backgroundImage))
+
+            user.avatar = avatarUrl
+            user.backgroundImage = backgroundImageUrl
+            
             resolve(user)
         } catch (error: any) {
             reject(error.message)

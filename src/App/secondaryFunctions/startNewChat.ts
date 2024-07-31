@@ -2,7 +2,7 @@ import { NavigateFunction } from "react-router-dom";
 import { UserState } from "../store/reducers/userSlice"
 import { SendChatType } from "../components/types/chat";
 import { Dispatch, SetStateAction } from "react";
-import { arrayUnion, doc, setDoc, updateDoc } from "firebase/firestore";
+import { arrayUnion, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { firestore } from "../../main";
 
 type StartNewChatProps = {
@@ -15,6 +15,13 @@ type StartNewChatProps = {
 export const startNewChat = async (props: StartNewChatProps) => {
     try {
         const newChatID = [props.myUser.uid, props.user.uid].sort().join('')
+
+        const isChatHave = await getDoc(doc(firestore, 'chats', newChatID))
+
+        if (isChatHave.data()) {
+            props.navigate(`/chats/${newChatID}`)
+            return
+        }
 
         const newChat: SendChatType = {
             users: [props.myUser.uid, props.user.uid],

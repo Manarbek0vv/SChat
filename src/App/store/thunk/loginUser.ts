@@ -24,6 +24,7 @@ export const loginUser = createAsyncThunk(
             // Получение аватарки пользователя из storage
 
             const avatarUrl = responseUser.avatar && await getDownloadURL(ref(storage, responseUser.avatar))
+            const backgroundImageUrl = responseUser.backgroundImage && await getDownloadURL(ref(storage, responseUser.backgroundImage))
 
             // -------------------------------------------
 
@@ -38,7 +39,13 @@ export const loginUser = createAsyncThunk(
                 friendRequests: responseUser.friendRequests,
                 friendRequestsSend: responseUser.friendRequestsSend,
                 friends: responseUser.friends,
-                chats: responseUser.chats
+                chats: responseUser.chats,
+                backgroundImage: backgroundImageUrl,
+                gender: responseUser.gender,
+                birthday: responseUser.birthday,
+                isEmailVisible: responseUser.isEmailVisible,
+                isClosedAccount: responseUser.isClosedAccount,
+                blackList: responseUser.blackList
             }
             localStorage.setItem('current-user', userCredential.user.uid)
             return newUser

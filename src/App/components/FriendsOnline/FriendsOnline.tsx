@@ -5,6 +5,7 @@ import { UserState } from "../../store/reducers/userSlice";
 import { LuMessageCircle } from "react-icons/lu";
 import { getFriends } from "../../secondaryFunctions/getFriends";
 import Loader from "../../UI/Loader/Loader";
+import { useNavigate } from "react-router-dom";
 
 type FriendsOnlineType = {
     friends: UserState[];
@@ -15,8 +16,9 @@ type FriendsOnlineType = {
 
 const FriendsOnline: FC<FriendsOnlineType> = ({ friends, setFriends }) => {
     const { user } = useAppSelector(value => value.user)
+    const navigate = useNavigate()
 
-    const [ loading, setLoading ] = useState(false)
+    const [loading, setLoading] = useState(false)
 
     useEffect(() => {
         if (!user?.friends) return
@@ -31,7 +33,7 @@ const FriendsOnline: FC<FriendsOnlineType> = ({ friends, setFriends }) => {
 
     return (
         <div className={classes.container}>
-            {loading && <div className={classes.loader}><Loader styles={{width: '50px', BsBorderWidth: '2px'}} /></div>}
+            {loading && <div className={classes.loader}><Loader styles={{ width: '50px', BsBorderWidth: '2px' }} /></div>}
 
             {!loading && !friends.length && (
                 <h1 className={classes.notfound}>No friends found</h1>
@@ -41,9 +43,15 @@ const FriendsOnline: FC<FriendsOnlineType> = ({ friends, setFriends }) => {
                 return (
                     <div key={friend.uid} className={classes.friend}>
                         <div className={classes.first}>
-                            <div className={classes.icon}><img src={friend.avatar as string} className={classes.avatar} /></div>
+                            <div className={classes.icon}
+                                onClick={() => navigate(`/${friend.uid}`)}>
+                                {friend.avatar && <img src={friend.avatar as string} className={classes.avatar} />}
+                            </div>
                             <div className={classes.info}>
-                                <h1 className={classes.username}>{friend.username}</h1>
+                                <h1 className={classes.username} 
+                                onClick={() => navigate(`/${friend.uid}`)}>
+                                    {friend.username}
+                                </h1>
                                 <h2 className={classes.email}>{friend.email}</h2>
                             </div>
                         </div>

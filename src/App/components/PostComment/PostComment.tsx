@@ -20,21 +20,18 @@ import { PostsContext } from "../AllPosts/AllPosts";
 type PostCommentType = {
     comment: UsePostCommentType;
     post: UsePostType;
+    currentCommentID: string | null;
+    changeCurrentCommentID: (id: string) => void
 }
 
-const PostComment: FC<PostCommentType> = ({ comment, post }) => {
+const PostComment: FC<PostCommentType> = ({ comment, post, currentCommentID, changeCurrentCommentID }) => {
     const { user } = useAppSelector(value => value.user)
     const Context = useContext(PostsContext)
     const navigate = useNavigate()
 
     const [error, setError] = useState<string | null>(null)
 
-    const [isMoreOptionsView, setIsMoreOptionsView] = useState(false)
-    const moreOptionsRef = useRef<HTMLDivElement | null>(null)
-
     const deleteCommentHandler = () => {
-        setIsMoreOptionsView(false)
-
         if (!Context) return
         const deletedComment: SendPostCommentType = { ...comment, author: comment.author.uid }
         deleteComment({ post, setError, user: user as UserState, deletedComment, posts: Context.posts, setPosts: Context.setPosts })
@@ -68,8 +65,8 @@ const PostComment: FC<PostCommentType> = ({ comment, post }) => {
             {error && <ModalAlert setError={setError}>{error}</ModalAlert>}
 
             <div onClick={() => {
-                if (user?.uid !== post.author.uid) {
-                    navigate(`/${post.author.uid}`)
+                if (user?.uid !== comment.author.uid) {
+                    navigate(`/${comment.author.uid}`)
                 }
             }} className={classes.avatar}>
                 {comment.author.avatar && <img src={comment.author.avatar} alt="" className={classes.inner} />}
@@ -78,8 +75,8 @@ const PostComment: FC<PostCommentType> = ({ comment, post }) => {
             <div className={classes.content}>
                 <div className={classes.first}>
                     <p onClick={() => {
-                        if (user?.uid !== post.author.uid) {
-                            navigate(`/${post.author.uid}`)
+                        if (user?.uid !== comment.author.uid) {
+                            navigate(`/${comment.author.uid}`)
                         }
                     }} className={classes.username}>{comment.author.username}</p>
                     <p className={classes.createdAt}>{convertTimestampToString(Date.now() - comment.createdAt)}</p>
@@ -118,19 +115,14 @@ const PostComment: FC<PostCommentType> = ({ comment, post }) => {
 
             <div className={classes['more-wrapper']}>
                 <MdOutlineMoreHoriz className={classes.more}
-                    onClick={() => {
-                        if (!isMoreOptionsView) {
-                            setIsMoreOptionsView(true)
-                        } else {
-                            if (moreOptionsRef.current) {
-                                moreOptionsRef.current.classList.add(classes['more-options-disable'])
-                            }
-                            setTimeout(() => setIsMoreOptionsView(false), 300)
-                        }
+                    onClick={(e: React.MouseEvent<SVGElement>) => {
+                        e.stopPropagation()
+
+                        changeCurrentCommentID(String(comment.createdAt))
                     }} />
 
-                {isMoreOptionsView && (
-                    <div ref={moreOptionsRef} className={classes['more-options']}>
+                {currentCommentID === String(comment.createdAt) && (
+                    <div className={classes['more-options']}>
                         {comment.author.uid === user?.uid && (
                             <div className={classes.option} onClick={deleteCommentHandler}>
                                 <MdDeleteOutline /> Delete comment

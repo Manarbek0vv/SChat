@@ -3,8 +3,6 @@ import { createUser } from "../thunk/createUser";
 import { loginUser } from "../thunk/loginUser";
 import { loginWithStorage } from "../thunk/loginWithStorage";
 import { PhotoType, addPhoto } from "../thunk/addPhoto";
-import { updateAvatar } from "../thunk/updateAvatar";
-import { deleteAvatar } from "../thunk/deleteAvatar";
 import { addNewPost } from "../thunk/addNewPost";
 import { exitFromAccount } from "../thunk/exitFromAccount";
 import { deletePost } from "../thunk/deletePost";
@@ -24,14 +22,18 @@ export type UserState = {
     state?: string;
     lastChanges?: number;
     photos: PhotoType[];
-    birthday?: Date;
-    gender?: 'Male' | 'Female';
+    birthday: number | null;
+    gender: 'Male' | 'Female' | null;
     registered: number;
     avatar: string | null;
     posts: string[];
     friendRequests: string[];
     friendRequestsSend: string[];
     chats: string[];
+    backgroundImage: string | null;
+    isEmailVisible: boolean;
+    isClosedAccount: boolean;
+    blackList: string[];
 }
 
 export enum PostsTypeEnum {
@@ -79,12 +81,6 @@ export const userSlice = createSlice({
         })
         builder.addCase(addPhoto.fulfilled, (state, action: PayloadAction<PhotoType | undefined>) => {
             if (action.payload) state.user?.photos.push(action.payload)
-        })
-        builder.addCase(updateAvatar.fulfilled, (state, action: PayloadAction<string | undefined>) => {
-            if (action.payload) (state.user as UserState).avatar = action.payload
-        })
-        builder.addCase(deleteAvatar.fulfilled, (state) => {
-            (state.user as UserState).avatar = null
         })
         builder.addCase(addNewPost.fulfilled, (state, action: PayloadAction<string | undefined>) => {
             if (action.payload) state.user?.posts.push(action.payload)

@@ -19,25 +19,28 @@ const AddCommentToPost: FC<AddCommentToPostProps> = ({ post }) => {
     const [error, setError] = useState<string | null>(null)
 
     const [commentValue, setCommentValue] = useState('')
-    const textareaRef = useRef<HTMLTextAreaElement | null>(null)
+    const inputRef = useRef<HTMLInputElement | null>(null)
 
-    const onInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const onInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         setCommentValue(e.target.value)
-        if (textareaRef.current) {
-            textareaRef.current.style.height = 'auto'
-            textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`
+        if (inputRef.current) {
+            inputRef.current.style.height = 'auto'
+            inputRef.current.style.height = `${inputRef.current.scrollHeight}px`
         }
     }
 
-    const onEnterDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    const onEnterDown = async (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.code === 'Enter') {
             addCommentHandler()
+            setCommentValue('')
         }
     }
 
     const addCommentHandler = () => {
         if (!user || !Context) return
         if (!commentValue.length) { setError('Write something'); return }
+
+        setCommentValue('')
 
         const sendComment: SendPostCommentType = {
             description: commentValue,
@@ -62,8 +65,6 @@ const AddCommentToPost: FC<AddCommentToPostProps> = ({ post }) => {
         }
 
         addComment({ post, setError, user: user as UserState, sendComment, saveComment, posts: Context.posts, setPosts: Context.setPosts })
-
-        setCommentValue('')
     }
     
     return (
@@ -73,8 +74,8 @@ const AddCommentToPost: FC<AddCommentToPostProps> = ({ post }) => {
                 {user?.avatar && <img src={user.avatar} alt="" className={classes.inner} />}
             </div>
 
-            <div className={classes['textarea-wrapper']}>
-                <textarea onKeyDown={onEnterDown} value={commentValue} onInput={onInput} ref={textareaRef} className={classes.textarea} placeholder="Write a comment..."></textarea>
+            <div className={classes['input-wrapper']}>
+                <input onKeyDown={onEnterDown} value={commentValue} onInput={onInput} ref={inputRef} className={classes.input} placeholder="Write a comment..." />
             </div>
 
             <RiSendPlaneFill className={classes.send} onClick={addCommentHandler} />

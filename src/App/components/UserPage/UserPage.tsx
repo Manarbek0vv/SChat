@@ -9,12 +9,14 @@ import UserPosts from '../UserPosts/UserPosts'
 import AllPosts from "../AllPosts/AllPosts";
 import { fetchUserPosts } from "../../store/thunk/fetchUserPosts";
 import FullScreenLoader from "../../UI/FullScreenLoader/FullScreenLoader";
+import { useAppSelector } from "../../hooks/redux";
 
 type UserParams = {
     uid: string;
 }
 
 const UserPage: FC = () => {
+    const { user: myUser } = useAppSelector(value => value.user)
     const { uid } = useParams<UserParams>()
     const [user, setUser] = useState<UserState | null>(null)
     const [ loading, setLoading ] = useState(false)
@@ -42,7 +44,7 @@ const UserPage: FC = () => {
                     <UserPageHeader user={user} />
                     <UserPageInfo user={user} />
                     <UserPosts />
-                    <AllPosts callback={() => fetchUserPosts(user)} />
+                    <AllPosts callback={() => fetchUserPosts({ user, myUser: myUser as UserState })} />
                 </>
             )}
         </div>

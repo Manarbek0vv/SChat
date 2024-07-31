@@ -12,20 +12,9 @@ export const listenMyUser = createAsyncThunk(
     async (props: ListenMyUserProps, thunkApi) => {
         try {
             const avatarUrl = props.response.avatar && await getDownloadURL(ref(storage, props.response.avatar))
+            const backgroundImageUrl = props.response.backgroundImage && await getDownloadURL(ref(storage, props.response.backgroundImage))
 
-            const newUser: UserState = {
-                email: props.response.email,
-                uid: props.response.uid,
-                username: props.response.username,
-                registered: props.response.registered,
-                photos: props.response.photos,
-                avatar: avatarUrl,
-                posts: props.response.posts,
-                friendRequests: props.response.friendRequests,
-                friendRequestsSend: props.response.friendRequestsSend,
-                friends: props.response.friends,
-                chats: props.response.chats
-            }
+            const newUser: UserState = {...props.response, avatar: avatarUrl, backgroundImage: backgroundImageUrl}
             return newUser
         } catch (error: any) {
             thunkApi.rejectWithValue(error.message)

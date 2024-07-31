@@ -1,0 +1,139 @@
+@import '../../App.global.scss';
+
+.container {
+    width: 100%;
+    overflow: hidden;
+    min-height: 450px;
+    max-height: 100%;
+    background-color: $content-background;
+    border-radius: 15px;
+    border: 1px solid $dark-border;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px 25px 0;
+}
+
+.head {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    align-items: center;
+
+    .title {
+        display: flex;
+        gap: 7px;
+        color: $smoke-color-for-font;
+        font-size: 18px;
+
+        span {
+            color: gray;
+        }
+    }
+
+    .button {
+        display: flex;
+        align-items: center;
+        border: none;
+        border-radius: 7px;
+        padding: 3px 15px;
+        font-size: 16px;
+        font-weight: 500;
+        color: black;
+        background-color: $smoke-color-for-font;
+        white-space: nowrap;
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
+}
+
+.hr {
+    width: 100%;
+    border: none;
+    color: $dark-border;
+    background-color: $dark-border;
+    height: 0.5px;
+}
+
+.label {
+    width: 100%;
+    background-color: transparent;
+    height: 40px;
+    border-radius: 8px;
+    border: 1px solid $dark-border;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+
+    .input {
+        height: 100%;
+        background-color: transparent;
+        outline: none;
+        border: none;
+        color: white;
+        font-size: 16px;
+        width: 90%;
+        padding: 5px 15px;
+    }
+
+    .glass-wrapper {
+        width: 10%;
+        background-color: rgba(255, 255, 255, 0.1);
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .glass {
+            font-size: 20px;
+            color: $gray-color-for-font;
+            border: 1px solid $dark-border;
+        }
+    }
+}
+
+.user-list {
+    padding: 0 25px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    height: 100%;
+    max-height: 100%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+        width: 0;
+        height: 0;
+    }
+}
+
+.loader {
+    flex-grow: 5;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.empty {
+    width: 100%;
+    height: 100%;
+    flex-grow: 1;
+    @include center-flex;
+    color: $gray-color-for-font;
+    font-size: 18px;
+    white-space: nowrap;
+    padding-bottom: 50px;
+}

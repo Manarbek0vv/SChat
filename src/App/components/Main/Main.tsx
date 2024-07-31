@@ -24,11 +24,16 @@ const Main: FC = () => {
 
         onSnapshot(doc(firestore, 'users', user?.uid as UserState['uid']), (response) => {
             dispatch(listenMyUser({ response: response.data() as UserState }))
+            console.log('updated')
         })
 
         window.addEventListener("unload", () => {
             updateDoc(userRef, { state: 'offline', lastChanges: Date.now() })
         })
+
+        return () => {
+            updateDoc(userRef, { state: 'offline', lastChanges: Date.now() })
+        }
     }, [])
 
 
@@ -36,7 +41,7 @@ const Main: FC = () => {
         <div className={classes.wrapper}>
             <div className={classes.container}>
                 <Routes>
-                    <Route path="/*" element={<MainRoutesWrapper/>} />
+                    <Route path="/*" element={<MainRoutesWrapper />} />
                     <Route path="chats/*" element={<Chats />} />
                 </Routes>
             </div>

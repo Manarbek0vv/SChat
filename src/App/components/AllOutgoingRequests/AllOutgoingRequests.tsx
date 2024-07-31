@@ -6,14 +6,16 @@ import Loader from "../../UI/Loader/Loader";
 import ModalAlert from "../../UI/ModalAlert/ModalAlert";
 import { cancelRequest } from "../../store/thunk/cancelRequest";
 import { getOutgoingRequests } from "../../secondaryFunctions/getOutgoingRequests";
+import { useNavigate } from "react-router-dom";
 
 const AllOutgoingRequests: FC = () => {
     const { user: myUser } = useAppSelector(value => value.user)
     const disaptch = useAppDispatch()
+    const navigate = useNavigate()
 
     const [friends, setFriends] = useState<UserState[]>([])
     const [loading, setLoading] = useState(false)
-    const [ error, setError ] = useState<string | null>(null)
+    const [error, setError] = useState<string | null>(null)
 
     useEffect(() => {
         if (!myUser) return
@@ -41,19 +43,27 @@ const AllOutgoingRequests: FC = () => {
                 return (
                     <div key={friend.uid} className={classes.friend}>
                         <div className={classes.first}>
-                            <div className={classes.icon}>
+                            <div className={classes.icon}
+                                onClick={() => navigate(`/${friend.uid}`)}>
                                 {friend.avatar && <img src={friend.avatar as string} className={classes.avatar} />}
                             </div>
                             <div className={classes.info}>
-                                <h1 className={classes.username}>{friend.username}</h1>
-                                <h2 className={classes.email}>{friend.email}</h2>
+                                <h1 className={classes.username}
+                                    onClick={() => navigate(`/${friend.uid}`)}>
+                                    {friend.username}
+                                </h1>
+                                {
+                                    friend.isEmailVisible && (
+                                        <h2 className={classes.email}>{friend.email}</h2>
+                                    )
+                                }
                             </div>
                         </div>
                         <div className={classes.buttons}>
-                            <button className={classes.button} 
-                            onClick={() => {
-                                disaptch(cancelRequest({ myUser: myUser as UserState, setError, user: friend }))
-                            }}>
+                            <button className={classes.button}
+                                onClick={() => {
+                                    disaptch(cancelRequest({ myUser: myUser as UserState, setError, user: friend }))
+                                }}>
                                 Cancel request
                             </button>
                         </div>
