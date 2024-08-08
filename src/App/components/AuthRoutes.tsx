@@ -16,18 +16,21 @@ const AuthRoutes: FC = () => {
         const fromStorage = localStorage.getItem('current-user')
 
         if (!fromStorage) return
-
+        console.log('before setloading')
         setLoading(true)
         getUserByUid({ uid: fromStorage })
             .then((user) => {
                 if (user) {
+                    console.log('fdsfsdg')
                     dispatch(loginWithStorage({ uid: fromStorage, setLoading }))
                     navigate('/')
                 } else {
+                    console.log('else')
                     localStorage.removeItem('current-user')
                     setLoading(false)
                 }
             })
+            .finally(() => setLoading(false))
 
     }, [])
 
