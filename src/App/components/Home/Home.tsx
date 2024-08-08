@@ -10,9 +10,9 @@ type PostFilterType = {
 }
 
 const POST_FILTER: PostFilterType[] = [
-    { path: 'latest', value: 'Latest'},
+    { path: 'latest', value: 'Latest' },
     { path: '', value: 'Recommendations' },
-    { path: 'friend-posts', value: 'Friends'}
+    { path: 'friend-posts', value: 'Friends' }
 ]
 
 const Home: FC = () => {
@@ -23,7 +23,7 @@ const Home: FC = () => {
             <nav className={classes.nav}>
                 {POST_FILTER.map(currentFilter => {
                     return <Link key={currentFilter.path}
-                        className={`${classes.link} ${filter.path === currentFilter.path ? classes['active-link'] : ''}`} 
+                        className={`${classes.link} ${filter.path === currentFilter.path ? classes['active-link'] : ''}`}
                         to={currentFilter.path}
                         onClick={() => {
                             if (filter.path === currentFilter.path) return
@@ -35,19 +35,17 @@ const Home: FC = () => {
                 })}
             </nav>
 
-            <div className={classes.container}>
-                {/* {!loading && myPosts.map(post => {
+            {/* {!loading && myPosts.map(post => {
                     return (
                         <PostItem key={post.id} post={post} />
                     )
                 })} */}
 
-                <Routes>
-                    <Route path="latest" element={<AllLatestPosts />} />
-                    <Route path="" element={<AllRecommendedPosts />} />
-                    <Route path="friend-posts" element={<AllFriendPosts />} />
-                </Routes>
-            </div>
+            <Routes>
+                <Route path="latest" element={<AllLatestPosts />} />
+                <Route path="" element={<AllRecommendedPosts />} />
+                <Route path="friend-posts" element={<AllFriendPosts />} />
+            </Routes>
         </div>
     )
 }

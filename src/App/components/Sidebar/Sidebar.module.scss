@@ -6,6 +6,11 @@
     justify-content: space-between;
     padding: 20px 0px;
     align-items: flex-start;
+
+    @media (max-width: 850px) {
+        position: absolute;
+        z-index: 900;
+    }
 }
 
 .profile {
@@ -19,18 +24,35 @@
     background-color: $content-background;
     border-radius: 10px;
 
-    .icon {
+    @media (max-width: 850px) {
+        position: fixed;
+        top: 9.2px;
+        left: 20px;
+        z-index: 900;
+    }
+
+    @media (max-width: 500px) {
+        left: 17px;
+        top: 17px;
+        padding: 5px;
+    }
+
+    .avatar {
         width: 40px;
         height: 40px;
         background-color: rgb(69, 69, 69);
         border-radius: 50%;
         overflow: hidden;
 
-        .avatar {
+        @media (max-width: 500px) {
+            width: 35px;
+            height: 35px;
+        }
+
+        .inner {
             width: 100%;
             height: 100%;
-            object-fit: contain;
-
+            border-radius: 50%;
         }
     }
 
@@ -41,10 +63,17 @@
 
         .username {
             font-size: 12px;
+            @media (max-width: 500px) {
+                font-size: 10px;
+            }
         }
 
         .email {
             font-size: 10px;
+
+            @media (max-width: 500px) {
+                font-size: 8px;
+            }
         }
     }
 }
@@ -61,6 +90,21 @@
     flex-direction: column;
     gap: 10px;
 
+    @media (max-width: 850px) {
+        position: fixed;
+        height: 100px;
+        align-items: center;
+        bottom: 0;
+        left: auto;
+        flex-direction: row;
+        justify-content: space-around;
+        width: 100%;
+        gap: 0;
+        right: 0;
+        left: 0;
+        background-color: $dark-background;
+    }
+
     .link {
         font-size: 16px;
         display: flex;
@@ -68,12 +112,24 @@
         align-items: center;
         color: $gray-color-for-font;
         transition: color 200ms;
+        user-select: none;
+
+        @media (max-width: 850px) {
+            font-size: 13px;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
 
         .icon {
             color: rgb(0, 128, 255);
             display: flex;
             align-items: center;
             font-size: 18px;
+
+            @media (max-width: 850px) {
+                font-size: 24px;
+            }
         }
 
         &:hover {
@@ -95,6 +151,29 @@
     user-select: none;
     transition: color 200ms;
 
+    @media (max-width: 850px) {
+        position: fixed;
+        top: 16.2px;
+        right: 20px;
+        z-index: 900;
+    }
+
+    @media (max-width: 500px) {
+        width: auto;
+        right: 17px;
+        top: 17px;
+        height: 46.6px;
+        padding: 0 15px;
+        display: flex;
+        align-items: center;
+    }
+
+    .exit-text {
+        @media (max-width: 500px) {
+            display: none;
+        }
+    }
+
     &:hover {
         cursor: pointer;
         color: white;
@@ -102,5 +181,25 @@
 
     .icon {
         font-size: 24px;
+    }
+}
+
+.header-background {
+    display: none;
+
+
+    @media (max-width: 850px) {
+        display: block;
+        position: fixed;
+        background-color: $content-background;
+        top: 0px;
+        left: 0;
+        right: 0;
+        height: 80px;
+        z-index: 800;
+    }
+
+    @media (max-width: 500px) {
+        height: 70px;
     }
 }

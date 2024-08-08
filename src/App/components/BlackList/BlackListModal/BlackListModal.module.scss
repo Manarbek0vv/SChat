@@ -7,7 +7,17 @@
     right: 0;
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.7);
+    padding: 20px;
     @include center-flex;
+
+    @media (max-width: 850px) {
+        padding-top: 100px;
+        padding-bottom: 100px;
+    }
+
+    @media (max-width: 500px) {
+        padding-top: 90px;
+    }
 }
 
 .container {
@@ -95,6 +105,10 @@
         width: 0;
         height: 0;
     }
+
+    @media (max-width: 450px) {
+        padding: 15px;
+    }
 }
 
 .user {
@@ -103,18 +117,21 @@
     align-items: center;
 
     .main {
+        flex: 1 1;
         display: flex;
         gap: 12px;
         align-items: center;
+        min-width: 0;
 
         .avatar {
             width: 50px;
             height: 50px;
-            overflow: hidden;
             border-radius: 50%;
             user-select: none;
             background-color: rgb(69, 69, 69);
             border: 1px solid rgb(45, 45, 45);
+            position: relative;
+            flex: 0 0 50px;
 
             &:hover {
                 cursor: pointer;
@@ -126,6 +143,22 @@
                 border-radius: 50%;
                 user-select: none;
             }
+
+            .is-online {
+                position: absolute;
+                background-color: rgb(75, 179, 75);
+                width: 25px;
+                height: 25px;
+                border-radius: 50%;
+                border: 5px solid $content-background;
+                bottom: 14.64%;
+                right: 14.64%;
+                transform: translate(50%, 50%);
+            }
+
+            .offline {
+                background-color: gray;
+            }
         }
 
         .info {
@@ -134,12 +167,22 @@
             height: 100%;
             flex-direction: column;
             gap: 7px;
+            flex: 1 1;
+            min-width: 0;
 
             .username {
                 font-size: 12.5px;
                 font-weight: 700;
                 white-space: nowrap;
                 color: rgb(113, 170, 235);
+                max-width: 90%;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                min-width: 0;
+
+                @media (max-width: 450px) {
+                    font-size: 10.5px;
+                }
 
                 &:hover {
                     cursor: pointer;
@@ -151,6 +194,14 @@
                 font-size: 12.5px;
                 white-space: nowrap;
                 color: $gray-color-for-font;
+                max-width: 90%;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                min-width: 0;
+
+                @media (max-width: 450px) {
+                    font-size: 10.5px;
+                }
             }
         }
     }
@@ -164,6 +215,7 @@
         height: 28px;
         border-radius: 8px;
         border: none;
+        flex: 0 0 auto;
 
         &:hover {
             cursor: pointer;

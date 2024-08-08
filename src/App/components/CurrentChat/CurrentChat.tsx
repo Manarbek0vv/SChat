@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef, useState } from "react";
+import { FC, useContext, useEffect, useRef, useState } from "react";
 import classes from './CurrentChat.module.scss'
 import { useNavigate, useParams } from "react-router-dom";
 import { SendMessageType, UseAuthorType, UseChatType, UseMessageType } from "../types/chat";
@@ -10,6 +10,7 @@ import { IoSend } from "react-icons/io5";
 import { sendNewMessage } from "../../secondaryFunctions/sendNewMessage";
 import ModalAlert from "../../UI/ModalAlert/ModalAlert";
 import ChatLoading from "../ChatLoading/ChatLoading";
+import { CurrentChatVisibleContext } from "../Chats/Chats";
 
 type CurrentChatParams = {
     id: string;
@@ -23,6 +24,8 @@ const CurrentChat: FC<CurrentChatProps> = (props) => {
     const { id } = useParams<CurrentChatParams>()
     const { user: myUser } = useAppSelector(value => value.user)
     const [chat, setChat] = useState<UseChatType | null>(null)
+
+    const Context = useContext(CurrentChatVisibleContext)
 
     const navigate = useNavigate()
 
@@ -43,8 +46,17 @@ const CurrentChat: FC<CurrentChatProps> = (props) => {
         e.preventDefault()
 
         if (!myUser) return
+        if (!companion) return
         if (!chat) return
         if (!newMessageValue.length) return
+        if (myUser.blackList.includes(companion.uid)) {
+            setError("Can't write. The user is on your blacklist")
+            return
+        }
+        if (companion.blacklist.includes(myUser.uid)) {
+            setError("Can't write. You are blacklisted by this user")
+            return
+        }
 
         const sendDate = Date.now()
 
@@ -78,6 +90,8 @@ const CurrentChat: FC<CurrentChatProps> = (props) => {
         })
     }, [chat])
 
+    console.log(chat?.messages.at(-1))
+
     return (
         <>
             {error && <ModalAlert setError={setError}>{error}</ModalAlert>}
@@ -87,14 +101,19 @@ const CurrentChat: FC<CurrentChatProps> = (props) => {
             {chat && companion && (
                 <div className={classes.container}>
                     <div className={classes.header}>
-                        <SlArrowLeft className={classes.pin} onClick={() => {
+                        <SlArrowLeft className={classes.pin} 
+                        onClick={() => {
                             navigate('/chats')
+                            Context?.setIsCurrentChatVisible(false)
                         }} />
 
                         <p className={classes.username}>{companion.username}</p>
 
                         <div className={classes.avatar}>
-                            {companion.avatar && <img src={companion.avatar} alt="" className={classes.inner} />}
+                            {companion.avatar && companion.avatar.startsWith('http') ?
+                                <img src={companion.avatar} alt="" className={classes.inner} /> :
+                                <img src="/default.png" alt="" style={{ width: '100%', height: '100%', borderRadius: '50%' }} />}
+                            <div className={`${classes['is-online']} ${companion.state !== 'online' && classes.offline}`} />
                         </div>
                     </div>
 

@@ -66,12 +66,14 @@ const AddCommentToPost: FC<AddCommentToPostProps> = ({ post }) => {
 
         addComment({ post, setError, user: user as UserState, sendComment, saveComment, posts: Context.posts, setPosts: Context.setPosts })
     }
-    
+
     return (
         <div className={classes.container}>
             {error && <ModalAlert setError={setError}>{error}</ModalAlert>}
             <div className={classes.avatar}>
-                {user?.avatar && <img src={user.avatar} alt="" className={classes.inner} />}
+                {user?.avatar && user.avatar.startsWith('http') ?
+                    <img src={user.avatar} alt="" className={classes.avatar} /> :
+                    <img src="/default.png" alt="" style={{ width: '100%', height: '100%' }} />}
             </div>
 
             <div className={classes['input-wrapper']}>

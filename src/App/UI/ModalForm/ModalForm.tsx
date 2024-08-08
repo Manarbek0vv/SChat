@@ -1,7 +1,7 @@
 import { FC } from "react";
 import classes from './ModalForm.module.scss';
 import { createPortal } from "react-dom";
-import { IoClose, IoCloseSharp } from "react-icons/io5";
+import { IoClose } from "react-icons/io5";
 
 interface ModalFormProps {
     children: React.ReactNode | React.ReactChild;

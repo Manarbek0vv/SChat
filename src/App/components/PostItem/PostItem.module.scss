@@ -4,14 +4,17 @@
     0% {
         opacity: 0;
     }
+
     100% {
         opacity: 1;
     }
 }
+
 @keyframes more-options-disable {
     0% {
         opacity: 1;
     }
+
     100% {
         opacity: 0;
         visibility: hidden;
@@ -57,9 +60,10 @@
         cursor: pointer;
     }
 
-    .avatar-image {
+    .inner {
         width: 100%;
         height: 100%;
+        border-radius: 50%;
     }
 }
 
@@ -68,6 +72,7 @@
     flex-direction: column;
     height: 100%;
     justify-content: space-between;
+    padding: 3px 0;
 
     .username {
         color: white;
@@ -77,12 +82,20 @@
         &:hover {
             cursor: pointer;
         }
+
+        @media (max-width: 376px) {
+            font-size: 14px;
+        }
     }
 
     .createdAt {
         color: $gray-color-for-font;
         font-size: 12px;
         white-space: nowrap;
+
+        @media (max-width: 376px) {
+            font-size: 12px;
+        }
     }
 }
 
@@ -141,6 +154,14 @@
     color: white;
     font-size: 18px;
     white-space: pre-wrap;
+
+    @media (max-width: 650px) {
+        font-size: 15px;
+    }
+
+    @media (max-width: 376px) {
+        font-size: 14px;
+    }
 }
 
 .footer {
@@ -159,26 +180,48 @@
     gap: 7px;
     color: $gray-color-for-font;
     height: 34px;
+    font-size: 16px;
+
+    @media (max-width: 376px) {
+        font-size: 14px;
+    }
 
     &:hover {
         cursor: pointer;
     }
 }
 
+@mixin pin {
+    font-size: 18px;
+
+    @media (max-width: 376px) {
+        font-size: 16px;
+    }
+}
+
 .like {
- @include media;
+    @include media;
+    
+    .pin {
+        @include pin;
+    }
 }
 
 .dislikes {
- @include media;
+    @include media;
+    
+    .pin {
+        @include pin;
+    }
 }
 
 .comments {
- @include media;
+    @include media;
 
- .pin {
-    font-size: 18px;
- }
+    .pin {
+        @include pin;
+        font-size: 18px;
+    }
 }
 
 .pin {
@@ -191,6 +234,7 @@
         visibility: hidden;
         opacity: 0;
     }
+
     100% {
         opacity: 1;
     }
@@ -200,6 +244,7 @@
     0% {
         transform: scale(0.6);
     }
+
     100% {
         transform: scale(1);
     }
@@ -212,6 +257,7 @@
     0% {
         opacity: 1;
     }
+
     100% {
         opacity: 0;
         visibility: hidden;
@@ -223,6 +269,7 @@
     0% {
         transform: scale(1);
     }
+
     100% {
         transform: scale(0.6);
     }
@@ -263,9 +310,11 @@
         color: $gray-color-for-font;
         transform: scale(0);
     }
+
     50% {
         transform: scale(1.1);
     }
+
     100% {
         transform: scale(1);
         color: rgb(255, 62, 62);
@@ -278,9 +327,11 @@
         color: rgb(255, 62, 62);
         transform: scale(1);
     }
+
     50% {
         transform: scale(0);
     }
+
     100% {
         transform: scale(1);
         color: $gray-color-for-font;

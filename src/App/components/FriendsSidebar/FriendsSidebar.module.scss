@@ -11,6 +11,10 @@
     border-radius: 10px;
     background-color: $content-background;
     height: 150px;
+
+    @media (max-width: 751px) {
+        display: none;
+    }
 }
 
 .link {
@@ -32,4 +36,21 @@
     font-size: 20px;
     display: flex;
     align-items: center;
+}
+
+.select-wrapper {
+    position: absolute;
+    top: 120px;
+    left: 15px;
+    right: 15px;
+    display: none;
+    text-align: center;
+
+    @media (max-width: 751px) {
+        display: inline-block;
+    }
+
+    @media (max-width: 500px) {
+        top: 110px;;
+    }
 }

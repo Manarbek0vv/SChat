@@ -19,9 +19,9 @@ const Links: LinkType[] = [
 
 const FriendList: FC = () => {
     const [activeTab, setActiveTab] = useState(Links[0].path)
-    const [ searchValue, setSearchValue ] = useState('')
-    const [ friends, setFriends ] = useState<UserState[]>([])
-    const [ loading, setLoading ] = useState(false)
+    const [searchValue, setSearchValue] = useState('')
+    const [friends, setFriends] = useState<UserState[]>([])
+    const [loading, setLoading] = useState(false)
 
     const searchedFriends = useSearchedValue(friends, searchValue)
 
@@ -43,8 +43,8 @@ const FriendList: FC = () => {
                 })}
             </div>
             <label className={classes.label}>
-                <input type="text" className={classes.input} placeholder="Search for friends" value={searchValue} 
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchValue(e.target.value)} />
+                <input type="text" className={classes.input} placeholder="Search for friends" value={searchValue}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchValue(e.target.value)} />
                 <div className={classes['glass__wrapper']}>
                     <RxMagnifyingGlass className={classes.glass} />
                 </div>

@@ -5,6 +5,10 @@
     justify-content: space-between;
     width: 100%;
     gap: 15px;
+
+    @media (max-width: 700px) {
+        flex-direction: column;
+    }
 }
 
 .info {
@@ -16,6 +20,8 @@
     border: 1px solid $dark-border;
     border-radius: 10px;
     padding: 20px;
+    word-wrap: break-word;
+    min-width: 0;
 
     .title {
         font-size: 24px;
@@ -27,17 +33,34 @@
         flex-direction: column;
         gap: 8px;
         justify-content: center;
-        align-items: flex-start;
+        max-width: 100%;
+        word-wrap: break-word;
+
+        @media (max-width: 850px) {
+            padding-left: 20px;
+        }
+
+        @media (max-width: 500px) {
+            padding-left: 0;
+        }
 
         .text {
+            max-width: 100%;
             color: $gray-color-for-font;
             transition: all 200ms;
+            white-space: pre-wrap;
+            min-width: 0;
+            font-size: 16px;
+
+            @media (max-width: 376px) {
+                font-size: 14px;
+            }
         }
 
         .text:last-child {
             &:hover {
-                cursor: pointer;
                 color: white;
+                cursor: pointer;
             }
         }
     }
@@ -53,6 +76,10 @@
     background-color: $content-background;
     border: 1px solid $dark-border;
     border-radius: 10px;
+
+    @media (max-width: 700px) {
+        max-width: 100%;
+    }
 
     .title {
         color: $gray-color-for-font;

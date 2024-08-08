@@ -8,10 +8,11 @@ import Checkbox from "../../UI/Checkbox/Checkbox";
 import ModalAlert from "../../UI/ModalAlert/ModalAlert";
 import { addNewPost } from "../../store/thunk/addNewPost";
 import PostImages from "../../UI/PostImages/PostImages";
-import { SendPostType, ImageType } from "../types/post";
+import { SendPostType, ImageType, UsePostType } from "../types/post";
 
 type CreateNewPostProps = {
     setIsCreatorOpen: Dispatch<SetStateAction<boolean>>;
+    setPosts: React.Dispatch<React.SetStateAction<UsePostType[]>>;
 }
 
 const WHO_CAN_SEE_OPTIONS: OptionType[] = [
@@ -20,7 +21,7 @@ const WHO_CAN_SEE_OPTIONS: OptionType[] = [
 ]
 
 
-const CreateNewPost: FC<CreateNewPostProps> = ({ setIsCreatorOpen }) => {
+const CreateNewPost: FC<CreateNewPostProps> = ({ setIsCreatorOpen, setPosts }) => {
     const dispatch = useAppDispatch()
 
     const { user } = useAppSelector(value => value.user)
@@ -70,7 +71,10 @@ const CreateNewPost: FC<CreateNewPostProps> = ({ setIsCreatorOpen }) => {
     }
 
     useEffect(() => {
-        containerRef.current?.scrollIntoView()
+        containerRef.current?.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+        })
     }, [containerRef])
 
     const sendNewPost = () => {
@@ -79,8 +83,7 @@ const CreateNewPost: FC<CreateNewPostProps> = ({ setIsCreatorOpen }) => {
 
         const currentTimestamp = Date.now()
 
-        const newPost: SendPostType = {
-            authorUid: user.uid,
+        const commonProperties = {
             createdAt: Date.now(),
             whoCanSee: whoCanSee.value,
             comments: isHaveComments ? [] : null,
@@ -91,7 +94,19 @@ const CreateNewPost: FC<CreateNewPostProps> = ({ setIsCreatorOpen }) => {
             images
         }
 
-        dispatch(addNewPost({ newPost, setError, user }))
+        const newSendPost: SendPostType = {
+            authorUid: user.uid,
+            ...commonProperties
+        }
+
+        const newUsePost: UsePostType = {
+            author: user,
+            ...commonProperties
+        }
+
+        dispatch(addNewPost({ newPost: newSendPost, setError, user }))
+
+        setPosts(prev => [newUsePost, ...prev])
         setIsCreatorOpen(false)
     }
 
@@ -103,7 +118,9 @@ const CreateNewPost: FC<CreateNewPostProps> = ({ setIsCreatorOpen }) => {
 
             <div className={classes.first}>
                 <div className={classes.avatar}>
-                    {user?.avatar && <img src={user.avatar} alt="" className={classes.inner} />}
+                    {user?.avatar && user.avatar.startsWith('http') ?
+                        <img src={user.avatar} alt="" className={classes.avatar} /> :
+                        <img src="/default.png" alt="" style={{ width: '100%', height: '100%' }} />}
                 </div>
 
                 <div className={classes['create__content']}>
@@ -115,6 +132,7 @@ const CreateNewPost: FC<CreateNewPostProps> = ({ setIsCreatorOpen }) => {
                     <div className={classes['add__image']}>
                         <MdOutlinePhotoCameraBack className={classes.image} />
                         <input type="file" className={classes.input} onChange={onChange} />
+
                     </div>
                     <IoCloseSharp className={classes.close} onClick={() => setIsCreatorOpen(false)} />
 
@@ -133,7 +151,9 @@ const CreateNewPost: FC<CreateNewPostProps> = ({ setIsCreatorOpen }) => {
                     </label>
                 </div>
 
-                <button className={classes.send} onClick={sendNewPost}>Send</button>
+                <div className={classes['button-wrapper']}>
+                    <button className={classes.send} onClick={sendNewPost}>Send</button>
+                </div>
             </div>
         </div>
     )

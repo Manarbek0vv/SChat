@@ -35,65 +35,67 @@ const BlackList: FC = () => {
     }, [myUser])
 
     return (
-        <div className={classes.container}>
-            {error && <ModalAlert setError={setError}>{error}</ModalAlert>}
-            {isModalVisible && <BlackListModal setIsModalVisible={setIsModalVisible} />}
+        <div className={classes['scroll-wrapper']}>
+            <div className={classes.container}>
+                {error && <ModalAlert setError={setError}>{error}</ModalAlert>}
+                {isModalVisible && <BlackListModal setIsModalVisible={setIsModalVisible} />}
 
-            <div className={classes.info}>
-                <div className={classes.head}>
-                    <h1 className={classes.title}>
-                        Black list <span>{myUser?.blackList.length}</span>
-                    </h1>
+                <div className={classes.info}>
+                    <div className={classes.head}>
+                        <h1 className={classes.title}>
+                            Black list <span>{myUser?.blackList.length}</span>
+                        </h1>
 
-                    <a className={classes.button}
-                        onClick={() => setIsModalVisible(true)}>
-                        Add to black list
-                    </a>
+                        <a className={classes.button}
+                            onClick={() => setIsModalVisible(true)}>
+                            Add to black list
+                        </a>
+                    </div>
+
+                    <hr className={classes.hr} />
+
+                    <label className={classes.label}>
+                        <input type="text"
+                            className={classes.input}
+                            placeholder="Blacklist search"
+                            value={searchValue}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchValue(e.target.value)} />
+                        <div className={classes['glass-wrapper']}>
+                            <RxMagnifyingGlass className={classes.glass} />
+                        </div>
+                    </label>
                 </div>
 
                 <hr className={classes.hr} />
 
-                <label className={classes.label}>
-                    <input type="text"
-                        className={classes.input}
-                        placeholder="Blacklist search"
-                        value={searchValue}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchValue(e.target.value)} />
-                    <div className={classes['glass-wrapper']}>
-                        <RxMagnifyingGlass className={classes.glass} />
-                    </div>
-                </label>
-            </div>
-
-            <hr className={classes.hr} />
-
-            {loading && !error && (
-                <div className={classes.loader}>
-                    <Loader styles={{ width: '50px', BsBorderWidth: '2px' }} />
-                </div>
-            )}
-
-            {!loading &&
-                !error &&
-                !!filteredBlackList.length &&
-                (
-                    <div className={classes['user-list']}>
-                        {filteredBlackList.map((user, index) => {
-                            return (
-                                <React.Fragment key={user.uid}>
-                                    {index !== 0 && <hr className={classes.hr} />}
-                                    <BlackListMember user={user} />
-                                </React.Fragment>
-                            )
-                        })}
+                {loading && !error && (
+                    <div className={classes.loader}>
+                        <Loader styles={{ width: '50px', BsBorderWidth: '2px' }} />
                     </div>
                 )}
 
-            {!loading && !error && !filteredBlackList.length && (
-                <div className={classes.empty}>
-                    The list is empty
-                </div>
-            )}
+                {!loading &&
+                    !error &&
+                    !!filteredBlackList.length &&
+                    (
+                        <div className={classes['user-list']}>
+                            {filteredBlackList.map((user, index) => {
+                                return (
+                                    <React.Fragment key={user.uid}>
+                                        {index !== 0 && <hr className={classes.hr} />}
+                                        <BlackListMember user={user} />
+                                    </React.Fragment>
+                                )
+                            })}
+                        </div>
+                    )}
+
+                {!loading && !error && !filteredBlackList.length && (
+                    <div className={classes.empty}>
+                        The list is empty
+                    </div>
+                )}
+            </div>
         </div>
     )
 }

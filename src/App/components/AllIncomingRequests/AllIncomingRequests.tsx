@@ -44,9 +44,12 @@ const AllIncomingRequests: FC = () => {
                 return (
                     <div key={friend.uid} className={classes.friend}>
                         <div className={classes.first}>
-                            <div className={classes.icon}
+                            <div className={classes.avatar}
                                 onClick={() => navigate(`/${friend.uid}`)}>
-                                {friend.avatar && <img src={friend.avatar as string} className={classes.avatar} />}
+                                {friend.avatar && friend.avatar.startsWith('http') ?
+                                    <img src={friend.avatar} alt="" className={classes.inner} /> :
+                                    <img src="/default.png" alt="" style={{ width: '100%', height: '100%', borderRadius: '50%' }} />}
+                                <div className={`${classes['is-online']} ${friend.state !== 'online' && classes.offline}`} />
                             </div>
                             <div className={classes.info}>
                                 <h1 className={classes.username}

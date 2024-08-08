@@ -1,4 +1,4 @@
-import { collection, doc, getDoc, getDocs, query, where } from "firebase/firestore"
+import { collection, doc, getDoc, getDocs, limit, orderBy, query, startAfter, where } from "firebase/firestore"
 import { UserState } from "../reducers/userSlice"
 import { firestore, storage } from "../../../main"
 import { ImageType, UsePostAuthorType, UsePostCommentAuthorType, UsePostCommentType, UsePostType } from "../../components/types/post"
@@ -10,13 +10,36 @@ interface FetchUserPostsProps {
     myUser: UserState
 }
 
-export const fetchUserPosts = async (props: FetchUserPostsProps) => {
+export const fetchUserPosts = async (props: FetchUserPostsProps, offset: any, setOffset: React.Dispatch<React.SetStateAction<any>>) => {
     try {
         if (props.user.isClosedAccount && !props.user.friends.includes(props.myUser.uid)) {
             return []
         }
+        if (props.user.blackList.includes(props.myUser.uid)) return []
+        if (props.myUser.uid.includes(props.user.uid)) return []
 
-        const querySnapshot = await getDocs(query(collection(firestore, 'posts'), where("authorUid", "==", props.user.uid)))
+
+        let querySnapshot;
+
+        if (offset !== null) {
+            console.log(offset)
+            querySnapshot = await getDocs(query(collection(firestore, 'posts'),
+                orderBy('createdAt', "desc"),
+                where("authorUid", "==", props.user.uid),
+                startAfter(offset),
+                limit(10)
+            ))
+        } else {
+            console.log('without offset')
+            querySnapshot = await getDocs(query(collection(firestore, 'posts'),
+                orderBy('createdAt', "desc"),
+                where("authorUid", "==", props.user.uid),
+                limit(10)
+            ))
+        }
+
+        setOffset(querySnapshot.docs[querySnapshot.docs.length - 1])
+        
         const postsArray: UsePostType[] = []
 
         const myUser = (await getDoc(doc(firestore, 'users', props.user.uid))).data() as UserState

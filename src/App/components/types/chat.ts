@@ -18,11 +18,15 @@ export type UseAuthorType = {
     uid: string;
     avatar: string | null;
     username: string;
+    state: string;
+    blacklist: string[];
 }
+
+export type UseMessageAuthorType = Pick<UseAuthorType, 'uid' | 'avatar' | 'username'>
 
 
 export type UseMessageType = {
-    author: UseAuthorType;
+    author: UseMessageAuthorType;
     message: string;
     createdAt: number;
 }

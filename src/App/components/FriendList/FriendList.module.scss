@@ -15,6 +15,10 @@
 .links {
     display: flex;
     gap: 15px;
+
+    @media (max-width: 751px) {
+        padding-top: 50.6px;
+    }
     
     .link {
         color: $gray-color-for-font;

@@ -1,4 +1,4 @@
-import { FC, useContext, useRef, useState } from "react";
+import { FC, useContext, useState } from "react";
 import classes from './PostComment.module.scss'
 import { BiSolidDislike } from "react-icons/bi";
 import { BiDislike } from "react-icons/bi";
@@ -69,7 +69,9 @@ const PostComment: FC<PostCommentType> = ({ comment, post, currentCommentID, cha
                     navigate(`/${comment.author.uid}`)
                 }
             }} className={classes.avatar}>
-                {comment.author.avatar && <img src={comment.author.avatar} alt="" className={classes.inner} />}
+                {comment.author.avatar && comment.author.avatar.startsWith('http') ?
+                    <img src={comment.author.avatar} alt="" className={classes.inner} /> :
+                    <img src="/default.png" alt="" style={{ width: '100%', height: '100%' }} />}
             </div>
 
             <div className={classes.content}>

@@ -6,4 +6,28 @@
     align-items: flex-start;
     gap: 20px;
     height: 100%;
+    overflow: hidden;
+
+    @media (max-width: 901px) {
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+
+    @media (max-width: 850px) {
+        padding-top: 100px;
+        padding-bottom: 80px;
+    }
+
+    @media (max-width: 500px) {
+        padding-top: 90px;
+    }
+}
+
+.solid-wrapper {
+    width: 100%;
+    display: none;
+
+    @media (max-width: 901px) {
+        display: block;
+    }
 }

@@ -12,6 +12,7 @@
     border: 1px solid $dark-border;
     border-radius: 10px;
     justify-content: space-between;
+    white-space: nowrap;
 
     .pin {
         font-size: 24px;
@@ -31,7 +32,7 @@
     background-color: rgb(35, 35, 35);
     border: 1px solid $dark-border;
     position: absolute;
-    left: 0;
+    left: -1px;
     right: 0;
     width: 100%;
     z-index: 1000;
@@ -39,6 +40,8 @@
     border: 1px solid $dark-border;
     border-top: none;
     overflow: hidden;
+    box-sizing: content-box;
+    overflow-x: hidden;
 
     @mixin option {
         width: 100%;

@@ -9,6 +9,10 @@
     padding: 10px 20px;
     border-radius: 15px;
     gap: 10px;
+
+    @media (max-width: 451px) {
+        padding: 10px;
+    }
 }
 
 .first {
@@ -19,7 +23,8 @@
     gap: 10px;
 
     .avatar {
-        max-width: 40px;
+        flex: 0;
+        flex-basis: 40px;
         height: 40px;
         border-radius: 50%;
         background-color: rgb(69, 69, 69);
@@ -28,7 +33,6 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        width: 100%;
 
         .inner {
             width: 100%;
@@ -41,6 +45,7 @@
         display: flex;
         flex-direction: column;
         gap: 20px;
+        flex: 1;
 
         .textarea {
             border: none;
@@ -57,11 +62,11 @@
     }
 
     .buttons {
+        flex: 0;
         display: flex;
-        gap: 10px;
+        gap: 15px;
         font-size: 24px;
         padding-top: 6px;
-        max-width: 58px;
         width: 100%;
         align-items: center;
 
@@ -69,6 +74,7 @@
             position: relative;
             display: flex;
             align-items: center;
+            overflow: hidden;
 
             
             &:hover .image {
@@ -81,6 +87,8 @@
             }
 
             .input {
+                max-width: 100%;
+                max-height: 100%;
                 position: absolute;
                 left: 0;
                 right: 0;
@@ -93,6 +101,7 @@
         .close {
             color: $gray-color-for-font;
             transition: all 200ms;
+            font-size: 28px;
             
 
             &:hover {
@@ -107,9 +116,38 @@
     justify-content: space-between;
     align-items: center;
 
+    @media (max-width: 551px) {
+        flex-direction: column;
+        gap: 10px
+    }
+
+    @media (max-width: 451px) {
+        gap: 15px;
+    }
+
     .options {
         display: flex;
         gap: 15px;
+        
+
+        @media (max-width: 551px) {
+            width: 100%;
+        }
+
+        @media (max-width: 451px) {
+            flex-direction: column;
+            gap: 8px;
+            align-items: flex-start;
+            padding-left: 10px;
+        }
+    }
+
+    .button-wrapper {
+        align-self: flex-end;
+
+        @media (max-width: 451px) {
+            align-self: center;
+        }
     }
 
     .comment {
@@ -118,6 +156,7 @@
         color: $gray-color-for-font;
         gap: 10px;
         user-select: none;
+        white-space: nowrap;
     }
 
     .send {
@@ -128,6 +167,7 @@
         border: none;
         border-radius: 5px;
         transition: all 200ms;
+        white-space: nowrap;
 
         &:hover {
             cursor: pointer;

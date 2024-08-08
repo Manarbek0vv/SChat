@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 import classes from './Switch.module.scss';
 
 interface SwitchProps {

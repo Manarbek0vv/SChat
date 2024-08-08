@@ -14,6 +14,15 @@ type StartNewChatProps = {
 
 export const startNewChat = async (props: StartNewChatProps) => {
     try {
+        if (props.myUser.blackList.includes(props.user.uid)) {
+            props.setError("Can't write. The user is on your blacklist")
+            return
+        }
+        if (props.user.blackList.includes(props.myUser.uid)) {
+            props.setError("Can't write. You are blacklisted by this user")
+            return
+        }
+
         const newChatID = [props.myUser.uid, props.user.uid].sort().join('')
 
         const isChatHave = await getDoc(doc(firestore, 'chats', newChatID))

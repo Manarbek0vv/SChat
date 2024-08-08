@@ -11,6 +11,10 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
 
+    @media (max-width: 850px) {
+        padding-bottom: 80px;
+    }
+
     &::-webkit-scrollbar {
         width: 0;
         height: 0;
@@ -262,6 +266,8 @@
                 }
 
                 &:hover {
+                    cursor: pointer;
+
                     .popup {
                         visibility: visible;
                         opacity: 1;
@@ -277,6 +283,10 @@
             align-items: center;
             padding: 0 20px;
             position: relative;
+
+            @media (max-width: 401px) {
+                padding: 0 10px;
+            }
 
             .username-title {
                 color: $gray-color-for-font;
@@ -327,6 +337,10 @@
     background-color: $content-background;
     border-radius: 15px;
     border: 1px solid $dark-border;
+    
+    @media (max-width: 376px) {
+        align-items: center;
+    }
 
     .email {
         justify-content: flex-end;
@@ -336,6 +350,10 @@
         color: $gray-color-for-font;
         align-items: center;
         padding-right: 80px;
+
+        @media (max-width: 376px) {
+            padding-right: 20px;
+        }
     }
 
     .birthday {
@@ -346,6 +364,10 @@
         color: $gray-color-for-font;
         align-items: center;
         padding-right: 80px;
+
+        @media (max-width: 376px) {
+            padding-right: 20px;
+        }
 
         .date-label {
             height: 35.6px;
@@ -375,8 +397,10 @@
                 }
 
                 &::-webkit-calendar-picker-indicator {
-                    background-color: rgb(35, 35, 35);
-                    color: $gray-color-for-font;
+                    // background-color: rgb(35, 35, 35);
+                    // color: $gray-color-for-font;
+                    background-color: transparent;
+                    color: transparent;
                 }
 
                 &:active {
@@ -396,6 +420,7 @@
                 justify-content: flex-end;
                 padding: 0px 12px;
                 align-items: center;
+                overflow: hidden;
 
                 .reset-date {
                     font-size: 18px;
@@ -417,6 +442,10 @@
         color: $gray-color-for-font;
         align-items: center;
         padding-right: 80px;
+
+        @media (max-width: 376px) {
+            padding-right: 20px;
+        }
     }
 
     .hr {
@@ -477,6 +506,7 @@
         width: 210px;
         font-size: 13px;
         padding: 5px 5px;
+        border-radius: 0;
         transition: box-shadow 200ms;
 
         &::placeholder {

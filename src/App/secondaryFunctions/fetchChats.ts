@@ -20,7 +20,9 @@ export const fetchChats = async (props: fetchChatsProps) => {
         const me: UseAuthorType = {
             uid: props.myUser.uid,
             avatar: myAvatarUrl,
-            username: props.myUser.username
+            username: props.myUser.username,
+            state: props.myUser.state,
+            blacklist: props.myUser.blackList
         }
 
         for (let chatID of props.chats) {
@@ -37,7 +39,9 @@ export const fetchChats = async (props: fetchChatsProps) => {
             const companion: UseAuthorType = {
                 uid: data.uid,
                 avatar: companionAvatarUrl,
-                username: data.username
+                username: data.username,
+                state: data.state,
+                blacklist: data.blackList
             }
 
             // ---------------------------------

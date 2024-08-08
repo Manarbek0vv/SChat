@@ -26,7 +26,7 @@ const AuthRoutes: FC = () => {
             {loading && <FullScreenLoader />}
 
             <Routes>
-                <Route path="/" element={<Navigate to="/register" replace />} />
+                <Route path="*" element={<Navigate to="/register" replace />} />
                 <Route path="/register" element={<Registration />} />
                 <Route path="/login" element={<Login />} />
             </Routes>

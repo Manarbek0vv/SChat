@@ -8,9 +8,10 @@ import { getFriends } from "../../../secondaryFunctions/getFriends";
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import Loader from "../../../UI/Loader/Loader";
 import { useNavigate } from "react-router-dom";
-import { useSearchedValue } from "../../../secondaryFunctions/useSearchedValue";
 import { addToBlackList } from "../../../store/thunk/addToBlackList";
 import ModalAlert from "../../../UI/ModalAlert/ModalAlert";
+import { useDelay } from "../../../hooks/useDelay";
+import { getUserByUid } from "../../../secondaryFunctions/getUserByUid";
 
 interface BlackListModalProps {
     setIsModalVisible: React.Dispatch<React.SetStateAction<boolean>>
@@ -30,7 +31,34 @@ const BlackListModal: FC<BlackListModalProps> = ({
     const [searchValue, setSearchValue] = useState('')
     const [loading, setLoading] = useState(false)
 
-    const filteredFriends = useSearchedValue(friends, searchValue)
+    const [currentUser, setCurrentUser] = useState<UserState[]>([])
+    const { isAllowed, onStateChange } = useDelay({ seconds: 2000 })
+
+    const fetchUserByUid = () => {
+        const isUserUid = searchValue.split('/').at(-1)
+        if (isUserUid?.length === 28) {
+            setLoading(true)
+            getUserByUid({ uid: isUserUid })
+                .then((responseUser) => {
+                    setCurrentUser([responseUser])
+                    setLoading(false)
+                })
+                .catch(() => setLoading(false))
+        }
+    }
+
+    const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchValue(e.target.value)
+        onStateChange()
+    }
+
+    useEffect(() => {
+        if (!!searchValue.length && isAllowed) {
+            fetchUserByUid()
+        } else {
+            setCurrentUser([])
+        }
+    }, [isAllowed])
 
     useEffect(() => {
         setLoading(true)
@@ -78,9 +106,7 @@ const BlackListModal: FC<BlackListModalProps> = ({
 
                     <input type="text" className={classes.input}
                         value={searchValue}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                            setSearchValue(e.target.value)
-                        }}
+                        onChange={onChangeHandler}
                         placeholder="Enter a link to the user's page" />
 
                     {!!searchValue && <IoCloseSharp className={classes.reset}
@@ -97,13 +123,22 @@ const BlackListModal: FC<BlackListModalProps> = ({
 
                 {!loading && (
                     <div className={classes.users}>
-                        {!loading && !filteredFriends.length && (
+                        {!loading && !!searchValue.length && !currentUser.length && (
+                            <div className={classes.empty}>
+                                No user found
+                            </div>
+                        )}
+
+                        {!loading && !friends.length && !searchValue.length && (
                             <div className={classes.empty}>
                                 No friends found
                             </div>
                         )}
 
-                        {filteredFriends.map((user) => {
+                        {(!!searchValue.length ?
+                            currentUser :
+                            friends
+                        ).map((user) => {
                             return (
                                 <div key={user.uid} className={classes.user}>
                                     <div className={classes.main}>
@@ -111,12 +146,10 @@ const BlackListModal: FC<BlackListModalProps> = ({
                                             onClick={() => {
                                                 navigateToUserProfile(user.uid)
                                             }}>
-                                            {user.avatar &&
-                                                <img
-                                                    src={user.avatar}
-                                                    alt=""
-                                                    className={classes.inner} />
-                                            }
+                                            {user.avatar && user.avatar.startsWith('http') ?
+                                                <img src={user.avatar} alt="" className={classes.inner} /> :
+                                                <img src="/default.png" alt="" style={{ width: '100%', height: '100%', borderRadius: '50%' }} />}
+                                            <div className={`${classes['is-online']} ${user?.state !== 'online' && classes.offline}`} />
                                         </div>
 
                                         <div className={classes.info}>

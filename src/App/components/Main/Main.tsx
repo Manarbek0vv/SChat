@@ -24,11 +24,18 @@ const Main: FC = () => {
 
         onSnapshot(doc(firestore, 'users', user?.uid as UserState['uid']), (response) => {
             dispatch(listenMyUser({ response: response.data() as UserState }))
-            console.log('updated')
         })
 
-        window.addEventListener("unload", () => {
+        window.addEventListener("beforeunload", () => {
             updateDoc(userRef, { state: 'offline', lastChanges: Date.now() })
+        })
+
+        window.addEventListener("visibilitychange", () => {
+            if (document.hidden) {
+                updateDoc(userRef, { state: 'offline', lastChanges: Date.now() })
+            } else {
+                updateDoc(userRef, { state: 'online', lastChanges: Date.now() })
+            }
         })
 
         return () => {

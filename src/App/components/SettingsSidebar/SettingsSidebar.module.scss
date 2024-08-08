@@ -11,6 +11,10 @@
     background-color: $content-background;
     border-radius: 10px;
     height: 180px;
+
+    @media (max-width: 901px) {
+        display: none;
+    }
 }
 
 .link {

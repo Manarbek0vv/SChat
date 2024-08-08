@@ -1,8 +1,9 @@
-import { FC } from "react";
+import { FC, useContext } from "react";
 import classes from './Chat.module.scss';
 import { UseChatType } from "../types/chat";
 import { useAppSelector } from "../../hooks/redux";
 import { Link, useNavigate } from "react-router-dom";
+import { CurrentChatVisibleContext } from "../Chats/Chats";
 
 type ChatProps = {
     chat: UseChatType;
@@ -10,6 +11,8 @@ type ChatProps = {
 
 const Chat: FC<ChatProps> = ({ chat }) => {
     const { user: myUser } = useAppSelector(value => value.user)
+
+    const Context = useContext(CurrentChatVisibleContext)
 
     const navigate = useNavigate()
 
@@ -19,10 +22,20 @@ const Chat: FC<ChatProps> = ({ chat }) => {
     const lastMessageDate = lastMessage && (new Date(lastMessage.createdAt))
 
     return (
-        <Link to={chat.chatID} className={classes.container} onClick={() => navigate(`${chat.chatID}`)}>
+        <Link to={chat.chatID}
+            className={classes.container}
+            onClick={() => {
+                navigate(`${chat.chatID}`)
+                if (window.innerWidth <= 750) {
+                    Context?.setIsCurrentChatVisible(true)
+                }
+            }}
+        >
             <div className={classes.first}>
                 <div className={classes.avatar}>
-                    {companion.avatar && <img src={companion.avatar} alt="" className={classes.inner} />}
+                    {companion.avatar && companion.avatar.startsWith('http') ?
+                        <img src={companion.avatar} alt="" className={classes.inner} /> :
+                        <img src="/default.png" alt="" style={{ width: '100%', height: '100%' }} />}
                 </div>
 
                 <div className={classes.info}>

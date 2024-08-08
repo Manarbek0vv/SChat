@@ -12,6 +12,15 @@
     position: relative;
     min-height: 300px;
     overflow: hidden;
+    width: 100%;
+
+    @media (max-width: 600px) {
+        align-items: center;
+        min-height: 300px;
+        background: linear-gradient(rgb(57, 57, 57) 0% 10%, $content-background 10% 100%);
+        flex-direction: column;
+        padding-top: 60px;
+    }
 }
 
 .background {
@@ -23,6 +32,10 @@
     bottom: 30%;
     overflow: hidden;
     background-color: rgb(41, 41, 41);
+
+    @media (max-width: 600px) {
+        max-height: 150px;
+    }
 
     .inner {
         background-size: cover;
@@ -36,8 +49,16 @@
 .first {
     display: flex;
     gap: 15px;
+    max-width: 100%;
 
-    .icon {
+    @media (max-width: 600px) {
+        flex-direction: column;
+        align-items: center;
+        gap: 0;
+    }
+
+    .avatar {
+        position: relative;
         width: 140px;
         border-radius: 50%;
         height: 140px;
@@ -45,6 +66,7 @@
         border: 8px solid $content-background;
         position: relative;
         user-select: none;
+        object-fit: contain;
 
         &:hover {
             .popup {
@@ -58,6 +80,22 @@
             height: 100%;
             border-radius: 50%;
         }
+
+        .is-online {
+            position: absolute;
+            background-color: rgb(75, 179, 75);
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            border: 5px solid $content-background;
+            bottom: 14.64%;
+            right: 14.64%;
+            transform: translate(50%,50%);
+        }
+
+        .offline {
+            background-color: gray;
+        }
     }
 
     .info {
@@ -66,15 +104,38 @@
         gap: 10px;
         justify-content: flex-end;
         padding: 10px 0px;
+        max-width: 70%;
+
+        @media (max-width: 600px) {
+            max-width: 100%;
+            align-items: center;
+        }
 
         .username {
             color: white;
             font-size: 16px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+            max-width: 300px;
+
+            @media (max-width: 600px) {
+                max-width: 100%;
+            }
         }
 
         .email {
             font-size: 14px;
             color: $gray-color-for-font;
+            white-space: nowrap;
+            overflow: hidden;
+            max-width: 320px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+
+            @media (max-width: 600px) {
+                max-width: 100%;
+            }
         }
     }
 }
@@ -88,6 +149,15 @@
     border-radius: 8px;
     transition: background-color 200ms;
     user-select: none;
+    white-space: nowrap;
+
+    @media (max-width: 700px) {
+        display: none;
+    }
+
+    @media (max-width: 600px) {
+        display: block;
+    }
 
     &:hover {
         background-color: rgba(255, 255, 255, 0.4);

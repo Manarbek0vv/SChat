@@ -17,28 +17,37 @@ type SelectProps = {
     defaultValue: number;
     options: OptionType[];
     setValue: any;
-    style?: {};
+    style?: React.CSSProperties;
     optionVisibleHeight: string;
     mode?: SolidSelectModeEnum
 }
 
 const SolidSelect: FC<SelectProps> = ({ defaultValue, options, setValue, style, optionVisibleHeight, mode = SolidSelectModeEnum.BOTTOM }) => {
     const [currentOption, setCurrentOption] = useState(options[defaultValue])
-    const [ isOptionsVisible, setIsOptionsVisible ] = useState(false)
+    const [isOptionsVisible, setIsOptionsVisible] = useState(false)
+
+    window.onclick = () => {
+        setIsOptionsVisible(false)
+    }
 
     return (
-        <div className={`${classes.container} ${classes[mode]} ${isOptionsVisible ? classes[`active-options-${mode}`] : ''}`} 
-        style={style} onClick={() => setIsOptionsVisible(prev => !prev)}>
+        <div className={`${classes.container} ${classes[mode]} ${isOptionsVisible ? classes[`active-options-${mode}`] : ''}`}
+            style={style} onClick={(e: React.MouseEvent) => {
+                e.stopPropagation()
+                setIsOptionsVisible(prev => !prev)
+            }}>
             {currentOption.name} <MdOutlineExpandMore className={classes.pin} />
 
-            <div className={classes.options} 
-            style={{height: isOptionsVisible ? optionVisibleHeight : '0px'}}>
+            <div className={classes.options}
+                style={{ height: isOptionsVisible ? optionVisibleHeight : '0px' }}>
                 {options.map((option: OptionType) => {
                     return (
                         <div key={option.name} className={currentOption.value === option.value ? classes['active__option'] : classes.option}
-                            onClick={() => {
+                            onClick={(e: React.MouseEvent) => {
+                                e.stopPropagation()
                                 if (currentOption.value !== option.value) {
                                     setCurrentOption(option);
+                                    setIsOptionsVisible(false)
                                     setValue(option)
                                 }
                             }}>

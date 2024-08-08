@@ -1,3 +1,5 @@
+@import '../../../App.global.scss';
+
 .user {
     display: flex;
     justify-content: space-between;
@@ -13,7 +15,7 @@
         width: 40px;
         height: 40px;
         border-radius: 50%;
-        overflow: hidden;
+        position: relative;
         user-select: none;
         background-color: rgb(69, 69, 69);
         border: 1px solid rgb(45, 45, 45);
@@ -28,6 +30,22 @@
             object-fit: contain;
             border-radius: 50%;
             user-select: none;
+        }
+
+        .is-online {
+            position: absolute;
+            background-color: rgb(75, 179, 75);
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 5px solid $content-background;
+            bottom: 14.64%;
+            right: 14.64%;
+            transform: translate(50%, 50%);
+        }
+
+        .offline {
+            background-color: gray;
         }
     }
 

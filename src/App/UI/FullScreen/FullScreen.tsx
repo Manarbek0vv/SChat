@@ -28,12 +28,14 @@ const FullScreen: FC<FullScreenProps> = ({ image, setImage }) => {
         }, 300)
     }
 
-
     return createPortal(
         <div ref={wrapperRef} className={classes.wrapper}>
             <div ref={containerRef} className={classes.container}>
-                <div className={classes['image-wrapper']}>
-                    <img src={image.url} alt="" className={classes.image} />
+                <div
+                    className={classes['image-wrapper']}>
+                    <img src={image.url}
+                        alt=""
+                        className={classes.image} />
                 </div>
 
                 <div className={classes.info}>

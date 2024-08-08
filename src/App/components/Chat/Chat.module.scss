@@ -5,7 +5,6 @@
     height: 40px;
     display: flex;
     justify-content: space-between;
-    gap: 20px;
 
     &:hover {
         cursor: pointer;
@@ -16,14 +15,18 @@
     display: flex;
     gap: 10px;
     align-items: center;
+    flex: 1;
+    min-width: 0;
 }
 
 .avatar {
+    flex: 0 0;
     width: 40px;
     height: 40px;
     border-radius: 50%;
     overflow: hidden;
     background-color: rgb(69, 69, 69);
+    flex-basis: 40px;
 
     .inner {
         width: 100%;
@@ -33,14 +36,20 @@
 }
 
 .info {
+    flex: 1 1;
     height: 100%;
     display: flex;
     flex-direction: column;
+    min-width: 0;
 
     .username {
         font-size: 14px;
         color: white;
         white-space: nowrap;
+        max-width: 90%;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .message {
@@ -50,6 +59,8 @@
         overflow: hidden;
         max-width: 200px;
         text-overflow: ellipsis;
+        max-width: 90%;
+        min-width: 0;
     }
 }
 
@@ -57,4 +68,5 @@
     color: $gray-color-for-font;
     white-space: nowrap;
     font-size: 12px;
+    flex: 0;
 }

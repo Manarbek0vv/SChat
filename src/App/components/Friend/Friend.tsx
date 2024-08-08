@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction, useState } from "react";
+import { Dispatch, FC, SetStateAction } from "react";
 import classes from './Friend.module.scss'
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { UserState } from "../../store/reducers/userSlice";
@@ -27,9 +27,12 @@ const Friend: FC<AllFriendsProps> = ({ friend, setError, currentFriendID, change
     return (
         <div key={friend.uid} className={classes.friend}>
             <div className={classes.first}>
-                <div className={classes.icon}
+                <div className={classes.avatar}
                     onClick={() => navigate(`/${friend.uid}`)}>
-                    {friend.avatar && <img style={{ maxWidth: '75px', maxHeight: '75px' }} src={friend.avatar as string} className={classes.avatar} />}
+                    {friend.avatar && friend.avatar.startsWith('http') ?
+                        <img style={{ maxWidth: '75px', maxHeight: '75px' }} src={friend.avatar} className={classes.inner} /> :
+                        <img src="/default.png" alt="" style={{ width: '100%', height: '100%', borderRadius: '50%' }} />}
+                    <div className={`${classes['is-online']} ${friend.state !== 'online' && classes.offline}`} />
                 </div>
                 <div className={classes.info}>
                     <h1 className={classes.username}

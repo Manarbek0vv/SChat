@@ -45,7 +45,8 @@ export const loginUser = createAsyncThunk(
                 birthday: responseUser.birthday,
                 isEmailVisible: responseUser.isEmailVisible,
                 isClosedAccount: responseUser.isClosedAccount,
-                blackList: responseUser.blackList
+                blackList: responseUser.blackList,
+                state: responseUser.state
             }
             localStorage.setItem('current-user', userCredential.user.uid)
             return newUser

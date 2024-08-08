@@ -1,16 +1,11 @@
 import { FC, useState } from "react";
 import classes from './MyPageHeader.module.scss'
 import ModalAlert from "../../UI/ModalAlert/ModalAlert";
-import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { updateAvatar } from "../../store/thunk/updateAvatar";
-import { deleteAvatar } from "../../store/thunk/deleteAvatar";
-import { RiDeleteBin6Line } from "react-icons/ri";
-import { MdOutlineModeEdit } from "react-icons/md";
+import { useAppSelector } from "../../hooks/redux";
 import { Link } from "react-router-dom";
 
 const MyPageHeader: FC = () => {
     const { user } = useAppSelector(value => value.user)
-    const dispatch = useAppDispatch()
     const [error, setError] = useState<string | null>(null)
 
     // const updateAvatarHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,12 +31,14 @@ const MyPageHeader: FC = () => {
     //     dispatch(deleteAvatar({ uid: user?.uid as string, setError }))
     // }
 
+    console.log(user?.state)
+
     return (
         <>
             {error && <ModalAlert setError={setError}>{error}</ModalAlert>}
 
             <div className={classes.best}>
-            <div className={classes.background}>
+                <div className={classes.background}>
                     {user?.backgroundImage && (
                         <div className={classes.inner}
                             style={{ backgroundImage: `url(${user.backgroundImage})` }} />
@@ -49,9 +46,10 @@ const MyPageHeader: FC = () => {
                 </div>
 
                 <div className={classes.first}>
-                    <div className={classes.icon}>
-                        {user?.avatar && user.avatar.startsWith('http') &&
-                            <img src={user.avatar} alt="" className={classes.inner} />}
+                    <div className={classes.avatar}>
+                        {user?.avatar && user.avatar.startsWith('http') ?
+                            <img src={user.avatar} alt="" className={classes.inner} /> :
+                            <img src="/default.png" alt="" style={{ width: '100%', height: '100%', borderRadius: '50%' }} />}
                         {/* <div className={classes.popup}>
                             <p className={classes.text}><MdOutlineModeEdit className={classes.pin} />
                                 Update photo
@@ -61,6 +59,7 @@ const MyPageHeader: FC = () => {
                                 Delete photo
                             </p>
                         </div> */}
+                        <div className={`${classes['is-online']} ${user?.state !== 'online' && classes.offline}`} />
                     </div>
 
                     <div className={classes.info}>

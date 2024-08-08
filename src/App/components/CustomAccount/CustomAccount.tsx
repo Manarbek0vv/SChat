@@ -118,7 +118,8 @@ const CustomAccount: FC = () => {
                 setCustomUser(prev => ({
                     ...prev, birthday: parseDate(dateStr).getTime()
                 }))
-            }
+            },
+            disableMobile: true
         })
     }, [])
 
@@ -132,10 +133,6 @@ const CustomAccount: FC = () => {
         }))
     }
 
-    const resetInputs = () => {
-        
-    }
-
     const changeUsernameHandler = (e: React.MouseEvent<HTMLFormElement>) => {
         e.preventDefault()
 
@@ -145,8 +142,10 @@ const CustomAccount: FC = () => {
         }
 
         dispatch(changeUsername({ user: myUser, newUsername: username, password, setError, setLoading, setIsVisible }))
-        .then(() => setLoading(false))
+            .then(() => setLoading(false))
     }
+
+    console.log(customUser.birthday)
 
     return (
         <div className={classes.container}>
@@ -204,8 +203,9 @@ const CustomAccount: FC = () => {
                 <div className={classes.info}>
                     <div className={classes['first-line']}>
                         <div className={classes.avatar}>
-                            {myUser.avatar && myUser.avatar.startsWith('http') &&
-                                <img src={myUser.avatar} alt="" className={classes.inner} />}
+                            {myUser.avatar && myUser.avatar.startsWith('http') ?
+                                <img src={myUser.avatar} alt="" className={classes.inner} /> :
+                                <img src="/default.png" alt="" style={{ width: '100%', height: '100%', borderRadius: '50%' }} />}
                             <div className={classes.popup}>
                                 <p className={classes.text}><MdOutlineModeEdit className={classes.pin} />
                                     Update photo
@@ -254,7 +254,7 @@ const CustomAccount: FC = () => {
                 <div className={classes.birthday}>
                     Birthday:
                     <label className={classes['date-label']}>
-                        <input type="date" className={classes.date} style={{ opacity: customUser.birthday ? '1' : '0' }} />
+                        <input type="date" className={classes.date} style={{ opacity: !!customUser.birthday ? '1' : '0' }} />
 
                         {!customUser.birthday && <p className={classes['not-specified']}>Not specified</p>}
 

@@ -29,7 +29,7 @@ const Links: LinkType[] = [
     },
     {
         icon: <BsPersonAdd />,
-        title: 'Add friends',
+        title: 'Friends',
         url: 'friends',
     },
     {
@@ -63,9 +63,10 @@ const Sidebar: FC = () => {
         <div className={classes.container}>
             <div className={classes.first}>
                 <div className={classes.profile}>
-                    <div className={classes.icon}>
-                        {user?.avatar && user.avatar.startsWith('http') && 
-                        <img src={user.avatar} alt="" className={classes.avatar} />}
+                    <div className={classes.avatar}>
+                        {user?.avatar && user.avatar.startsWith('http') ? 
+                        <img src={user.avatar} alt="" className={classes.inner} /> : 
+                        <img src="/default.png" alt="" style={{width: '100%', height: '100%'}} />}
                     </div>
                     <div className={classes.info}>
                         <h1 className={classes.username}>{newUsername}</h1>
@@ -87,8 +88,10 @@ const Sidebar: FC = () => {
 
             <div className={classes.exit} onClick={exitFromAccountHandler}>
                 <span className={classes.icon}><GiExitDoor /></span>
-                Exit
+                <span className={classes['exit-text']}>Exit</span>
             </div>
+
+            <div className={classes['header-background']} />
         </div>
     )
 }

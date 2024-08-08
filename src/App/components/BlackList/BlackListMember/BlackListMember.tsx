@@ -39,7 +39,10 @@ const BlackListMember: FC<BlackListMemberProps> = ({
             <div className={classes.info}>
                 <div className={classes.avatar}
                     onClick={navigateUserToProfile}>
-                    {user.avatar && <img src={user.avatar} alt="" className={classes.inner} />}
+                    {user?.avatar && user.avatar.startsWith('http') ?
+                        <img src={user.avatar} alt="" className={classes.inner} /> :
+                        <img src="/default.png" alt="" style={{width: '100%', height: '100%', borderRadius: '50%'}} />}
+                    <div className={`${classes['is-online']} ${user?.state !== 'online' && classes.offline}`} />
                 </div>
 
                 <p className={classes.username}
@@ -50,7 +53,7 @@ const BlackListMember: FC<BlackListMemberProps> = ({
 
 
             <a className={classes.delete}
-            onClick={deleteFromBlackListHandler}>
+                onClick={deleteFromBlackListHandler}>
                 Remove from list
             </a>
         </div>

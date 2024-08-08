@@ -21,9 +21,18 @@
     gap: 10px;
     width: 100%;
     padding: 5px 20px;
+
+    @media (max-width: 500px) {
+        padding: 5px 10px;
+    }
+
+    @media (max-width: 376px) {
+        padding: 5px 5px;
+    }
 }
 
 .show-more {
+    width: 100%;
     color: rgb(0, 179, 255);
     display: flex;
     justify-content: center;

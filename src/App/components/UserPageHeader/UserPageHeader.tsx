@@ -25,6 +25,10 @@ const UserPageHeader: FC<UserPageHeaderProps> = ({ user }) => {
     const [error, setError] = useState<string | null>(null)
 
     const addToFriendHandler = () => {
+        if (myUser?.blackList.includes(user.uid)) {
+            setError('The user is on your blacklist')
+            return
+        }
         dispatch(addToFriend({ user, setError, myUser: myUser as UserState }))
     }
 
@@ -61,9 +65,11 @@ const UserPageHeader: FC<UserPageHeaderProps> = ({ user }) => {
                 </div>
 
                 <div className={classes.first}>
-                    <div className={classes.icon}>
-                        {user?.avatar && user.avatar.startsWith('http') &&
-                            <img src={user.avatar} alt="" className={classes.inner} />}
+                    <div className={classes.avatar}>
+                        {user.avatar && user.avatar.startsWith('http') ?
+                            <img src={user.avatar} alt="" className={classes.inner} /> :
+                            <img src="/default.png" alt="" style={{ width: '100%', height: '100%', borderRadius: '50%'}} />}
+                        <div className={`${classes['is-online']} ${user?.state !== 'online' && classes.offline}`} />
                     </div>
 
                     <div className={classes.info}>

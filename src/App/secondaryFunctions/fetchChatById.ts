@@ -23,10 +23,13 @@ export const fetchChatById = async (props: FetchChatByIdProps) => {
                     const me: UseAuthorType = {
                         uid: props.myUser.uid,
                         avatar: myAvatarUrl,
-                        username: props.myUser.username
+                        username: props.myUser.username,
+                        state: props.myUser.state,
+                        blacklist: props.myUser.blackList
                     };
 
                     const companionUid = props.id.replace(props.myUser.uid, '');
+
                     const responseUser = await getDoc(doc(firestore, 'users', companionUid));
                     const data = responseUser.data() as UserState;
 
@@ -35,7 +38,9 @@ export const fetchChatById = async (props: FetchChatByIdProps) => {
                     const companion: UseAuthorType = {
                         uid: data.uid,
                         avatar: companionAvatarUrl,
-                        username: data.username
+                        username: data.username,
+                        state: data.state,
+                        blacklist: data.blackList
                     };
 
                     // Все юзеры чата
@@ -54,6 +59,31 @@ export const fetchChatById = async (props: FetchChatByIdProps) => {
                     };
 
                     props.setChat(newChat)
+
+                    onSnapshot(doc(firestore, 'users', companionUid), async (snapshot) => {
+                        try {
+                            const data = snapshot.data() as UserState
+
+                            const companionAvatarUrl = data.avatar && await getDownloadURL(ref(storage, data.avatar))
+
+                            const companion: UseAuthorType = {
+                                uid: data.uid,
+                                avatar: companionAvatarUrl,
+                                username: data.username,
+                                state: data.state,
+                                blacklist: data.blackList
+                            };
+
+                            const users = [me, companion]
+                            props.setChat(prev => {
+                                if (!prev) return null
+                                return { ...prev, users }
+                            })
+                            console.log(newChat)
+                        } catch (error: any) {
+                            throw new Error(error.message)
+                        }
+                    })
                 } catch (error: any) {
                     props.setError(error.message);
                 }

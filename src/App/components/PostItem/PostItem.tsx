@@ -90,7 +90,9 @@ const PostItem: FC<PostItemProps> = ({ post, currentPostID, changeCurrentPostID 
                                 navigate(`/${post.author.uid}`)
                             }
                         }} className={classes.avatar}>
-                            {post.author.avatar && <img src={post.author.avatar} alt="" className={classes['avatar-image']} />}
+                            {post.author.avatar && post.author.avatar.startsWith('http') ?
+                                <img src={post.author.avatar} alt="" className={classes.inner} /> :
+                                <img src="/default.png" alt="" style={{ width: '100%', height: '100%' }} />}
                         </div>
 
                         <div className={classes['user-info']}>
@@ -108,7 +110,8 @@ const PostItem: FC<PostItemProps> = ({ post, currentPostID, changeCurrentPostID 
                             onClick={(e: React.MouseEvent<SVGElement>) => {
                                 e.stopPropagation()
 
-                                changeCurrentPostID(post.id)}
+                                changeCurrentPostID(post.id)
+                            }
                             } />
 
                         {currentPostID === post.id && (

@@ -19,7 +19,7 @@ export type UserState = {
     username: string;
     email: string;
     friends: string[];
-    state?: string;
+    state: string;
     lastChanges?: number;
     photos: PhotoType[];
     birthday: number | null;

@@ -96,6 +96,7 @@
         font-size: 45px;
         color: $gray-color-for-font;
         backdrop-filter: blur(2px);
+        -webkit-backdrop-filter: blur(2px);
         user-select: none;
 
         &:hover {

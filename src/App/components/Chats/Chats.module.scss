@@ -25,19 +25,39 @@
     gap: 10px;
     height: 100%;
     overflow: hidden;
+    justify-content: center;
+
+    @media (max-width: 850px) {
+        padding-bottom: 80px;
+    }
 }
 
+// .burger {
+//     max-width: 405px;
+//     width: 100%;
+//     height: 100%;
+//     overflow: hidden;
+//     flex: 0.65;
+// }
+
 .chats {
-    max-width: 405px;
-    width: 100%;
-    height: 100%;
     display: flex;
+    height: 100%;
+    width: 100%;
     flex-direction: column;
     gap: 10px;
     background-color: $content-background;
     border-radius: 15px;
     border: 1px solid $dark-border;
+    max-width: 405px;
+    width: 100%;
+    height: 100%;
     overflow: hidden;
+    flex: 0.65;
+
+    @media (max-width: 751px) {
+        flex: 1 1;
+    }
 }
 
 .chats-header {
@@ -50,6 +70,20 @@
     background-color: rgb(40, 40, 40);
     color: white;
     font-size: 18px;
+    justify-content: center;
+    position: relative;
+
+    .close {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        color: $gray-color-for-font;
+        font-size: 24px;
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
 }
 
 .form {
@@ -149,7 +183,7 @@
     justify-content: center;
 
     .username {
-            animation: loading 2s normal 0s infinite forwards;
+        animation: loading 2s normal 0s infinite forwards;
         height: 14px;
         width: 90px;
         background-color: rgb(40, 40, 40);
@@ -172,3 +206,5 @@
     width: 62px;
     border-radius: 5px;
 }
+
+.burger {}

@@ -8,11 +8,13 @@ const MyPage: FC = () => {
 
     return (
         <div className={classes.container}>
-            <MyPageHeader />
+            <div className={classes.inner}>
+                <MyPageHeader />
 
-            <MyPageInfo />
+                <MyPageInfo />
 
-            <MyPosts />
+                <MyPosts />
+            </div>
         </div>
     )
 }

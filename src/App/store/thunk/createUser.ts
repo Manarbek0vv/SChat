@@ -35,7 +35,8 @@ export const createUser = createAsyncThunk(
                 birthday: null,
                 gender: null,
                 isClosedAccount: false,
-                blackList: []
+                blackList: [],
+                state: 'offline',
             }
             await setDoc(doc(collection(firestore, 'users'), newUser.uid), newUser)
             localStorage.setItem('current-user', newUser.uid)

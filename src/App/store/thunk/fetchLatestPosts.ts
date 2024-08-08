@@ -1,13 +1,28 @@
-import { collection, doc, getDoc, getDocs } from "firebase/firestore"
+import { collection, doc, getDoc, getDocs, limit, orderBy, query, startAfter } from "firebase/firestore"
 import { UserState } from "../reducers/userSlice"
 import { firestore, storage } from "../../../main"
 import { ImageType, UsePostAuthorType, UsePostCommentAuthorType, UsePostCommentType, UsePostType } from "../../components/types/post"
 import { getUserByUid } from "../../secondaryFunctions/getUserByUid"
 import { getDownloadURL, ref } from "firebase/storage"
 
-export const fetchLatestPosts = async (user: UserState) => {
+export const fetchLatestPosts = async (user: UserState, offset: any, setOffset: React.Dispatch<React.SetStateAction<any>>) => {
     try {
-        const querySnapshot = await getDocs(collection(firestore, 'posts'))
+        let querySnapshot;
+
+        if (offset !== null) {
+            querySnapshot = await getDocs(query(collection(firestore, 'posts'),
+                orderBy('createdAt', "desc"),
+                startAfter(offset),
+                limit(10)
+            ))
+        } else {
+            querySnapshot = await getDocs(query(collection(firestore, 'posts'),
+                orderBy('createdAt', "desc"),
+                limit(10)
+            ))
+        }
+
+        setOffset(querySnapshot.docs[querySnapshot.docs.length - 1])
         const postsArray: UsePostType[] = []
 
         const mapArrayWithData = async () => {
@@ -20,6 +35,8 @@ export const fetchLatestPosts = async (user: UserState) => {
                     myUser.uid !== user.uid) {
                     continue
                 }
+                if (myUser.blackList.includes(user.uid)) continue
+                if (user.blackList.includes(myUser.uid)) continue
 
                 const myUserAvatarUrl = myUser.avatar &&
                     await getDownloadURL(ref(storage, myUser.avatar))
@@ -59,7 +76,7 @@ export const fetchLatestPosts = async (user: UserState) => {
         }
 
         await mapArrayWithData()
-        postsArray.sort((a, b) => b.createdAt - a.createdAt)
+        // postsArray.sort((a, b) => b.createdAt - a.createdAt)
 
         return postsArray
     } catch (error: any) {
