@@ -82,7 +82,7 @@ const UserPageHeader: FC<UserPageHeaderProps> = ({ user }) => {
                 </div>
 
                 <div className={classes.end}>
-                    {!user.isClosedAccount && (
+                    {!user.isClosedAccount || (user.isClosedAccount && user.friends.includes(myUser.uid)) && (
                         <div className={classes.message} onClick={startNewChatHandler}>
                             <LuMessageCircle className={classes['message-pin']} />
                         </div>
