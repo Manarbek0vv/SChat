@@ -52,6 +52,8 @@ const UserPageHeader: FC<UserPageHeaderProps> = ({ user }) => {
         return <FullScreenLoader />
     }
 
+    console.log(!user.isClosedAccount || (user.isClosedAccount && user.friends.includes(myUser.uid)) ? 'message visible' : 'nothing')
+
     return (
         <>
             {error && <ModalAlert setError={setError}>{error}</ModalAlert>}
@@ -82,15 +84,17 @@ const UserPageHeader: FC<UserPageHeaderProps> = ({ user }) => {
                 </div>
 
                 <div className={classes.end}>
-                    {!user.isClosedAccount || (user.isClosedAccount && user.friends.includes(myUser.uid)) && (
+                    {(!myUser.blackList.includes(user.uid) && !user.blackList.includes(myUser.uid)) && 
+                    (!user.isClosedAccount || (user.isClosedAccount && user.friends.includes(myUser.uid))) ? (
                         <div className={classes.message} onClick={startNewChatHandler}>
                             <LuMessageCircle className={classes['message-pin']} />
                         </div>
-                    )}
+                    ) : ""}
 
                     {!myUser.friends.includes(user.uid) &&
                         !myUser.friendRequestsSend.includes(user.uid) &&
-                        !myUser.friendRequests.includes(user.uid) && (
+                        !myUser.friendRequests.includes(user.uid) &&
+                        (!myUser.blackList.includes(user.uid) && !user.blackList.includes(myUser.uid)) && (
                             <button className={classes.button} onClick={addToFriendHandler}>
                                 Add to friend
                             </button>

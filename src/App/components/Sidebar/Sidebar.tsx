@@ -60,6 +60,8 @@ const Sidebar: FC = () => {
         location.reload()
     }
 
+    console.log(activeTab)
+
     return (
         <div className={classes.container}>
             <div className={classes.first}>
@@ -78,18 +80,20 @@ const Sidebar: FC = () => {
                 <nav className={classes.nav}>
                     {Links.map((link: LinkType) => {
                         return (
-                            <Link
+                            <a
                                 key={link.url}
-                                to={link.url}
                                 className={classes.link}
                                 onClick={() => {
-                                    if (link.url === activeTab) return
+                                    if (link.url === activeTab) {
+                                        return
+                                    }
+                                    navigate(link.url)
                                     setActiveTab(link.url)
                                 }}
                             >
                                 <span className={classes.icon}>{link.icon}</span>
                                 {link.title}
-                            </Link>
+                            </a>
                         )
                     })}
                 </nav>
