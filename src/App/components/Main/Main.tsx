@@ -14,8 +14,6 @@ const Main: FC = () => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
 
-
-
     useEffect(() => {
         navigate('posts')
 

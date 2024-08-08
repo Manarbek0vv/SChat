@@ -5,20 +5,30 @@ import Login from "./Login/Login";
 import { useAppDispatch } from "../hooks/redux";
 import { loginWithStorage } from "../store/thunk/loginWithStorage";
 import FullScreenLoader from "../UI/FullScreenLoader/FullScreenLoader";
+import { getUserByUid } from "../secondaryFunctions/getUserByUid";
 
 const AuthRoutes: FC = () => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
     const [loading, setLoading] = useState(false)
 
-
     useEffect(() => {
         const fromStorage = localStorage.getItem('current-user')
 
         if (!fromStorage) return
+
         setLoading(true)
-        dispatch(loginWithStorage({ uid: fromStorage, setLoading }))
-        navigate('')
+        getUserByUid({ uid: fromStorage })
+            .then((user) => {
+                if (user) {
+                    dispatch(loginWithStorage({ uid: fromStorage, setLoading }))
+                    navigate('/')
+                } else {
+                    localStorage.removeItem('current-user')
+                    setLoading(false)
+                }
+            })
+
     }, [])
 
     return (
