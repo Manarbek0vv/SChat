@@ -1,1 +1,1 @@
-# SCHat (React + TypeScript + Redux Toolkit)
+# SCHat (React + TypeScript + Redux Toolkit + Firebase)
