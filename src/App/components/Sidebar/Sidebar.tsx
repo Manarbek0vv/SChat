@@ -6,7 +6,7 @@ import { HiOutlineChatBubbleLeftRight } from "react-icons/hi2";
 import { IoMdSettings } from "react-icons/io";
 import { GiExitDoor } from "react-icons/gi";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { exitFromAccount } from "../../store/thunk/exitFromAccount";
 import { FaHome } from "react-icons/fa";
 
