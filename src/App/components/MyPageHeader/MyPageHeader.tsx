@@ -31,8 +31,6 @@ const MyPageHeader: FC = () => {
     //     dispatch(deleteAvatar({ uid: user?.uid as string, setError }))
     // }
 
-    console.log(user?.state)
-
     return (
         <>
             {error && <ModalAlert setError={setError}>{error}</ModalAlert>}

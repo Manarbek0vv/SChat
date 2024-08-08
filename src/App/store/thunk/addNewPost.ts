@@ -33,8 +33,10 @@ export const addNewPost = createAsyncThunk(
             await updateDoc(doc(firestore, 'users', props.user.uid), {
                 posts: arrayUnion(newPostWithUpdatedImages.id)
             })
+            console.log("addNewPost закончен")
             return newPostWithUpdatedImages.id
         } catch (error: any) {
+            console.log('catch')
             props.setError(error.message)
             thunkApi.rejectWithValue(error.message)
         }

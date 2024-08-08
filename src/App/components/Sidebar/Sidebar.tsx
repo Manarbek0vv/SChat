@@ -60,8 +60,6 @@ const Sidebar: FC = () => {
         location.reload()
     }
 
-    console.log(activeTab)
-
     return (
         <div className={classes.container}>
             <div className={classes.first}>
