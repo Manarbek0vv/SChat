@@ -15,10 +15,10 @@ export const declineRequests = createAsyncThunk(
     async (props: DeclineRequestsProps, thunkApi) => {
         try {
             await updateDoc(doc(firestore, 'users', props.myUser.uid), {
-                friendRequestsSend: arrayRemove(props.user.uid)
+                friendRequests: arrayRemove(props.user.uid)
             })
             await updateDoc(doc(firestore, 'users', props.user.uid), {
-                friendRequests: arrayRemove(props.myUser.uid)
+                friendRequestsSend: arrayRemove(props.myUser.uid)
             })
 
             return {
