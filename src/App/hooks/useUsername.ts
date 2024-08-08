@@ -17,6 +17,10 @@ export const useUsername = (initalState: string, setError: Dispatch<SetStateActi
             setError('The username must not contain special characters')
             return
         }
+        if (value.length && value.at(-1) === ' ') {
+            setError('Username cannot contain spaces')
+            return
+        }
         setUsername(value)
     }
 
