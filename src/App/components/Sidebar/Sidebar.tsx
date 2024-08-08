@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import classes from './Sidebar.module.scss'
 import { FaRegCircleUser } from "react-icons/fa6";
 import { BsPersonAdd } from "react-icons/bs";
@@ -48,6 +48,7 @@ const Sidebar: FC = () => {
     const { user } = useAppSelector(value => value.user)
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
+    const [activeTab, setActiveTab] = useState(Links[0].url)
 
     const newUsername = user?.username.slice(0, 10) + ((user?.username as string).length > 9 ? '...' : '')
     const newEmail = user?.email.slice(0, 10) + ((user?.email as string).length > 9 ? '...' : '')
@@ -64,9 +65,9 @@ const Sidebar: FC = () => {
             <div className={classes.first}>
                 <div className={classes.profile}>
                     <div className={classes.avatar}>
-                        {user?.avatar && user.avatar.startsWith('http') ? 
-                        <img src={user.avatar} alt="" className={classes.inner} /> : 
-                        <img src="/default.png" alt="" style={{width: '100%', height: '100%'}} />}
+                        {user?.avatar && user.avatar.startsWith('http') ?
+                            <img src={user.avatar} alt="" className={classes.inner} /> :
+                            <img src="/default.png" alt="" style={{ width: '100%', height: '100%' }} />}
                     </div>
                     <div className={classes.info}>
                         <h1 className={classes.username}>{newUsername}</h1>
@@ -77,7 +78,15 @@ const Sidebar: FC = () => {
                 <nav className={classes.nav}>
                     {Links.map((link: LinkType) => {
                         return (
-                            <Link key={link.url} to={link.url} className={classes.link}>
+                            <Link
+                                key={link.url}
+                                to={link.url}
+                                className={classes.link}
+                                onClick={() => {
+                                    if (link.url === activeTab) return
+                                    setActiveTab(link.url)
+                                }}
+                            >
                                 <span className={classes.icon}>{link.icon}</span>
                                 {link.title}
                             </Link>
