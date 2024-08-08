@@ -10,6 +10,7 @@ import { UserState } from "../../store/reducers/userSlice";
 import ModalAlert from "../../UI/ModalAlert/ModalAlert";
 import ModalList from "../../UI/ModalList/ModalList";
 import { useAppSelector } from "../../hooks/redux";
+import { parseTimestampToDateString } from "../../secondaryFunctions/parseTimestampToDateString";
 
 type TextType = {
     pin: React.ReactNode | React.ReactChild;
@@ -36,7 +37,7 @@ const UserPageInfo: FC<UserPageInfoProps> = ({ user }) => {
 
     const Texts: TextType[] = [
         { pin: <MdOutlineEmail />, title: 'Email', description: user.isEmailVisible ? user.email as UserState['email'] : "hidden" },
-        { pin: <FaBirthdayCake />, title: 'Birthday', description: user?.birthday ? 'Not specified' : 'Not specified' },
+        { pin: <FaBirthdayCake />, title: 'Birthday', description: user?.birthday ? parseTimestampToDateString(user.birthday) : 'Not specified' },
         { pin: <FaDna />, title: 'Gender', description: user?.gender ? user.gender : 'Not specified' },
         { pin: <MdOutlineAppRegistration />, title: 'Registration date', description: convertTimeStampToString(user.registered as number) },
         { pin: <FaUserFriends />, title: 'Friends', description: user.friends?.length ? `${user.friends.length}` : '0' }
