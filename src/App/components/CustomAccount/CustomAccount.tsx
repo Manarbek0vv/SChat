@@ -115,6 +115,8 @@ const CustomAccount: FC = () => {
             maxDate: new Date(),
             minDate: new Date(1950, 0, 1),
             onChange: (_, dateStr) => {
+                console.log(dateStr)
+                console.log(parseDate(dateStr))
                 setCustomUser(prev => ({
                     ...prev, birthday: parseDate(dateStr).getTime()
                 }))
@@ -144,8 +146,6 @@ const CustomAccount: FC = () => {
         dispatch(changeUsername({ user: myUser, newUsername: username, password, setError, setLoading, setIsVisible }))
             .then(() => setLoading(false))
     }
-
-    console.log(customUser.birthday)
 
     return (
         <div className={classes.container}>
